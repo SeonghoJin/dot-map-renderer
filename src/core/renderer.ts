@@ -20,10 +20,10 @@ export class GeoJSONRenderer {
     static geoJsonHeight = 180;
     private geoJsonRendererOption?: GeoJSONRendererOption;
     private zoom = 1;
-    private FixedPixelSize = 12;
-    private FixedRadius = 5;
-    private pixelSize = 12;
-    private radius = 5;
+    private FixedPixelSize = 10;
+    private FixedRadius = 3;
+    private pixelSize = this.FixedPixelSize;
+    private radius = this.FixedRadius;
     private dots: Array<Dot> = [];
 
     constructor(parent: HTMLElement, geoJsonRendererOption?: GeoJSONRendererOption) {
@@ -39,11 +39,11 @@ export class GeoJSONRenderer {
 
     addZoom = (zoom: number) => {
         this.zoom += zoom
-        this.zoom = Math.min(Math.max(this.zoom, 1), 5);
+        this.zoom = Math.min(Math.max(this.zoom, 1), 10);
         this.canvas.style.width = `${this.zoom * 100}%`
         this.canvas.style.height = `${this.zoom * 100}%`;
-        this.pixelSize = this.FixedPixelSize * Math.round(this.zoom);
-        this.radius = this.FixedRadius * Math.round(this.zoom);
+        this.pixelSize = this.FixedPixelSize * Math.ceil(this.zoom);
+        this.radius = this.FixedRadius * Math.ceil(this.zoom);
         this.run();
     };
 
@@ -87,7 +87,6 @@ export class GeoJSONRenderer {
         const stageRatio = this.getStageRatio();
         this.stageWidth = this.canvas.width;
         this.stageHeight = this.canvas.height;
-        console.log(clientRatio > stageRatio);
         if (clientRatio > stageRatio) {
             this.stageWidth = Math.floor(this.stageHeight * stageRatio);
         } else {
@@ -130,7 +129,6 @@ export class GeoJSONRenderer {
                 this.dots.push(dot);
             }
         }
-
         this.dots.forEach((dot) => {
             dot.draw(this.context);
         })

@@ -1,5 +1,5 @@
 import { GeoJSONRenderer } from "./core/renderer";
-import { throttle } from "./core/util";
+import { debounce, throttle } from "./core/util";
 
 window.onload = () => {
     const testElement = document.querySelector('#test') as HTMLElement;
@@ -34,7 +34,7 @@ window.onload = () => {
         testElement.scrollTop = Math.floor(height * mouseRatioY) - (event.clientY - testElement.getBoundingClientRect().y);
     }
 
-    testElement.addEventListener('wheel', onWheel, { passive: false });
+    testElement.addEventListener('wheel', debounce(onWheel, 100), { passive: false });
 
     let offsetX = 0;
     let offsetY = 0;
@@ -53,7 +53,7 @@ window.onload = () => {
         startClientY = clientY;
     }
 
-    canvas.addEventListener('mousedown', (event) => {
+    window.addEventListener('mousedown', (event) => {
         const { clientX, clientY } = event;
         startClientX = clientX;
         startClientY = clientY;
@@ -61,7 +61,7 @@ window.onload = () => {
         canvas.classList.add('mousedown');
     })
 
-    canvas.addEventListener('mouseup', (event) => {
+    window.addEventListener('mouseup', (event) => {
         canvas.removeEventListener('mousemove', onMoveMouse);
         canvas.classList.remove('mousedown');
     })

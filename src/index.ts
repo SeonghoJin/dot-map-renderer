@@ -1,4 +1,5 @@
 import { GeoJSONRenderer } from "./core/renderer";
+import { throttle } from "./core/util";
 
 window.onload = () => {
     const testElement = document.querySelector('#test') as HTMLElement;
@@ -7,7 +8,7 @@ window.onload = () => {
     });
     renderer.run();
     const canvas = renderer.getCanvas();
-    window.addEventListener('resize', renderer.run);
+    window.addEventListener('resize', throttle(renderer.run, 100));
 
     let mouseRatioX = 0;
     let mouseRatioY = 0;
@@ -18,7 +19,7 @@ window.onload = () => {
         mouseRatioY = event.offsetY / clientRect.height;
     });
 
-    testElement.addEventListener('wheel', (event: WheelEvent) => {
+    const onWheel = (event: WheelEvent) => {
         event.preventDefault();
         const { deltaY } = event;
         if (deltaY < 0) {
@@ -29,10 +30,11 @@ window.onload = () => {
         }
         const clientRect = canvas.getBoundingClientRect();
         const { width, height } = clientRect;
-        testElement.scrollLeft = width * mouseRatioX - (event.clientX - testElement.getBoundingClientRect().x);
-        testElement.scrollTop = height * mouseRatioY - (event.clientY - testElement.getBoundingClientRect().y);
-    }, { passive: false });
+        testElement.scrollLeft = Math.floor(width * mouseRatioX) - (event.clientX - testElement.getBoundingClientRect().x);
+        testElement.scrollTop = Math.floor(height * mouseRatioY) - (event.clientY - testElement.getBoundingClientRect().y);
+    }
 
+    testElement.addEventListener('wheel', onWheel, { passive: false });
 
     let offsetX = 0;
     let offsetY = 0;

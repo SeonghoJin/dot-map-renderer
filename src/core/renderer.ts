@@ -1,6 +1,7 @@
 import geoJson from "./geo.json";
 import { Polygon } from "./polygon";
 import { Point } from "./point";
+import { Dot } from "./dot";
 
 export interface GeoJSONRendererOption {
     fillStyle?: string;
@@ -19,6 +20,11 @@ export class GeoJSONRenderer {
     static geoJsonHeight = 180;
     private geoJsonRendererOption?: GeoJSONRendererOption;
     private zoom = 1;
+    private FixedPixelSize = 12;
+    private FixedRadius = 5;
+    private pixelSize = 12;
+    private radius = 5;
+    private dots: Array<Dot> = [];
 
     constructor(parent: HTMLElement, geoJsonRendererOption?: GeoJSONRendererOption) {
         this.canvas = document.createElement('canvas');
@@ -33,9 +39,11 @@ export class GeoJSONRenderer {
 
     addZoom = (zoom: number) => {
         this.zoom += zoom
-        this.zoom = Math.min(Math.max(this.zoom, 1), 3);
+        this.zoom = Math.min(Math.max(this.zoom, 1), 5);
         this.canvas.style.width = `${this.zoom * 100}%`
         this.canvas.style.height = `${this.zoom * 100}%`;
+        this.pixelSize = this.FixedPixelSize * Math.round(this.zoom);
+        this.radius = this.FixedRadius * Math.round(this.zoom);
         this.run();
     };
 
@@ -79,15 +87,14 @@ export class GeoJSONRenderer {
         const stageRatio = this.getStageRatio();
         this.stageWidth = this.canvas.width;
         this.stageHeight = this.canvas.height;
-
+        console.log(clientRatio > stageRatio);
         if (clientRatio > stageRatio) {
-            this.stageWidth = this.stageHeight * stageRatio;
+            this.stageWidth = Math.floor(this.stageHeight * stageRatio);
         } else {
-            this.stageHeight = this.stageWidth / stageRatio;
+            this.stageHeight = Math.floor(this.stageWidth / stageRatio);
         }
         this.stageX = Math.floor((this.canvas.width - this.stageWidth) / 2);
         this.stageY = Math.floor((this.canvas.height - this.stageHeight) / 2);
-        this.context.strokeRect(this.stageX, this.stageY, this.stageWidth, this.stageHeight);
         const geoJsonRatio = this.getGeoJsonRatio();
 
         this.polgons.forEach((polygon) => {
@@ -104,5 +111,28 @@ export class GeoJSONRenderer {
     run = () => {
         this.resize();
         this.draw();
+        this.dots = [];
+        const imgData = this.context.getImageData(this.stageX, this.stageY, this.stageWidth, this.stageHeight);
+
+        const columns = Math.ceil(this.stageWidth / this.pixelSize);
+        const rows = Math.ceil(this.stageHeight / this.pixelSize)
+        for (let i = 0; i < rows; i++) {
+            const y = Math.floor((i + 0.5) * this.pixelSize);
+            const pixelY = Math.max(Math.min(y, this.stageHeight), 0);
+            for (let j = 0; j < columns; j++) {
+                const x = Math.floor((j + 0.5) * this.pixelSize);
+                const pixelX = Math.max(Math.min(x, this.stageWidth), 0);
+                const pixelIndex = (pixelX + pixelY * this.stageWidth) * 4;
+                const red = imgData.data[pixelIndex + 0] || 255;
+                const green = imgData.data[pixelIndex + 1] || 255;
+                const blue = imgData.data[pixelIndex + 2] || 255;
+                const dot = new Dot(this.stageX + x, this.stageY + y, this.radius, this.pixelSize, red, green, blue)
+                this.dots.push(dot);
+            }
+        }
+
+        this.dots.forEach((dot) => {
+            dot.draw(this.context);
+        })
     }
 }

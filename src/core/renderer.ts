@@ -20,8 +20,8 @@ export class GeoJSONRenderer {
     static geoJsonHeight = 180;
     private geoJsonRendererOption?: GeoJSONRendererOption;
     private zoom = 1;
-    private FixedPixelSize = 10;
-    private FixedRadius = 3;
+    private FixedPixelSize = 6;
+    private FixedRadius = 4;
     private pixelSize = this.FixedPixelSize;
     private radius = this.FixedRadius;
     private dots: Array<Dot> = [];
@@ -115,6 +115,7 @@ export class GeoJSONRenderer {
 
         const columns = Math.ceil(this.stageWidth / this.pixelSize);
         const rows = Math.ceil(this.stageHeight / this.pixelSize)
+        const data = imgData.data;
         for (let i = 0; i < rows; i++) {
             const y = Math.floor((i + 0.5) * this.pixelSize);
             const pixelY = Math.max(Math.min(y, this.stageHeight), 0);
@@ -122,13 +123,15 @@ export class GeoJSONRenderer {
                 const x = Math.floor((j + 0.5) * this.pixelSize);
                 const pixelX = Math.max(Math.min(x, this.stageWidth), 0);
                 const pixelIndex = (pixelX + pixelY * this.stageWidth) * 4;
-                const red = imgData.data[pixelIndex + 0] || 255;
-                const green = imgData.data[pixelIndex + 1] || 255;
-                const blue = imgData.data[pixelIndex + 2] || 255;
+                if (data[pixelIndex + 0] === undefined || data[pixelIndex + 0] === 0) { continue; }
+                const red = data[pixelIndex + 0];
+                const green = data[pixelIndex + 1];
+                const blue = data[pixelIndex + 2];
                 const dot = new Dot(this.stageX + x, this.stageY + y, this.radius, this.pixelSize, red, green, blue)
                 this.dots.push(dot);
             }
         }
+        this.context.clearRect(this.stageX, this.stageY, this.stageWidth, this.stageHeight);
         this.dots.forEach((dot) => {
             dot.draw(this.context);
         })

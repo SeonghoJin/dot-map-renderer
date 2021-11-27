@@ -34,7 +34,7 @@ window.onload = () => {
         testElement.scrollTop = Math.floor(height * mouseRatioY) - (event.clientY - testElement.getBoundingClientRect().y);
     }
 
-    testElement.addEventListener('wheel', debounce(onWheel, 100), { passive: false });
+    testElement.addEventListener('wheel', onWheel, { passive: false });
 
     let offsetX = 0;
     let offsetY = 0;

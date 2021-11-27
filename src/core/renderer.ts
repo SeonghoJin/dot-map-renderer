@@ -10,8 +10,6 @@ export class GeoJSONRenderer {
     private canvas: HTMLCanvasElement;
     private context: CanvasRenderingContext2D;
     private parent: HTMLElement;
-    private stageMaxWidth = 1024;
-    private stageMaxHeight = 768;
     private stageHeight = 0;
     private stageWidth = 0;
     private stageX = 0;
@@ -20,6 +18,7 @@ export class GeoJSONRenderer {
     static geoJsonWidth = 360;
     static geoJsonHeight = 180;
     private geoJsonRendererOption?: GeoJSONRendererOption;
+    private zoom = 1;
 
     constructor(parent: HTMLElement, geoJsonRendererOption?: GeoJSONRendererOption) {
         this.canvas = document.createElement('canvas');
@@ -30,6 +29,22 @@ export class GeoJSONRenderer {
         this.parent.appendChild(this.canvas);
         this.initGeojson();
         this.geoJsonRendererOption = geoJsonRendererOption;
+    }
+
+    addZoom = (zoom: number) => {
+        this.zoom += zoom
+        this.zoom = Math.min(Math.max(this.zoom, 1), 3);
+        this.canvas.style.width = `${this.zoom * 100}%`
+        this.canvas.style.height = `${this.zoom * 100}%`;
+        this.run();
+    };
+
+    getCanvas = () => {
+        return this.canvas;
+    }
+
+    getContext = () => {
+        return this.context;
     }
 
     private setOption = (geoJsonRendererOption?: GeoJSONRendererOption) => {
@@ -50,7 +65,7 @@ export class GeoJSONRenderer {
     }
 
     private getStageRatio = () => {
-        return this.stageMaxWidth / this.stageMaxHeight;
+        return 4 / 3;
     }
 
     private getGeoJsonRatio = () => {
@@ -66,18 +81,13 @@ export class GeoJSONRenderer {
         this.stageHeight = this.canvas.height;
 
         if (clientRatio > stageRatio) {
-            if (this.canvas.height > this.stageMaxHeight) {
-                this.stageHeight = this.stageMaxHeight;
-            }
             this.stageWidth = this.stageHeight * stageRatio;
         } else {
-            if (this.canvas.width > this.stageMaxWidth) {
-                this.stageWidth = this.stageMaxWidth;
-            }
             this.stageHeight = this.stageWidth / stageRatio;
         }
         this.stageX = Math.floor((this.canvas.width - this.stageWidth) / 2);
         this.stageY = Math.floor((this.canvas.height - this.stageHeight) / 2);
+        this.context.strokeRect(this.stageX, this.stageY, this.stageWidth, this.stageHeight);
         const geoJsonRatio = this.getGeoJsonRatio();
 
         this.polgons.forEach((polygon) => {

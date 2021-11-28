@@ -28,7 +28,6 @@ export class Dot {
         ctx.beginPath();
         ctx.fillStyle = `rgb(${this.red}, ${this.blue}, ${this.green})`
         ctx.fillRect(this.x - this.radiusHalf, this.y - this.radiusHalf, this.radius, this.radius)
-        // ctx.fillRect(this.x - this.radius, this.y - this.radius, this.x + this.radius, this.y + this.radius);
     }
 
     resize = (x: number, y: number, pixelSize: number, radius: number, red: number, green: number, blue: number) => {

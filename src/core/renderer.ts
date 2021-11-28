@@ -2,6 +2,7 @@ import geoJson from "./geo.json";
 import { Polygon } from "./polygon";
 import { Point } from "./point";
 import { Dot } from "./dot";
+import { throttle } from "./util";
 
 export interface GeoJSONRendererOption {
     fillStyle?: string;
@@ -25,6 +26,12 @@ export class GeoJSONRenderer {
     private pixelSize = this.FixedPixelSize;
     private radius = this.FixedRadius;
     private dots: Array<Dot> = [];
+    public mouseRatioX = 0;
+    public mouseRatioY = 0;
+    offsetX = 0;
+    offsetY = 0;
+    startClientX = 0;
+    startClientY = 0;
 
     constructor(parent: HTMLElement, geoJsonRendererOption?: GeoJSONRendererOption) {
         this.canvas = document.createElement('canvas');
@@ -35,6 +42,13 @@ export class GeoJSONRenderer {
         this.parent.appendChild(this.canvas);
         this.initGeojson();
         this.geoJsonRendererOption = geoJsonRendererOption;
+
+        this.canvas.addEventListener('mousemove', this.onMouseMove);
+        window.addEventListener('resize', throttle(this.run, 100));
+        window.addEventListener('mousedown', this.onMouseDown);
+        window.addEventListener('mouseup', this.onMouseUp);
+        this.parent.addEventListener('wheel', this.onWheel, { passive: false });
+        this.run();
     }
 
     addZoom = (zoom: number) => {
@@ -131,9 +145,74 @@ export class GeoJSONRenderer {
                 this.dots.push(dot);
             }
         }
+
         this.context.clearRect(this.stageX, this.stageY, this.stageWidth, this.stageHeight);
         this.dots.forEach((dot) => {
             dot.draw(this.context);
         })
+    }
+
+    move = (moveX: number, moveY: number) => {
+        const xRatio = (moveX + 180) / 360;
+        const yRatio = (moveY + 90) / 180;
+        const testBoundRect = this.parent.getBoundingClientRect();
+        const targetX = Math.floor(this.stageWidth * xRatio);
+        const targetY = Math.floor(this.stageHeight * yRatio);
+        this.context.beginPath();
+        this.context.fillRect(targetX + this.stageX, targetY + this.stageY, 20, 20);
+        targetX + this.stageX - testBoundRect.width / 2, targetY + this.stageY - testBoundRect.height / 2
+        this.parent.scrollTo({
+            left: targetX + this.stageX - testBoundRect.width / 2,
+            top: targetY + this.stageY - testBoundRect.height / 2,
+            behavior: 'smooth'
+        });
+    }
+
+    onMouseMove = (event: MouseEvent) => {
+        const clientRect = this.canvas.getBoundingClientRect();
+        this.mouseRatioX = event.offsetX / clientRect.width;
+        this.mouseRatioY = event.offsetY / clientRect.height;
+    }
+
+    onWheel = (event: WheelEvent) => {
+        event.preventDefault();
+        const { deltaY } = event;
+        if (deltaY < 0) {
+            this.addZoom(+0.1);
+        }
+        if (deltaY > 0) {
+            this.addZoom(-0.1);
+        }
+        const clientRect = this.canvas.getBoundingClientRect();
+        const { width, height } = clientRect;
+        this.parent.scrollTo(
+            Math.floor(width * this.mouseRatioX) - (event.clientX - this.parent.getBoundingClientRect().x),
+            Math.floor(height * this.mouseRatioY) - (event.clientY - this.parent.getBoundingClientRect().y),
+        )
+    }
+
+    onMoveMouse = (event: MouseEvent) => {
+        const { clientX, clientY } = event;
+        this.offsetX = this.startClientX - clientX;
+        this.offsetY = this.startClientY - clientY;
+        this.parent.scrollBy({
+            top: this.offsetY,
+            left: this.offsetX,
+        });
+        this.startClientX = clientX;
+        this.startClientY = clientY;
+    }
+
+    onMouseDown = (event: MouseEvent) => {
+        const { clientX, clientY } = event;
+        this.startClientX = clientX;
+        this.startClientY = clientY;
+        this.canvas.addEventListener('mousemove', this.onMoveMouse);
+        this.canvas.classList.add('mousedown');
+    }
+
+    onMouseUp = (event: MouseEvent) => {
+        this.canvas.removeEventListener('mousemove', this.onMoveMouse);
+        this.canvas.classList.remove('mousedown');
     }
 }

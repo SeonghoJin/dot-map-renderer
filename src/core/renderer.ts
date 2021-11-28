@@ -11,17 +11,17 @@ export class GeoJSONRenderer {
     private canvas: HTMLCanvasElement;
     private context: CanvasRenderingContext2D;
     private parent: HTMLElement;
-    private stageHeight = 0;
-    private stageWidth = 0;
-    private stageX = 0;
-    private stageY = 0;
+    public stageHeight = 0;
+    public stageWidth = 0;
+    public stageX = 0;
+    public stageY = 0;
     private polgons: Array<Polygon> = [];
     static geoJsonWidth = 360;
     static geoJsonHeight = 180;
     private geoJsonRendererOption?: GeoJSONRendererOption;
     private zoom = 1;
-    private FixedPixelSize = 6;
-    private FixedRadius = 4;
+    private FixedPixelSize = 4;
+    private FixedRadius = 2;
     private pixelSize = this.FixedPixelSize;
     private radius = this.FixedRadius;
     private dots: Array<Dot> = [];
@@ -39,11 +39,11 @@ export class GeoJSONRenderer {
 
     addZoom = (zoom: number) => {
         this.zoom += zoom
-        this.zoom = Math.min(Math.max(this.zoom, 1), 10);
+        this.zoom = Math.min(Math.max(this.zoom, 1), 3);
         this.canvas.style.width = `${this.zoom * 100}%`
         this.canvas.style.height = `${this.zoom * 100}%`;
-        this.pixelSize = this.FixedPixelSize * Math.ceil(this.zoom);
-        this.radius = this.FixedRadius * Math.ceil(this.zoom);
+        this.pixelSize = this.FixedPixelSize * Math.floor(this.zoom);
+        this.radius = this.FixedRadius * Math.floor(this.zoom);
         this.run();
     };
 

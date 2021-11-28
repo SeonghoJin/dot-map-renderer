@@ -1,14 +1,39 @@
 import { GeoJSONRenderer } from "./core/renderer";
 import { debounce, throttle } from "./core/util";
 
+
 window.onload = () => {
+    const input1 = document.querySelector('#input_1') as HTMLInputElement;
+    const input2 = document.querySelector('#input_2') as HTMLInputElement;
+    const button = document.querySelector('button') as HTMLButtonElement;
     const testElement = document.querySelector('#test') as HTMLElement;
+
+
     const renderer = new GeoJSONRenderer(testElement, {
         fillStyle: '#d3d3d3',
     });
     renderer.run();
     const canvas = renderer.getCanvas();
+    const context = renderer.getContext();
     window.addEventListener('resize', throttle(renderer.run, 100));
+
+    button.addEventListener('click', () => {
+        console.log(renderer.stageY);
+        const xRatio = (parseInt(input1.value) + 180) / 360;
+        const yRatio = (-parseInt(input2.value) + 90) / 180;
+        const boundRect = canvas.getBoundingClientRect();
+        const testBoundRect = testElement.getBoundingClientRect();
+        const targetX = Math.floor(renderer.stageWidth * xRatio);
+        const targetY = Math.floor(renderer.stageHeight * yRatio);
+        context.beginPath();
+        context.fillRect(targetX + renderer.stageX, targetY + renderer.stageY, 20, 20);
+        targetX + renderer.stageX - testBoundRect.width / 2, targetY + renderer.stageY - testBoundRect.height / 2
+        testElement.scrollTo({
+            left: targetX + renderer.stageX - testBoundRect.width / 2,
+            top: targetY + renderer.stageY - testBoundRect.height / 2,
+            behavior: 'smooth'
+        });
+    })
 
     let mouseRatioX = 0;
     let mouseRatioY = 0;
@@ -30,8 +55,10 @@ window.onload = () => {
         }
         const clientRect = canvas.getBoundingClientRect();
         const { width, height } = clientRect;
-        testElement.scrollLeft = Math.floor(width * mouseRatioX) - (event.clientX - testElement.getBoundingClientRect().x);
-        testElement.scrollTop = Math.floor(height * mouseRatioY) - (event.clientY - testElement.getBoundingClientRect().y);
+        testElement.scrollTo(
+            Math.floor(width * mouseRatioX) - (event.clientX - testElement.getBoundingClientRect().x),
+            Math.floor(height * mouseRatioY) - (event.clientY - testElement.getBoundingClientRect().y),
+        )
     }
 
     testElement.addEventListener('wheel', onWheel, { passive: false });

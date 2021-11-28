@@ -9,6 +9,7 @@ export interface GeoJSONRendererOption {
 }
 
 export class GeoJSONRenderer {
+    private importedParent: HTMLElement;
     private canvas: HTMLCanvasElement;
     private context: CanvasRenderingContext2D;
     private parent: HTMLElement;
@@ -33,12 +34,17 @@ export class GeoJSONRenderer {
     startClientX = 0;
     startClientY = 0;
 
-    constructor(parent: HTMLElement, geoJsonRendererOption?: GeoJSONRendererOption) {
+    constructor(importedParent: HTMLElement, geoJsonRendererOption?: GeoJSONRendererOption) {
         this.canvas = document.createElement('canvas');
         this.canvas.style.width = '100%';
         this.canvas.style.height = '100%';
         this.context = this.canvas.getContext('2d') as CanvasRenderingContext2D;
-        this.parent = parent;
+        this.importedParent = importedParent;
+        this.parent = document.createElement('div');
+        this.parent.style["overflow"] = 'auto';
+        this.parent.style.width = '100%';
+        this.parent.style.height = '100%';
+        this.importedParent.appendChild(this.parent);
         this.parent.appendChild(this.canvas);
         this.initGeojson();
         this.geoJsonRendererOption = geoJsonRendererOption;
@@ -70,7 +76,7 @@ export class GeoJSONRenderer {
     }
 
     private setOption = (geoJsonRendererOption?: GeoJSONRendererOption) => {
-        this.context.fillStyle = geoJsonRendererOption?.fillStyle || '#000000';
+        this.context.fillStyle = geoJsonRendererOption?.fillStyle || '#D3D3D3';
     }
 
     private initGeojson = () => {
@@ -207,12 +213,12 @@ export class GeoJSONRenderer {
         const { clientX, clientY } = event;
         this.startClientX = clientX;
         this.startClientY = clientY;
+        this.canvas.style['cursor'] = 'grab';
         this.canvas.addEventListener('mousemove', this.onMoveMouse);
-        this.canvas.classList.add('mousedown');
     }
 
     onMouseUp = (event: MouseEvent) => {
         this.canvas.removeEventListener('mousemove', this.onMoveMouse);
-        this.canvas.classList.remove('mousedown');
+        this.canvas.style['cursor'] = '';
     }
 }

@@ -17,6 +17,9 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
+    library: {
+      type: 'module',
+    },
   },
   devServer: {
     static: {
@@ -26,5 +29,8 @@ module.exports = {
     port: 9000,
   },
     stats: 'errors-only',
-    mode: 'development'
+    mode: 'development',
+    experiments: {
+      outputModule: true,
+    },
 };

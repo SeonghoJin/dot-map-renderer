@@ -1,26 +1,28 @@
 import geoJson from "./geo.json";
 import { Polygon } from "./component/polygon";
-import { Point } from "./interfaces/point";
-import { Dot } from "./interfaces/dot";
-import { throttle } from "./util";
+import {isPoint, Point} from "./interfaces/point";
+import {formatll, llToStagell, throttle} from "./util";
 import {geoJsonWidth, stageRatio} from "./consts";
 import {Canvas} from "./component/canvas";
 import {GeoJSONRendererOption} from "./interfaces/geoJSONRendererOption";
 import {DotFactory} from "./dotFactory";
+import {DefaultAnchor} from "./component/anchor/defaultAnchor";
 
 export class GeoJSONRenderer {
-    private importedParent: HTMLElement;
-    private canvas: Canvas;
-    private memoryCanvas: Canvas;
+    private readonly parent: HTMLElement;
+    private readonly canvas: Canvas;
+    private readonly bufferCanvas: Canvas;
+    private attachingElement: HTMLElement;
+    private polygons: Array<Polygon> = [];
+    private stageHeight = 0;
+    private stageWidth = 0;
+    private stageX = 0;
+    private stageY = 0;
     private geoJsonRendererOption: Omit<Required<GeoJSONRendererOption>, 'dotType'> & {
         dotFactory: DotFactory,
     };
-    private parent: HTMLElement;
-    public stageHeight = 0;
-    public stageWidth = 0;
-    public stageX = 0;
-    public stageY = 0;
-    private polygons: Array<Polygon> = [];
+    private anchorPoints: Array<Point> = [];
+
     private zoom = 1;
     public mouseRatioX = 0;
     public mouseRatioY = 0;
@@ -28,10 +30,7 @@ export class GeoJSONRenderer {
     offsetY = 0;
     startClientX = 0;
     startClientY = 0;
-
-    get getGeoJsonRatio() : number  {
-        return this.stageWidth / geoJsonWidth;
-    }
+    image : HTMLImageElement;
 
     get pixelAndGapSize() : number {
         return this.pixelSize + this.gapSize;
@@ -45,12 +44,16 @@ export class GeoJSONRenderer {
         return Math.ceil(this.zoom) * this.geoJsonRendererOption.defaultGapSize;
     }
 
-    constructor(importedParent: HTMLElement, geoJsonRendererOption?: GeoJSONRendererOption) {
+    constructor({
+            attachingElement,
+            geoJsonRendererOption,
+        }: {attachingElement: HTMLElement, geoJsonRendererOption?: GeoJSONRendererOption}) {
         this.loadGeoJson();
+        this.attachingElement = attachingElement;
         this.canvas = new Canvas();
-        this.memoryCanvas = new Canvas();
+        this.bufferCanvas = new Canvas();
         this.parent = document.createElement('div');
-        this.importedParent = importedParent;
+        this.image = new Image(0,0);
         this.geoJsonRendererOption = {
             pixelColor : geoJsonRendererOption?.pixelColor ?? '#D3D3D3',
             backgroundColor : geoJsonRendererOption?.backgroundColor ?? '#000000',
@@ -58,9 +61,31 @@ export class GeoJSONRenderer {
             defaultPixelSize: geoJsonRendererOption?.defaultPixelSize ?? 4,
             dotFactory: new DotFactory(geoJsonRendererOption?.dotType ?? 'circle')
         };
+
         this.initHTML();
         this.initInteraction();
-        this.run();
+
+        const {width : canvasWidth, height : canvasHeight} = this.canvas.matchOffsetSize();
+        const {width : stageWidth, height : stageHeight} = this.resizeStage(canvasWidth, canvasHeight);
+        this.bufferCanvas.reSize(stageWidth, stageHeight);
+        this.resizePolygons(stageWidth / geoJsonWidth);
+
+        this.bufferCanvas.drawing(this.polygons);
+        this.initImage(this.stageWidth, this.stageHeight, this.bufferCanvas.toDataURL());
+        this.draw();
+    }
+
+    private loadGeoJson = () => {
+        geoJson.features.forEach((feature) => {
+            if (feature.geometry.type === 'Polygon') {
+                this.polygons.push(new Polygon(0, 0, feature.geometry.coordinates[0] as Point[]));
+            } else if (feature.geometry.type === 'MultiPolygon') {
+                const multiPolygons = feature.geometry.coordinates;
+                multiPolygons.forEach((_polygons) => {
+                    this.polygons.push(new Polygon(0, 0, _polygons[0] as Array<Point>))
+                })
+            }
+        })
     }
 
     private initHTML = () => {
@@ -68,7 +93,7 @@ export class GeoJSONRenderer {
         this.parent.style["overflow"] = 'auto';
         this.parent.style.width = '100%';
         this.parent.style.height = '100%';
-        this.importedParent.appendChild(this.parent);
+        this.attachingElement.appendChild(this.parent);
         this.parent.appendChild(this.canvas.element);
         this.parent.style.backgroundColor = this.geoJsonRendererOption.backgroundColor;
     }
@@ -81,45 +106,33 @@ export class GeoJSONRenderer {
         window.addEventListener('mouseup', this.onMouseUp);
     }
 
-    private loadGeoJson = () => {
-        geoJson.features.forEach((feature) => {
-            if (feature.geometry.type === 'Polygon') {
-                this.polygons.push(new Polygon(this.stageX, this.stageY, this.getGeoJsonRatio, feature.geometry.coordinates[0] as Point[]));
-            } else if (feature.geometry.type === 'MultiPolygon') {
-                const multiPolygons = feature.geometry.coordinates;
-                multiPolygons.forEach((_polgons) => {
-                    this.polygons.push(new Polygon(this.stageX, this.stageY, this.getGeoJsonRatio, _polgons[0] as Array<Point>))
-                })
-            }
-        })
+    private initImage = (width: number, height: number, dataURL: string) => {
+        this.image.width = width;
+        this.image.height = height;
+        this.image.src = dataURL;
     }
 
-    resize = () => {
-        this.canvas.matchOffsetSize();
-        this.memoryCanvas.reSize(this.canvas.element.offsetWidth, this.canvas.element.offsetHeight);
-        const clientRatio = this.canvas.element.width / this.canvas.element.height;
-        this.stageWidth = this.canvas.element.width;
-        this.stageHeight = this.canvas.element.height;
+    private resizeStage = (width: number,height: number) => {
+        const clientRatio = width / height;
+        this.stageWidth = width;
+        this.stageHeight = height;
         if (clientRatio > stageRatio) {
-            this.stageWidth = Math.round(this.canvas.element.height * stageRatio);
+            this.stageWidth = Math.round(height * stageRatio);
         } else {
-            this.stageHeight = Math.round(this.canvas.element.width / stageRatio);
+            this.stageHeight = Math.round(width / stageRatio);
         }
         this.stageX = (this.canvas.element.width - this.stageWidth) / 2;
         this.stageY = (this.canvas.element.height - this.stageHeight) / 2;
-        const geoJsonRatio = this.getGeoJsonRatio;
+        return {
+            width: this.stageWidth,
+            height: this.stageHeight,
+        }
+    }
+
+    private resizePolygons = (ratio: number) => {
         this.polygons.forEach((polygon) => {
-            polygon.resize(this.stageX, this.stageY, geoJsonRatio);
+            polygon.resize(0, 0, ratio);
         })
-    }
-
-    private drawingPolygons = (canvas: Canvas, polygons: Polygon[], color: string) => {
-        canvas.context.fillStyle = color;
-        canvas.drawing(polygons)
-    }
-
-    private drawingDots = (canvas: Canvas, dots: Dot[]) => {
-        canvas.drawing(dots);
     }
 
     private makeDots = (imgData : ImageData) => {
@@ -134,20 +147,15 @@ export class GeoJSONRenderer {
                 const x = Math.floor((j + 0.5) * this.pixelAndGapSize);
                 const pixelX = Math.max(Math.min(x, this.stageWidth), 0);
                 const pixelIndex = (pixelX + pixelY * this.stageWidth) * 4;
-                if(data[pixelIndex + 0] === undefined || data[pixelIndex + 1] === undefined || data[pixelIndex + 2] == undefined)continue;
-                if(data[pixelIndex + 0] === 0 || data[pixelIndex + 1] === 0 || data[pixelIndex + 2] === 0)continue;
-                const red = data[pixelIndex + 0];
-                const green = data[pixelIndex + 1];
-                const blue = data[pixelIndex + 2];
-                dots.push(this.geoJsonRendererOption.dotFactory.create(
-                    this.stageX + x,
-                    this.stageY + y,
-                    this.pixelSize,
-                    this.gapSize,
-                    red,
-                    green,
-                    blue
-                ));
+                if(data[pixelIndex + 0] > 0 || data[pixelIndex + 1] > 0 || data[pixelIndex + 2] > 0){
+                    dots.push(this.geoJsonRendererOption.dotFactory.create(
+                        this.stageX + x,
+                        this.stageY + y,
+                        this.pixelSize,
+                        this.gapSize,
+                        this.geoJsonRendererOption.pixelColor,
+                    ));
+                };
             }
         }
         return dots;
@@ -155,15 +163,40 @@ export class GeoJSONRenderer {
 
     run = () => {
         this.resize();
-        this.drawingPolygons(this.memoryCanvas, this.polygons, this.geoJsonRendererOption.pixelColor);
-        this.drawingDots(this.canvas, this.makeDots(
-            this.memoryCanvas.getImageData(this.stageX, this.stageY, this.stageWidth, this.stageHeight)
-        ));
+        this.draw();
+    }
+
+    resize = () => {
+        this.bufferCanvas.clear();
+        const {width : canvasWidth, height : canvasHeight} = this.canvas.matchOffsetSize();
+        const {width : stageWidth, height : stageHeight} = this.resizeStage(canvasWidth, canvasHeight);
+        this.bufferCanvas.reSize(stageWidth, stageHeight);
+    }
+
+    draw = () => {
+        this.bufferCanvas.drawImage(this.image);
+        this.canvas.drawing(
+            this.makeDots(
+                this.bufferCanvas.getImageData()
+            )
+        );
+        this.drawAnchors();
+    }
+
+    drawAnchors = () => {
+        const pencil = new DefaultAnchor();
+        this.canvas.drawing((context) => {
+            this.anchorPoints.forEach((point) => {
+                const formattedPoint = llToStagell(formatll([point[1], point[0]]), this.stageWidth, this.stageHeight);
+                pencil.draw(context, formattedPoint[0] + this.stageX, formattedPoint[1] + this.stageY);
+            })
+        })
     }
 
     move = (moveY: number, moveX: number) => {
-        const xRatio = (moveX + 180) / 360;
-        const yRatio = (-moveY + 90) / 180;
+        const [x, y] = formatll([moveX, moveY])
+        const xRatio = x / 360;
+        const yRatio = y / 180;
         const testBoundRect = this.parent.getBoundingClientRect();
         const targetX = Math.floor(this.stageWidth * xRatio);
         const targetY = Math.floor(this.stageHeight * yRatio);
@@ -229,4 +262,14 @@ export class GeoJSONRenderer {
         this.canvas.setStyleSize(`${this.zoom * 100}%`, `${this.zoom * 100}%`);
         this.run();
     };
+
+    addAnchors = (points: Point[] | Point) => {
+        if(isPoint(points)){
+            this.anchorPoints.push(points);
+        }
+        else {
+            this.anchorPoints.push(...(points))
+        };
+        this.drawAnchors();
+    }
 }

@@ -16,8 +16,16 @@ document.body.appendChild(input1);
 document.body.appendChild(input2);
 document.body.appendChild(button1);
 
-const app = new GeoJSONRenderer(document.body, {
-    defaultPixelSize: 3,
-    defaultGapSize: 3,
-    dotType: 'circle',
+const app = new GeoJSONRenderer({
+    attachingElement: document.body,
+    geoJsonRendererOption: {
+        defaultPixelSize: 6,
+        defaultGapSize: 2,
+        dotType: 'circle',
+        backgroundColor: 'black',
+        pixelColor: '#D3D3D3'
+    }
 });
+
+app.addAnchors([0, 0])
+app.addAnchors([38, 127])

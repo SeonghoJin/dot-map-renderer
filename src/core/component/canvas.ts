@@ -4,6 +4,22 @@ export class Canvas {
     element: HTMLCanvasElement;
     context: CanvasRenderingContext2D;
 
+    get width() : number {
+        return this.element.width;
+    }
+
+    get height() : number {
+        return this.element.height;
+    }
+
+    set width(w: number){
+        this.element.width = w;
+    }
+
+    set height(h: number){
+        this.element.height = h;
+    }
+
     constructor() {
         this.element = document.createElement('canvas');
         this.context = this.element.getContext('2d') as CanvasRenderingContext2D;
@@ -16,15 +32,16 @@ export class Canvas {
 
     matchOffsetSize = () => {
         this.reSize(this.element.offsetWidth, this.element.offsetHeight);
+        return {width: this.element.offsetWidth, height: this.element.offsetHeight}
     }
 
     setStyleSize = (width: string, height: string) => {
-        this.element.style.height = width;
+        this.element.style.height = height;
         this.element.style.width = width;
     }
 
-    getImageData = (x: number, y: number, width: number, height:number) => {
-        return this.context.getImageData(x,y,width,height);
+    getImageData = () => {
+        return this.context.getImageData(0, 0, this.width, this.height);
     }
 
     drawing = (calle: ((context: CanvasRenderingContext2D) => void) | Drawable | Drawable[]) => {
@@ -39,4 +56,15 @@ export class Canvas {
         }
     }
 
+    toDataURL = () => {
+        return this.element.toDataURL();
+    }
+
+    clear = () => {
+        this.context.clearRect(0, 0, this.width, this.height);
+    }
+
+    drawImage = (image: HTMLImageElement) => {
+        this.context.drawImage(image, 0, 0, this.width, this.height);
+    }
 }

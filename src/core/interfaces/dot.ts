@@ -5,7 +5,5 @@ export interface Dot extends Drawable {
     y: number;
     size: number;
     gapSize: number;
-    red: number;
-    green: number;
-    blue: number;
+    color: string;
 }

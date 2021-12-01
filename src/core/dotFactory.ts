@@ -19,8 +19,8 @@ export class DotFactory{
         }
     }
 
-    create(x: number, y: number, size: number, gapSize: number, red:number, green:number, blue: number) : Dot{
-        return new this.createFunction(x, y,size, gapSize, red, green, blue);
+    create(x: number, y: number, size: number, gapSize: number, color: string) : Dot{
+        return new this.createFunction(x, y, size, gapSize, color);
     }
 
 }

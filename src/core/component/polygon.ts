@@ -1,16 +1,17 @@
 import { Point } from "../interfaces/point";
 import {Drawable} from "../interfaces/drawable";
+import {formatll} from "../util";
 
 export class Polygon implements Drawable{
     x: number;
     y: number;
     points: Array<Point>;
     polygonRatio: number;
-    constructor(x: number, y: number, polygonRatio: number, points: Array<Point>) {
+    constructor(x: number, y: number, points: Array<Point>) {
         this.x = x;
         this.y = y;
         this.points = points;
-        this.polygonRatio = polygonRatio;
+        this.polygonRatio = 0;
     }
 
     resize(x: number, y: number, polygonRatio: number) {
@@ -22,6 +23,7 @@ export class Polygon implements Drawable{
     draw(ctx: CanvasRenderingContext2D) {
         const firstPoint = this.mapping(this.points[0]);
         ctx.beginPath();
+        ctx.fillStyle = "#111111"
         ctx.moveTo(firstPoint[0], firstPoint[1]);
         this.points.forEach((point) => {
             const mappedPoint = this.mapping(point);
@@ -31,9 +33,10 @@ export class Polygon implements Drawable{
     }
 
     mapping(point: Point): Point {
+        const [x, y] = formatll(point)
         return [
-            this.x + (point[0] + 180) * this.polygonRatio,
-            this.y + (-(point[1]) + 90) * this.polygonRatio,
+            this.x + x * this.polygonRatio,
+            this.y + y * this.polygonRatio,
         ];
     }
 }

@@ -1,4 +1,4 @@
-[![npm version](https://badge.fury.io/js/dot-map-renderer.svg)](https://www.npmjs.com/package/dot-map)
+[![npm version](https://badge.fury.io/js/dot-map-renderer.svg)](https://www.npmjs.com/package/dot-map-renderer)
 
 # dot-map-renderer
 <img src="./images/1.png" width="100%" />

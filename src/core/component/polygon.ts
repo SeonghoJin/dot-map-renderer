@@ -31,8 +31,8 @@ export class Polygon {
 
     mapping(point: Point): Point {
         return [
-            Math.round(this.x + (point[0] + 180) * this.polygonRatio),
-            Math.round(this.y + (-(point[1]) + 90) * this.polygonRatio * 1.8),
+            this.x + (point[0] + 180) * this.polygonRatio,
+            this.y + (-(point[1]) + 90) * this.polygonRatio,
         ];
     }
 }

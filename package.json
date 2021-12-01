@@ -1,14 +1,25 @@
 {
-  "type": "commonjs",
+  "name": "dot-map-renderer",
+  "version": "0.0.3",
   "devDependencies": {
+    "terser": "^3.14.1",
     "ts-loader": "^9.2.6",
     "typescript": "^4.5.2",
     "webpack": "^5.64.4",
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.6.0"
   },
+  "keywords": [
+    "map",
+    "dot",
+    "world"
+  ],
   "scripts": {
     "start:dev": "webpack serve",
-    "build": "webpack"
-  }
+    "build": "webpack",
+    "publish": "npm publish --access=public",
+    "types": "tsc src/index.ts --declaration --emitDeclarationOnly --resolveJsonModule --outdir ./dist --esModuleInterop"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts"
 }

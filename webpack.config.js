@@ -15,22 +15,24 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js'],
   },
   output: {
-    filename: 'bundle.js',
+    filename: 'index.js',
     path: path.resolve(__dirname, 'dist'),
-    library: {
-      type: 'module',
-    },
+    library : {
+      name : 'dot_map_renderer',
+      type : 'umd',
+    }
   },
   devServer: {
     static: {
       directory: path.join(__dirname, 'dist'),
     },
-    compress: true,
     port: 9000,
   },
-    stats: 'errors-only',
-    mode: 'development',
-    experiments: {
-      outputModule: true,
-    },
+  stats: 'errors-only',
+  mode: 'production',
+  performance: {
+    hints: false,
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000
+  }
 };

@@ -22,8 +22,16 @@ npm i dot-map-renderer
 ## Getting started
 
 #### Webpack
-#### CDN
+##### es
+###### Example
+
+##### commonjs
+###### Example
+
 #### Download
+##### Example
+
+#### CDN
 
 ## API
 

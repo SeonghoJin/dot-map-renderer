@@ -5,14 +5,16 @@ import { Dot } from "./interfaces/dot";
 import { throttle } from "./util";
 import {geoJsonWidth, stageRatio} from "./consts";
 import {Canvas} from "./component/canvas";
-import {RectDot} from "./component/dot/rectDot";
-import {GeoJSONRendererOption} from "./interfaces/GeoJSONRendererOption";
+import {GeoJSONRendererOption} from "./interfaces/geoJSONRendererOption";
+import {DotFactory} from "./dotFactory";
 
 export class GeoJSONRenderer {
     private importedParent: HTMLElement;
     private canvas: Canvas;
     private memoryCanvas: Canvas;
-    private geoJsonRendererOption: Required<GeoJSONRendererOption>;
+    private geoJsonRendererOption: Omit<Required<GeoJSONRendererOption>, 'dotType'> & {
+        dotFactory: DotFactory,
+    };
     private parent: HTMLElement;
     public stageHeight = 0;
     public stageWidth = 0;
@@ -20,7 +22,6 @@ export class GeoJSONRenderer {
     public stageY = 0;
     private polygons: Array<Polygon> = [];
     private zoom = 1;
-    private dots: Array<Dot> = [];
     public mouseRatioX = 0;
     public mouseRatioY = 0;
     offsetX = 0;
@@ -55,6 +56,7 @@ export class GeoJSONRenderer {
             backgroundColor : geoJsonRendererOption?.backgroundColor ?? '#000000',
             defaultGapSize: geoJsonRendererOption?.defaultGapSize ?? 1,
             defaultPixelSize: geoJsonRendererOption?.defaultPixelSize ?? 4,
+            dotFactory: new DotFactory(geoJsonRendererOption?.dotType ?? 'circle')
         };
         this.initHTML();
         this.initInteraction();
@@ -137,8 +139,15 @@ export class GeoJSONRenderer {
                 const red = data[pixelIndex + 0];
                 const green = data[pixelIndex + 1];
                 const blue = data[pixelIndex + 2];
-                const dot = new RectDot(this.stageX + x, this.stageY + y, this.pixelSize, this.gapSize, red, green, blue);
-                dots.push(dot);
+                dots.push(this.geoJsonRendererOption.dotFactory.create(
+                    this.stageX + x,
+                    this.stageY + y,
+                    this.pixelSize,
+                    this.gapSize,
+                    red,
+                    green,
+                    blue
+                ));
             }
         }
         return dots;

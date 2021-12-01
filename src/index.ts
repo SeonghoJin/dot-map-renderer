@@ -1,1 +1,1 @@
-export { GeoJSONRenderer } from "./core/renderer";
+export { GeoJSONRenderer } from "./core/geoJSONRenderer";

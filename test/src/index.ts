@@ -17,5 +17,11 @@ document.body.appendChild(input1);
 document.body.appendChild(input2);
 document.body.appendChild(button1);
 
-const dotMap = new DotMap().attaching(document.body);
+const dotMap = new DotMap();
+const controller = dotMap.attaching(document.body);
+
+controller.addAnchors([123, -90]);
+controller.move(12, 34);
+controller.addZoom(1);
+
 

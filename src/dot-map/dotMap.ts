@@ -1,7 +1,7 @@
 import { DotMapOptionArg} from "./type/dotMapOptionArg";
-import {GeoJSONRendererOption} from "../core/types/geoJSONRendererOption";
 import { DotMapOption } from "./dotMapOption";
 import {GeoJSONRenderer} from "../core/geoJSONRenderer";
+import {DotMapController} from "./interfaces/dotMapController";
 
 export class DotMap {
     private dotMapOption: DotMapOption;
@@ -10,9 +10,10 @@ export class DotMap {
         this.dotMapOption = new DotMapOption(dotMapOptionArg);
     }
 
-    public attaching = (parentElement: HTMLElement) => {
+    public attaching = (parentElement: HTMLElement) : DotMapController => {
         const rendererOption = this.dotMapOption.createRendererOption();
         const geoJSONRenderer = new GeoJSONRenderer(parentElement, rendererOption);
+        return geoJSONRenderer;
     }
 
 }

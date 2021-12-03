@@ -7,8 +7,9 @@ import {Canvas} from "./component/canvas";
 import {GeoJSONRendererOption} from "./types/geoJSONRendererOption";
 import {DefaultAnchor} from "./component/anchor/defaultAnchor";
 import {throttle} from "./util/throttle";
+import {DotMapController} from "../dot-map/interfaces/dotMapController";
 
-export class GeoJSONRenderer {
+export class GeoJSONRenderer implements DotMapController {
     private readonly parent: HTMLElement;
     private readonly canvas: Canvas;
     private readonly bufferCanvas: Canvas;

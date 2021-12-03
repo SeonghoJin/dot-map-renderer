@@ -1,6 +1,6 @@
-import {DotType} from "../type/DotType";
+import {DotType} from "../../core/component/type/DotType";
 
-export interface GeoJSONRendererOption {
+export type DotMapOptionArg = {
     backgroundColor?: string;
     pixelColor?: string;
     defaultPixelSize?: number;

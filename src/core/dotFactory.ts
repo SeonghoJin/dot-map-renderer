@@ -1,4 +1,4 @@
-import {DotType} from "./type/DotType";
+import {DotType} from "./component/type/DotType";
 import {Dot} from "./interfaces/dot";
 import {CircleDot, RectDot} from "./component/dot";
 

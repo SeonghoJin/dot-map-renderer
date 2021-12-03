@@ -1,12 +1,12 @@
 import geoJson from "./geo.json";
 import { Polygon } from "./component/polygon";
 import {isPoint, Point} from "./interfaces/point";
-import {formatll, llToStagell, throttle} from "./util";
+import {formatll, llToStagell} from "./util";
 import {geoJsonWidth, stageRatio} from "./consts";
 import {Canvas} from "./component/canvas";
-import {GeoJSONRendererOption} from "./interfaces/geoJSONRendererOption";
-import {DotFactory} from "./dotFactory";
+import {GeoJSONRendererOption} from "./types/geoJSONRendererOption";
 import {DefaultAnchor} from "./component/anchor/defaultAnchor";
+import {throttle} from "./util/throttle";
 
 export class GeoJSONRenderer {
     private readonly parent: HTMLElement;
@@ -18,9 +18,7 @@ export class GeoJSONRenderer {
     private stageWidth = 0;
     private stageX = 0;
     private stageY = 0;
-    private geoJsonRendererOption: Omit<Required<GeoJSONRendererOption>, 'dotType'> & {
-        dotFactory: DotFactory,
-    };
+    private option: GeoJSONRendererOption;
     private anchorPoints: Array<Point> = [];
 
     private zoom = 1;
@@ -37,30 +35,21 @@ export class GeoJSONRenderer {
     }
 
     get pixelSize() : number {
-        return Math.ceil(this.zoom) * this.geoJsonRendererOption.defaultPixelSize;
+        return Math.ceil(this.zoom) * this.option.defaultPixelSize;
     }
 
     get gapSize() : number {
-        return Math.ceil(this.zoom) * this.geoJsonRendererOption.defaultGapSize;
+        return Math.ceil(this.zoom) * this.option.defaultGapSize;
     }
 
-    constructor({
-            attachingElement,
-            geoJsonRendererOption,
-        }: {attachingElement: HTMLElement, geoJsonRendererOption?: GeoJSONRendererOption}) {
+    constructor(attachingElement : HTMLElement, geoJsonRendererOption : GeoJSONRendererOption) {
         this.loadGeoJson();
         this.attachingElement = attachingElement;
         this.canvas = new Canvas();
         this.bufferCanvas = new Canvas();
         this.parent = document.createElement('div');
         this.image = new Image(0,0);
-        this.geoJsonRendererOption = {
-            pixelColor : geoJsonRendererOption?.pixelColor ?? '#D3D3D3',
-            backgroundColor : geoJsonRendererOption?.backgroundColor ?? '#000000',
-            defaultGapSize: geoJsonRendererOption?.defaultGapSize ?? 1,
-            defaultPixelSize: geoJsonRendererOption?.defaultPixelSize ?? 4,
-            dotFactory: new DotFactory(geoJsonRendererOption?.dotType ?? 'circle')
-        };
+        this.option = geoJsonRendererOption
 
         this.initHTML();
         this.initInteraction();
@@ -95,7 +84,7 @@ export class GeoJSONRenderer {
         this.parent.style.height = '100%';
         this.attachingElement.appendChild(this.parent);
         this.parent.appendChild(this.canvas.element);
-        this.parent.style.backgroundColor = this.geoJsonRendererOption.backgroundColor;
+        this.parent.style.backgroundColor = this.option.backgroundColor;
     }
 
     private initInteraction = () => {
@@ -148,12 +137,12 @@ export class GeoJSONRenderer {
                 const pixelX = Math.max(Math.min(x, this.stageWidth), 0);
                 const pixelIndex = (pixelX + pixelY * this.stageWidth) * 4;
                 if(data[pixelIndex + 0] > 0 || data[pixelIndex + 1] > 0 || data[pixelIndex + 2] > 0){
-                    dots.push(this.geoJsonRendererOption.dotFactory.create(
+                    dots.push(this.option.dotFactory.create(
                         this.stageX + x,
                         this.stageY + y,
                         this.pixelSize,
                         this.gapSize,
-                        this.geoJsonRendererOption.pixelColor,
+                        this.option.pixelColor,
                     ));
                 };
             }

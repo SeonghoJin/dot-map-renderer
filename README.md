@@ -22,14 +22,18 @@ npm i dot-map-renderer
 ## Getting started
 
 #### Webpack
-##### es
-###### Example
 
-##### commonjs
-###### Example
+##### [es](./example/es)
+```shell
+import {GeoJSONRenderer} from 'dot-map-renderer';
 
-#### Download
-##### Example
+const app = new GeoJSONRenderer(document.body, {
+    pixelColor: '#D3D3D3'
+});
+```
+##### [commonjs](./example/commonjs)
+
+#### [Download](./example/download)
 
 #### CDN
 

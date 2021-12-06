@@ -1,6 +1,6 @@
 import { DotMapOptionArg} from "./type/dotMapOptionArg";
 import { DotMapOption } from "./dotMapOption";
-import {GeoJSONRenderer} from "../core/geoJSONRenderer";
+import {GeoJSONRenderer} from "../renderer/geoJSONRenderer";
 import {DotMapController} from "./interfaces/dotMapController";
 
 export class DotMap {

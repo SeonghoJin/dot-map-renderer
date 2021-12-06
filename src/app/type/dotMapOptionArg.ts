@@ -1,4 +1,4 @@
-import {DotType} from "../../core/component/type/DotType";
+import {DotType} from "../../component/type/DotType";
 
 export type DotMapOptionArg = {
     backgroundColor?: string;

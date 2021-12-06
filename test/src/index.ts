@@ -1,5 +1,5 @@
 import {GeoJSONRenderer} from '../../src/index';
-import {DotMap} from "../../src/dot-map/dotMap";
+import {DotMap} from "../../src/app/dotMap";
 
 const input1 = document.createElement('input');
 const input2 = document.createElement('input');

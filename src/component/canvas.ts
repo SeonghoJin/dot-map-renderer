@@ -1,4 +1,4 @@
-import {Drawable, isDrawable} from "../interfaces/drawable";
+import {Drawable, isDrawable} from "../renderer/interfaces/drawable";
 
 export class Canvas {
     element: HTMLCanvasElement;

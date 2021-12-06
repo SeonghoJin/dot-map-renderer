@@ -1,4 +1,4 @@
-import {Point} from "../core/interfaces/point";
+import {Point} from "../renderer/interfaces/point";
 
 export const quadraticBezierCurveFactory = (A: Point, B: Point, C: Point) => {
     return (t : number) => {

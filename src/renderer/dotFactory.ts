@@ -1,6 +1,6 @@
-import {DotType} from "./component/type/DotType";
+import {DotType} from "../component/type/DotType";
 import {Dot} from "./interfaces/dot";
-import {CircleDot, RectDot} from "./component/dot";
+import {CircleDot, RectDot} from "../component/dot";
 
 type CreateFunctionType = {
     new (...args : any[]) : Dot

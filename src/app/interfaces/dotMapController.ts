@@ -1,4 +1,4 @@
-import {Point} from "../../core/interfaces/point";
+import {Point} from "../../renderer/interfaces/point";
 
 export interface DotMapController {
     addAnchors : (points: Point[] | Point) => void;

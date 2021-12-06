@@ -1,6 +1,6 @@
-import { Point } from "../interfaces/point";
-import {Drawable} from "../interfaces/drawable";
-import {formatll} from "../util";
+import { Point } from "../renderer/interfaces/point";
+import {Drawable} from "../renderer/interfaces/drawable";
+import {formatll} from "../renderer/util";
 
 export class Polygon implements Drawable{
     x: number;

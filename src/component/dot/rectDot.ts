@@ -1,13 +1,11 @@
-import { Dot } from "../../interfaces/dot";
-import {PI2} from "../../consts";
+import { Dot } from "../../renderer/interfaces/dot";
 
-export class CircleDot implements Dot {
+export class RectDot implements Dot {
     gapSize: number;
     size: number;
     x: number;
     y: number;
     color: string;
-
 
     constructor(x: number, y: number, size: number, gapSize: number, color: string) {
         this.x = x;
@@ -21,8 +19,7 @@ export class CircleDot implements Dot {
         const startX = this.x - this.gapSize / 2;
         context.beginPath();
         context.fillStyle = this.color;
-        context.arc(this.x + (this.gapSize + this.size) / 2, this.y + (this.gapSize, this.size) / 2, (this.size) / 2, 0, PI2, false);
-        context.fill();
+        context.fillRect(this.x + this.gapSize, this.y + this.gapSize , this.size, this.size);
         context.closePath();
     }
 }

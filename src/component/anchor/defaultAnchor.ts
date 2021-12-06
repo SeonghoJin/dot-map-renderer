@@ -1,5 +1,5 @@
-import {Anchor} from "../../interfaces/anchors";
-import {PI2} from "../../consts";
+import {Anchor} from "../../renderer/interfaces/anchors";
+import {PI2} from "../../renderer/consts";
 
 export class DefaultAnchor implements Anchor{
 

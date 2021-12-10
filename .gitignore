@@ -1,3 +1,18 @@
+#ide
 .idea
-node_modules
 .vscode
+
+# project ignores
+!.gitkeep
+*__temp
+node_modules
+docs
+coverage
+coverage.lcov
+.nyc_output
+dist
+bundles/*/*.d.ts
+out
+packages/**/index.d.ts
+local_test
+

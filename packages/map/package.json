@@ -1,0 +1,15 @@
+{
+  "name": "@dot-map-renderer/map",
+  "version": "0.0.1",
+  "description": "",
+  "module": "dist/es/map.js",
+  "main": "dist/umd/map.js",
+  "browser": "dist/umd/map.js",
+  "author": "moretall",
+  "license": "ISC",
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+  }
+}

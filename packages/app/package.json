@@ -5,7 +5,6 @@
   "module": "dist/es/app.js",
   "main": "dist/umd/app.js",
   "browser": "dist/umd/app.js",
-  "author": "moretall",
   "license": "ISC",
   "publishConfig": {
     "access": "public"

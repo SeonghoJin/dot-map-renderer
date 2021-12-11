@@ -5,7 +5,6 @@
   "module": "dist/es/component.js",
   "main": "dist/umd/component.js",
   "browser": "dist/umd/component.js",
-  "author": "moretall",
   "license": "ISC",
   "publishConfig": {
     "access": "public"

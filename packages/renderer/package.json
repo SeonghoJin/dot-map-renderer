@@ -5,7 +5,6 @@
   "module": "dist/es/renderer.js",
   "main": "dist/umd/renderer.js",
   "browser": "dist/umd/renderer.js",
-  "author": "moretall",
   "license": "ISC",
   "publishConfig": {
     "access": "public"

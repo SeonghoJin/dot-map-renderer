@@ -1,5 +1,5 @@
-import {Anchor} from "@dot-map-renderer/renderer";
-import {PI2} from "@dot-map-renderer/renderer";
+import {Anchor} from "./anchors";
+import {PI2} from "@dot-map-renderer/consts";
 
 export class DefaultAnchor implements Anchor{
 

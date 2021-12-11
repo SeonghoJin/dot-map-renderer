@@ -11,6 +11,6 @@
     "access": "public"
   },
   "peerDependencies": {
-    "@dot-map-renderer/renderer": "0.0.1"
+    "@dot-map-renderer/consts": "0.0.1"
   }
 }

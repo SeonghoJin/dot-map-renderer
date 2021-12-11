@@ -1,0 +1,21 @@
+{
+  "name": "dot-map-renderer",
+  "version": "0.0.4",
+  "description": "",
+  "module": "dist/es/dot-map-renderer.js",
+  "main": "dist/umd/dot-map-renderer.js",
+  "browser": "dist/umd/dot-map-renderer.js",
+  "author": "moretall",
+  "license": "ISC",
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "@dot-map-renderer/app": "0.0.1",
+    "@dot-map-renderer/component": "0.0.1",
+    "@dot-map-renderer/map": "0.0.1",
+    "@dot-map-renderer/renderer": "0.0.1",
+    "@dot-map-renderer/util": "0.0.1",
+    "@dot-map-renderer/consts": "0.0.1"
+  }
+}

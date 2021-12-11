@@ -1,4 +1,4 @@
-import {Drawable, isDrawable} from "@dot-map-renderer/renderer";
+import {Drawable, isDrawable} from "./drawable";
 
 export class Canvas {
     element: HTMLCanvasElement;

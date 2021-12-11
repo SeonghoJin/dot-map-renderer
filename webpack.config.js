@@ -2,6 +2,7 @@ const path = require('path');
 const {TsconfigPathsPlugin}= require('tsconfig-paths-webpack-plugin');
 const workspacesRun = require('workspaces-run');
 const webpack = require('webpack');
+const {CleanWebpackPlugin} = require("clean-webpack-plugin");
 
 module.exports = async () => {
 
@@ -72,8 +73,6 @@ module.exports = async () => {
       }
     });
 
-    console.log(packages);
-
     result.push({
       ...makeConfig(entry, isProduction, plugins),
       experiments: {
@@ -87,6 +86,41 @@ module.exports = async () => {
         },
       },
     });
+  });
+
+  result.push({
+    ...makeConfig(
+        path.resolve(__dirname, "bundles/src/index.ts"),
+        isProduction,
+        [new CleanWebpackPlugin()]
+    ),
+    experiments: {
+      outputModule: true,
+    },
+    output: {
+      filename: "bundle.js",
+      path: path.resolve(__dirname, "bundles/dist/es"),
+      library: {
+        type: 'module',
+      }
+    },
+  });
+
+  result.push({
+    ...makeConfig(
+        path.resolve(__dirname, "bundles/src/index.ts"),
+        isProduction,
+        [new CleanWebpackPlugin()]
+    ),
+    output: {
+      filename: "bundle.js",
+      path: path.resolve(__dirname, "bundles/dist/umd"),
+      library: {
+        name: 'dot-map-renderer',
+        type: 'umd',
+      },
+      globalObject: 'globalThis',
+    },
   })
 
   return result;

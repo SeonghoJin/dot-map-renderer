@@ -1,4 +1,4 @@
-import {Point} from "./point";
+import {Point} from "@dot-map-renderer/component";
 
 export namespace CoordinateNormalization {
 

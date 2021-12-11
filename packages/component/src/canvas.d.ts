@@ -1,4 +1,4 @@
-import { Drawable } from "../../renderer/src/drawable";
+import { Drawable } from "./drawable";
 export declare class Canvas {
     element: HTMLCanvasElement;
     context: CanvasRenderingContext2D;

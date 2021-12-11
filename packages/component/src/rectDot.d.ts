@@ -1,4 +1,4 @@
-import { Dot } from "../../renderer/src/dot";
+import { Dot } from "./dot";
 export declare class RectDot implements Dot {
     gapSize: number;
     size: number;

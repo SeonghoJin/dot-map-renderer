@@ -1,6 +1,6 @@
-import { Point } from "@dot-map-renderer/renderer";
-import {Drawable} from "@dot-map-renderer/renderer";
-import {formatll} from "@dot-map-renderer/renderer";
+import { Point } from "./point";
+import {Drawable} from "./drawable";
+import {formatll} from "./util";
 
 export class Polygon implements Drawable{
     x: number;

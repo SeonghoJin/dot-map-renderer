@@ -1,6 +1,6 @@
 import {GeoJSONRendererOption} from "@dot-map-renderer/renderer";
 import { DotMapOptionArg } from "./dotMapOptionArg";
-import {DotFactory} from "@dot-map-renderer/renderer";
+import {DotFactory} from "@dot-map-renderer/component";
 
 export class DotMapOption {
     dotMapOption?: DotMapOptionArg;

@@ -1,5 +1,5 @@
-import { Dot } from "@dot-map-renderer/renderer";
-import {PI2} from "@dot-map-renderer/renderer";
+import { Dot } from "./dot";
+import {PI2} from "@dot-map-renderer/consts";
 
 export class CircleDot implements Dot {
     gapSize: number;

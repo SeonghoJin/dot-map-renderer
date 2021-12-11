@@ -1,4 +1,4 @@
-import {Point} from "@dot-map-renderer/renderer";
+import {Point} from "@dot-map-renderer/component";
 
 export const quadraticBezierCurveFactory = (A: Point, B: Point, C: Point) => {
     return (t : number) => {

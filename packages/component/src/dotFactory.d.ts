@@ -1,4 +1,4 @@
-import { DotType } from "../../component/src/DotType";
+import { DotType } from "@dot-map-renderer/component";
 import { Dot } from "./dot";
 declare type CreateFunctionType = {
     new (...args: any[]): Dot;

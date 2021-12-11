@@ -1,4 +1,4 @@
-import { DotType } from "../../component/src/DotType";
+import { DotType } from "@dot-map-renderer/component";
 export declare type DotMapOptionArg = {
     backgroundColor?: string;
     pixelColor?: string;

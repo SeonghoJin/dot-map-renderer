@@ -1,7 +1,7 @@
-import { Point } from "./point";
+import { Point } from "@dot-map-renderer/component";
+import { RendererController } from "./RendererController";
 import { GeoJSONRendererOption } from "./geoJSONRendererOption";
-import { DotMapController } from "../../app/src/dotMapController";
-export declare class GeoJSONRenderer implements DotMapController {
+export declare class GeoJSONRenderer implements RendererController {
     private readonly parent;
     private readonly canvas;
     private readonly bufferCanvas;

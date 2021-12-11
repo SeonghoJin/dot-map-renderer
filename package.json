@@ -2,6 +2,7 @@
   "name": "dot-map-renderer",
   "version": "0.0.3",
   "devDependencies": {
+    "clean-webpack-plugin": "^4.0.0",
     "terser": "^3.14.1",
     "ts-loader": "^9.2.6",
     "tsconfig-paths-webpack-plugin": "^3.5.2",
@@ -25,9 +26,10 @@
     "build": "webpack",
     "publish": "npm publish --access=public",
     "publish:all": "npm publish -w ./packages/",
-    "types": "tsc packages/index.ts --declaration --emitDeclarationOnly --resolveJsonModule --outdir ./dist --esModuleInterop",
+    "types": "tsc bundles/src/index.ts --declaration --emitDeclarationOnly --resolveJsonModule --outdir ./dist --esModuleInterop",
     "patch:all": "npm version patch -w ./packages/"
   },
   "main": "./dist/index.js",
-  "types": "./dist/index.d.ts"
+  "types": "./dist/index.d.ts",
+  "private": true
 }

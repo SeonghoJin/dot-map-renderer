@@ -1,0 +1,13 @@
+{
+  "name": "@dot-map-renderer/consts",
+  "version": "0.0.1",
+  "description": "",
+  "module": "dist/es/consts.js",
+  "main": "dist/umd/consts.js",
+  "browser": "dist/umd/consts.js",
+  "author": "moretall",
+  "license": "ISC",
+  "publishConfig": {
+    "access": "public"
+  }
+}

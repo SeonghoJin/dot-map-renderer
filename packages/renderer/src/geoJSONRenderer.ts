@@ -1,15 +1,11 @@
 import geoJson from "@dot-map-renderer/map";
-import { Polygon } from "@dot-map-renderer/component";
-import {isPoint, Point} from "./point";
-import {formatll, llToStagell} from "./util";
-import {geoJsonWidth, stageRatio} from "./consts";
-import {Canvas} from "@dot-map-renderer/component";
+import { Polygon, isPoint, Point, formatll, llToStagell, Canvas, DefaultAnchor } from "@dot-map-renderer/component";
+import {geoJsonWidth, stageRatio} from "@dot-map-renderer/consts";
+import {throttle} from "@dot-map-renderer/util";
+import {RendererController} from "./RendererController";
 import {GeoJSONRendererOption} from "./geoJSONRendererOption";
-import {DefaultAnchor} from "@dot-map-renderer/component";
-import {throttle} from "./throttle";
-import {DotMapController} from "@dot-map-renderer/app";
 
-export class GeoJSONRenderer implements DotMapController {
+export class GeoJSONRenderer implements RendererController {
     private readonly parent: HTMLElement;
     private readonly canvas: Canvas;
     private readonly bufferCanvas: Canvas;

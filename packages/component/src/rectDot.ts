@@ -1,4 +1,4 @@
-import { Dot } from "@dot-map-renderer/renderer";
+import { Dot } from "./dot";
 
 export class RectDot implements Dot {
     gapSize: number;

@@ -1,6 +1,6 @@
-import {Point} from "@dot-map-renderer/renderer";
+import {Point} from "@dot-map-renderer/component";
 
-export interface DotMapController {
+export interface RendererController {
     addAnchors : (points: Point[] | Point) => void;
     move : (moveY: number, moveX: number) => void;
     addZoom : (zoom: number) => void;

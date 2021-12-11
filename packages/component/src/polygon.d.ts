@@ -1,5 +1,5 @@
-import { Point } from "../../renderer/src/point";
-import { Drawable } from "../../renderer/src/drawable";
+import { Point } from "./point";
+import { Drawable } from "./drawable";
 export declare class Polygon implements Drawable {
     x: number;
     y: number;

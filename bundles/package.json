@@ -17,5 +17,9 @@
     "@dot-map-renderer/renderer": "0.0.1",
     "@dot-map-renderer/util": "0.0.1",
     "@dot-map-renderer/consts": "0.0.1"
+  },
+  "scripts": {
+    "publish": "npm publish --access=public",
+    "patch:all": "npm version patch"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@dot-map-renderer/renderer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "module": "dist/es/renderer.js",
   "main": "dist/umd/renderer.js",

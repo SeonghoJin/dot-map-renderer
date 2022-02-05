@@ -11,5 +11,6 @@
   },
   "peerDependencies": {
     "@dot-map-renderer/component": "0.0.1"
-  }
+  },
+  "types": "src/index.ts"
 }

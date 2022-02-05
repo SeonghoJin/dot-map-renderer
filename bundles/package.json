@@ -2,6 +2,7 @@
   "name": "dot-map-renderer",
   "version": "0.0.5",
   "description": "",
+  "types": "src/index.d.ts",
   "module": "dist/es/dot-map-renderer.js",
   "main": "dist/umd/dot-map-renderer.js",
   "browser": "dist/umd/dot-map-renderer.js",

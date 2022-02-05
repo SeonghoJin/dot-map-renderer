@@ -9,5 +9,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "peerDependencies": {}
+  "peerDependencies": {},
+  "types": "src/index.d.ts"
+
 }

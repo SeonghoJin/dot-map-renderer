@@ -8,5 +8,6 @@
   "license": "ISC",
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "types": "src/index.d.ts"
 }

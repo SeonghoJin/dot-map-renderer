@@ -29,7 +29,7 @@
     "types": "tsc bundles/src/index.ts --declaration --emitDeclarationOnly --resolveJsonModule --outdir ./dist --esModuleInterop",
     "patch:all": "npm version patch -w ./packages/"
   },
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./bundles/src/index.ts",
+  "types": "./bundles/src/index.d.ts",
   "private": true
 }

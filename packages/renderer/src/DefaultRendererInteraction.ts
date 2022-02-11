@@ -1,5 +1,5 @@
 import {GeoJSONRenderer} from "./GeoJSONRenderer";
-import {IRendererController, RendererDefaultController} from "./RendererDefaultController";
+import {IRendererController, DefaultRendererController} from "./DefaultRendererController";
 
 export interface IRendererDefaultInteraction{
     onWheel : (event: WheelEvent) => void;
@@ -9,14 +9,14 @@ export interface IRendererDefaultInteraction{
     onMouseUp: (event: MouseEvent) => void;
 }
 
-export class RendererDefaultInteraction implements IRendererDefaultInteraction {
+export class DefaultRendererInteraction implements IRendererDefaultInteraction {
     public mouseRatioX = 0;
     public mouseRatioY = 0;
     public offsetX = 0;
     public offsetY = 0;
     public startClientX = 0;
     public startClientY = 0;
-    constructor(private readonly renderer: GeoJSONRenderer, private readonly controller: RendererDefaultController) {
+    constructor(private readonly renderer: GeoJSONRenderer, private readonly controller: DefaultRendererController) {
 
     }
 

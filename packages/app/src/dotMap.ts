@@ -2,13 +2,13 @@ import { DotMapOptionArg} from "./dotMapOptionArg";
 import { DotMapOption } from "./dotMapOption";
 import {
     GeoJSONRenderer,
-    RendererDefaultController,
-    RendererDefaultInteraction
+    DefaultRendererController,
+    DefaultRendererInteraction
 } from "@dot-map-renderer/renderer";
 
 export class DotMap {
     private dotMapOption: DotMapOption;
-    private defaultController?: RendererDefaultController;
+    private defaultController?: DefaultRendererController;
 
     constructor(dotMapOptionArg? : DotMapOptionArg) {
         this.dotMapOption = new DotMapOption(dotMapOptionArg);
@@ -17,11 +17,11 @@ export class DotMap {
     public attaching = (parentElement: HTMLElement) : void => {
         const rendererOption = this.dotMapOption.createRendererOption();
         const renderer = new GeoJSONRenderer(parentElement, rendererOption);
-        this.defaultController = new RendererDefaultController(renderer);
-        new RendererDefaultInteraction(renderer, this.defaultController).init();
+        this.defaultController = new DefaultRendererController(renderer);
+        new DefaultRendererInteraction(renderer, this.defaultController).init();
     }
 
-    get controller() : RendererDefaultController {
+    get controller() : DefaultRendererController {
         return this.defaultController!!;
     }
 

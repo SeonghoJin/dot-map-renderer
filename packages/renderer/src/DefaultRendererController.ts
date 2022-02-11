@@ -8,7 +8,7 @@ export interface IRendererController {
     addZoom : (zoom: number) => void;
 }
 
-export class RendererDefaultController implements  IRendererController {
+export class DefaultRendererController implements  IRendererController {
 
     constructor(private readonly renderer : GeoJSONRenderer) {
     }

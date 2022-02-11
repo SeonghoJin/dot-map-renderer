@@ -3,7 +3,7 @@ import {DotFactory} from "@dot-map-renderer/component";
 export type GeoJSONRendererOption = {
     backgroundColor: string;
     pixelColor: string;
-    defaultPixelSize: number;
-    defaultGapSize: number;
+    pixelSize: number;
+    gapSize: number;
     dotFactory: DotFactory,
 }

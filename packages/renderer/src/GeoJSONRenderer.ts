@@ -2,41 +2,34 @@ import geoJson from "@dot-map-renderer/map";
 import { Polygon, isPoint, Point, formatll, llToStagell, Canvas, DefaultAnchor } from "@dot-map-renderer/component";
 import {geoJsonWidth, stageRatio} from "@dot-map-renderer/consts";
 import {throttle} from "@dot-map-renderer/util";
-import {RendererController} from "./RendererController";
-import {GeoJSONRendererOption} from "./geoJSONRendererOption";
+import {GeoJSONRendererOption} from "./GeoJSONRendererOption";
 
-export class GeoJSONRenderer implements RendererController {
-    private readonly parent: HTMLElement;
-    private readonly canvas: Canvas;
+export class GeoJSONRenderer {
     private readonly bufferCanvas: Canvas;
+    private readonly polygons: Array<Polygon> = [];
+    public anchorPoints: Array<Point> = [];
     private attachingElement: HTMLElement;
-    private polygons: Array<Polygon> = [];
-    private stageHeight = 0;
-    private stageWidth = 0;
-    private stageX = 0;
-    private stageY = 0;
     private option: GeoJSONRendererOption;
-    private anchorPoints: Array<Point> = [];
+    readonly canvas: Canvas;
+    readonly parent: HTMLElement;
 
-    private zoom = 1;
-    public mouseRatioX = 0;
-    public mouseRatioY = 0;
-    offsetX = 0;
-    offsetY = 0;
-    startClientX = 0;
-    startClientY = 0;
+    stageHeight = 0;
+    stageWidth = 0;
+    stageX = 0;
+    stageY = 0;
     image : HTMLImageElement;
+    zoom = 1;
 
     get pixelAndGapSize() : number {
         return this.pixelSize + this.gapSize;
     }
 
     get pixelSize() : number {
-        return Math.ceil(this.zoom) * this.option.defaultPixelSize;
+        return Math.ceil(this.zoom) * this.option.pixelSize;
     }
 
     get gapSize() : number {
-        return Math.ceil(this.zoom) * this.option.defaultGapSize;
+        return Math.ceil(this.zoom) * this.option.gapSize;
     }
 
     constructor(attachingElement : HTMLElement, geoJsonRendererOption : GeoJSONRendererOption) {
@@ -85,11 +78,7 @@ export class GeoJSONRenderer implements RendererController {
     }
 
     private initInteraction = () => {
-        this.canvas.element.addEventListener('mousemove', this.onMouseMove);
-        this.parent.addEventListener('wheel', this.onWheel, { passive: false });
         window.addEventListener('resize', throttle(this.run, 100));
-        window.addEventListener('mousedown', this.onMouseDown);
-        window.addEventListener('mouseup', this.onMouseUp);
     }
 
     private initImage = (width: number, height: number, dataURL: string) => {
@@ -147,7 +136,7 @@ export class GeoJSONRenderer implements RendererController {
         return dots;
     }
 
-    run = () => {
+    public run = () => {
         this.resize();
         this.draw();
     }
@@ -179,83 +168,4 @@ export class GeoJSONRenderer implements RendererController {
         })
     }
 
-    move = (moveY: number, moveX: number) => {
-        const [x, y] = formatll([moveX, moveY])
-        const xRatio = x / 360;
-        const yRatio = y / 180;
-        const testBoundRect = this.parent.getBoundingClientRect();
-        const targetX = Math.floor(this.stageWidth * xRatio);
-        const targetY = Math.floor(this.stageHeight * yRatio);
-        this.canvas.context.beginPath();
-        this.parent.scrollTo({
-            left: targetX + this.stageX - testBoundRect.width / 2,
-            top: targetY + this.stageY - testBoundRect.height / 2,
-            behavior: 'smooth'
-        });
-    }
-
-    onMouseMove = (event: MouseEvent) => {
-        const clientRect = this.canvas.element.getBoundingClientRect();
-        this.mouseRatioX = event.offsetX / clientRect.width;
-        this.mouseRatioY = event.offsetY / clientRect.height;
-    }
-
-    onWheel = (event: WheelEvent) => {
-        event.preventDefault();
-        const { deltaY } = event;
-        if (deltaY < 0) {
-            this.addZoom(+0.1);
-        }
-        if (deltaY > 0) {
-            this.addZoom(-0.1);
-        }
-        const clientRect = this.canvas.element.getBoundingClientRect();
-        const { width, height } = clientRect;
-        this.parent.scrollTo(
-            Math.floor(width * this.mouseRatioX) - (event.clientX - this.parent.getBoundingClientRect().x),
-            Math.floor(height * this.mouseRatioY) - (event.clientY - this.parent.getBoundingClientRect().y),
-        )
-    }
-
-    onMoveMouse = (event: MouseEvent) => {
-        const { clientX, clientY } = event;
-        this.offsetX = this.startClientX - clientX;
-        this.offsetY = this.startClientY - clientY;
-        this.parent.scrollBy({
-            top: this.offsetY,
-            left: this.offsetX,
-        });
-        this.startClientX = clientX;
-        this.startClientY = clientY;
-    }
-
-    onMouseDown = (event: MouseEvent) => {
-        const { clientX, clientY } = event;
-        this.startClientX = clientX;
-        this.startClientY = clientY;
-        this.canvas.element.style['cursor'] = 'grab';
-        this.canvas.element.addEventListener('mousemove', this.onMoveMouse);
-    }
-
-    onMouseUp = (event: MouseEvent) => {
-        this.canvas.element.removeEventListener('mousemove', this.onMoveMouse);
-        this.canvas.element.style['cursor'] = '';
-    }
-
-    addZoom = (zoom: number) => {
-        this.zoom += zoom
-        this.zoom = Math.min(Math.max(this.zoom, 1), 3);
-        this.canvas.setStyleSize(`${this.zoom * 100}%`, `${this.zoom * 100}%`);
-        this.run();
-    };
-
-    addAnchors = (points: Point[] | Point) => {
-        if(isPoint(points)){
-            this.anchorPoints.push(points);
-        }
-        else {
-            this.anchorPoints.push(...(points))
-        };
-        this.drawAnchors();
-    }
 }

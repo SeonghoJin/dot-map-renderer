@@ -1,7 +1,9 @@
 import { DotMapOptionArg } from "./dotMapOptionArg";
-import { RendererController } from "@dot-map-renderer/renderer/src/RendererController";
+import { RendererDefaultController } from "@dot-map-renderer/renderer";
 export declare class DotMap {
     private dotMapOption;
+    private defaultController?;
     constructor(dotMapOptionArg?: DotMapOptionArg);
-    attaching: (parentElement: HTMLElement) => RendererController;
+    attaching: (parentElement: HTMLElement) => void;
+    get controller(): RendererDefaultController;
 }

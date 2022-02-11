@@ -1,5 +1,5 @@
 import { Point } from "./Point";
-import { Drawable } from "./drawable";
+import { Drawable } from "./Drawable";
 export declare class Polygon implements Drawable {
     x: number;
     y: number;

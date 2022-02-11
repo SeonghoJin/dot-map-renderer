@@ -1,4 +1,4 @@
-import {Drawable} from "./drawable";
+import {Drawable} from "./Drawable";
 
 export interface Dot extends Drawable {
     x: number;

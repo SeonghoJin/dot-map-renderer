@@ -1,5 +1,5 @@
 import {GeoJSONRenderer} from "./GeoJSONRenderer";
-import {IRendererController, DefaultRendererController} from "./DefaultRendererController";
+import { DefaultRendererController} from "./DefaultRendererController";
 
 export interface IRendererDefaultInteraction{
     onWheel : (event: WheelEvent) => void;
@@ -56,7 +56,7 @@ export class DefaultRendererInteraction implements IRendererDefaultInteraction {
         this.renderer.canvas.element.style['cursor'] = '';
     }
 
-    onMouseMoveWithMouseDown(event: MouseEvent): void {
+    onMouseMoveWithMouseDown = (event: MouseEvent) => {
         const { clientX, clientY } = event;
         this.offsetX = this.startClientX - clientX;
         this.offsetY = this.startClientY - clientY;
@@ -68,7 +68,7 @@ export class DefaultRendererInteraction implements IRendererDefaultInteraction {
         this.startClientY = clientY;
     }
 
-    init(): void {
+    init = () => {
         this.renderer.canvas.element.addEventListener('mousemove', this.onMouseMove);
         this.renderer.parent.addEventListener('wheel', this.onWheel, { passive: false });
         window.addEventListener('mousedown', this.onMouseDown);

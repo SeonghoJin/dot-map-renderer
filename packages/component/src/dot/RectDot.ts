@@ -1,4 +1,4 @@
-import { Dot } from "./dot";
+import { Dot } from "./Dot";
 
 export class RectDot implements Dot {
     gapSize: number;

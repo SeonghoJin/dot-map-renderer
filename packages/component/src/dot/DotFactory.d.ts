@@ -1,5 +1,5 @@
 import { DotType } from "@dot-map-renderer/component";
-import { Dot } from "./dot";
+import { Dot } from "./Dot";
 declare type CreateFunctionType = {
     new (...args: any[]): Dot;
 };

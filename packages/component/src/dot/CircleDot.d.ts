@@ -1,5 +1,5 @@
-import { Dot } from "./dot";
-export declare class RectDot implements Dot {
+import { Dot } from "./Dot";
+export declare class CircleDot implements Dot {
     gapSize: number;
     size: number;
     x: number;

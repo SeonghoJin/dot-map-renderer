@@ -1,5 +1,5 @@
-import { Point } from "./point";
-import {Drawable} from "./drawable";
+import { Point } from "./Point";
+import {Drawable} from "./Drawable";
 import {formatll} from "./util";
 
 export class Polygon implements Drawable{

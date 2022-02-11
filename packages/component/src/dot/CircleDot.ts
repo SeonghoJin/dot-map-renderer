@@ -1,4 +1,4 @@
-import { Dot } from "./dot";
+import { Dot } from "./Dot";
 import {PI2} from "@dot-map-renderer/consts";
 
 export class CircleDot implements Dot {

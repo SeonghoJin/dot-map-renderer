@@ -1,4 +1,4 @@
-import {Point} from "./point";
+import {Point} from "./Point";
 
 export const formatll = (point: Point) : Point => {
     return [point[0] + 180, -point[1] + 90];

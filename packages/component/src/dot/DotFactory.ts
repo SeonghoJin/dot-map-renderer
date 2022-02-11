@@ -1,6 +1,6 @@
 import {DotType} from "@dot-map-renderer/component";
 import {CircleDot, RectDot} from "@dot-map-renderer/component";
-import {Dot} from "./dot";
+import {Dot} from "./Dot";
 
 type CreateFunctionType = {
     new (...args : any[]) : Dot

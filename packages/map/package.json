@@ -1,6 +1,6 @@
 {
   "name": "@dot-map-renderer/map",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
   "module": "dist/es/map.js",
   "main": "dist/umd/map.js",
@@ -11,5 +11,4 @@
   },
   "peerDependencies": {},
   "types": "src/index.d.ts"
-
 }

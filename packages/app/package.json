@@ -10,9 +10,8 @@
     "access": "public"
   },
   "peerDependencies": {
-    "@dot-map-renderer/renderer": "0.0.1",
-    "@dot-map-renderer/component": "0.0.1"
+    "@dot-map-renderer/renderer": "0.0.2",
+    "@dot-map-renderer/component": "0.0.2"
   },
   "types": "src/index.d.ts"
-
 }

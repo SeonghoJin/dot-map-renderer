@@ -11,5 +11,4 @@
   },
   "peerDependencies": {},
   "types": "src/index.d.ts"
-
 }

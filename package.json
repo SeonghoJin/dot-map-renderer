@@ -27,7 +27,8 @@
     "publish": "npm publish --access=public",
     "publish:all": "npm publish -w ./packages/",
     "types": "tsc bundles/src/index.ts --declaration --emitDeclarationOnly --resolveJsonModule --outdir ./dist --esModuleInterop",
-    "patch:all": "npm version patch -w ./packages/"
+    "patch:all": "npm version patch -w ./packages/",
+    "version": "ts-node scripts/fixPeerVersions.ts"
   },
   "main": "./bundles/src/index.ts",
   "types": "./bundles/src/index.d.ts",

@@ -1,0 +1,10 @@
+{
+  "extends": [
+    "@pixi/eslint-config"
+  ],
+  "rules": {
+    "@typescript-eslint/no-parameter-properties": 1,
+    "@typescript-eslint/type-annotation-spacing": 1
+  },
+  "ignorePatterns": ["*.d.ts"]
+}

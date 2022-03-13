@@ -1,4 +1,4 @@
-import { DotFactory } from "@dot-map-renderer/component";
+import { DotFactory } from '@dot-map-renderer/component';
 export declare type GeoJSONRendererOption = {
     backgroundColor: string;
     pixelColor: string;

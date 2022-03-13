@@ -1,5 +1,6 @@
-import { Drawable } from "./Drawable";
-export declare class Canvas {
+import { Drawable } from './Drawable';
+export declare class Canvas
+{
     element: HTMLCanvasElement;
     context: CanvasRenderingContext2D;
     get width(): number;

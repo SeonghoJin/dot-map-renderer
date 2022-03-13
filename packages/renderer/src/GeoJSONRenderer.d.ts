@@ -1,6 +1,7 @@
-import { Point, Canvas } from "@dot-map-renderer/component";
-import { GeoJSONRendererOption } from "./GeoJSONRendererOption";
-export declare class GeoJSONRenderer {
+import { Point, Canvas } from '@dot-map-renderer/component';
+import { GeoJSONRendererOption } from './GeoJSONRendererOption';
+export declare class GeoJSONRenderer
+{
     private readonly bufferCanvas;
     private readonly polygons;
     anchorPoints: Array<Point>;

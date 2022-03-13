@@ -1,1 +1,1 @@
-export type DotType = 'circle' | 'custom' | 'rectangular'
+export type DotType = 'circle' | 'custom' | 'rectangular';

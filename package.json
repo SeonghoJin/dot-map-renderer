@@ -2,7 +2,10 @@
   "name": "dot-map-renderer",
   "version": "0.0.3",
   "devDependencies": {
+    "@pixi/eslint-config": "^3.0.0",
     "clean-webpack-plugin": "^4.0.0",
+    "eslint": "^8.11.0",
+    "husky": "^7.0.4",
     "terser": "^3.14.1",
     "ts-loader": "^9.2.6",
     "tsconfig-paths-webpack-plugin": "^3.5.2",
@@ -23,12 +26,20 @@
   "author": "moretall",
   "scripts": {
     "start:dev": "webpack serve",
-    "build": "webpack",
+    "lint": "eslint packages --ext .ts",
+    "lint:fix": "eslint --fix packages --ext .ts",
+    "build": " webpack & npm run types",
     "publish": "npm publish --access=public",
     "publish:all": "npm publish -w ./packages/",
     "types": "tsc bundles/src/index.ts --declaration --emitDeclarationOnly --resolveJsonModule --outdir ./dist --esModuleInterop",
-    "patch:all": "npm version patch -w ./packages/",
-    "version": "ts-node scripts/fixPeerVersions.ts"
+    "patch:all": "npm version patch -w ./packages/ && npm run version",
+    "version": "ts-node scripts/fixPeerVersions.ts",
+    "prepare": "husky install"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
   },
   "main": "./bundles/src/index.ts",
   "types": "./bundles/src/index.d.ts",

@@ -1,6 +1,7 @@
-import { Point } from "./Point";
-import { Drawable } from "./Drawable";
-export declare class Polygon implements Drawable {
+import { Point } from './Point';
+import { Drawable } from './Drawable';
+export declare class Polygon implements Drawable
+{
     x: number;
     y: number;
     points: Array<Point>;

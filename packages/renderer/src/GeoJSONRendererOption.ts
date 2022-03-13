@@ -1,4 +1,4 @@
-import {DotFactory} from "@dot-map-renderer/component";
+import { DotFactory } from '@dot-map-renderer/component';
 
 export type GeoJSONRendererOption = {
     backgroundColor: string;
@@ -6,4 +6,4 @@ export type GeoJSONRendererOption = {
     pixelSize: number;
     gapSize: number;
     dotFactory: DotFactory,
-}
+};

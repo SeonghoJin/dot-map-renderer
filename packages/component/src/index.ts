@@ -4,4 +4,4 @@ export * from './Canvas';
 export * from './Drawable';
 export * from './Polygon';
 export * from './Point';
-export * from './util';
+export * from './coordinateNormalization';

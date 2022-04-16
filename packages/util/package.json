@@ -12,5 +12,8 @@
   "peerDependencies": {
     "@dot-map-renderer/component": "0.0.3"
   },
-  "types": "src/index.ts"
+  "types": "src/index.ts",
+  "dependencies": {
+    "eventemitter3": "^4.0.7"
+  }
 }

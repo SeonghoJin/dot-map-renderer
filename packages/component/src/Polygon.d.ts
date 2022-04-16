@@ -1,7 +1,6 @@
 import { Point } from './Point';
 import { Drawable } from './Drawable';
-export declare class Polygon implements Drawable
-{
+export declare class Polygon implements Drawable {
     x: number;
     y: number;
     points: Array<Point>;

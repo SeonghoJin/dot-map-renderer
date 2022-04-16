@@ -1,6 +1,6 @@
 import { Point } from './Point';
 import { Drawable } from './Drawable';
-import { formatll } from './util';
+import { formatll } from './coordinateNormalization';
 
 export class Polygon implements Drawable
 {

@@ -2,10 +2,18 @@
   "name": "dot-map-renderer",
   "version": "0.0.3",
   "devDependencies": {
+    "@babel/core": "^7.17.9",
     "@pixi/eslint-config": "^3.0.0",
+    "@storybook/addon-actions": "^6.4.22",
+    "@storybook/addon-essentials": "^6.4.22",
+    "@storybook/addon-links": "^6.4.22",
+    "@storybook/web-components": "^6.4.22",
+    "babel-loader": "^8.2.4",
     "clean-webpack-plugin": "^4.0.0",
     "eslint": "^8.11.0",
+    "eslint-plugin-storybook": "^0.5.9",
     "husky": "^7.0.4",
+    "lint-staged": "^12.3.8",
     "terser": "^3.14.1",
     "ts-loader": "^9.2.6",
     "tsconfig-paths-webpack-plugin": "^3.5.2",
@@ -28,20 +36,20 @@
     "start:dev": "webpack serve",
     "lint": "eslint packages --ext .ts",
     "lint:fix": "eslint --fix packages --ext .ts",
-    "build": " webpack & npm run types",
+    "build": "webpack && npm run types",
     "publish": "npm publish --access=public",
     "publish:all": "npm publish -w ./packages/",
     "types": "tsc bundles/src/index.ts --declaration --emitDeclarationOnly --resolveJsonModule --outdir ./dist --esModuleInterop",
     "patch:all": "npm version patch -w ./packages/ && npm run version",
     "version": "ts-node scripts/fixPeerVersions.ts",
-    "prepare": "husky install"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint"
-    }
+    "prepare": "husky install",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "main": "./bundles/src/index.ts",
   "types": "./bundles/src/index.d.ts",
-  "private": true
+  "private": true,
+  "lint-staged": {
+    "*.ts": "eslint --cache --fix"
+  }
 }

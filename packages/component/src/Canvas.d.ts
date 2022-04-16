@@ -1,11 +1,10 @@
 import { Drawable } from './Drawable';
-export declare class Canvas
-{
+export declare class Canvas {
     element: HTMLCanvasElement;
     context: CanvasRenderingContext2D;
     get width(): number;
-    get height(): number;
     set width(w: number);
+    get height(): number;
     set height(h: number);
     constructor();
     reSize: (width: number, height: number) => void;

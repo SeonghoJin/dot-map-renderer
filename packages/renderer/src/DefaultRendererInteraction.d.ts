@@ -7,8 +7,7 @@ export interface IRendererDefaultInteraction {
     onMouseMoveWithMouseDown: (event: MouseEvent) => void;
     onMouseUp: (event: MouseEvent) => void;
 }
-export declare class DefaultRendererInteraction implements IRendererDefaultInteraction
-{
+export declare class DefaultRendererInteraction implements IRendererDefaultInteraction {
     private readonly renderer;
     private readonly controller;
     mouseRatioX: number;
@@ -21,7 +20,7 @@ export declare class DefaultRendererInteraction implements IRendererDefaultInter
     onMouseMove: (event: MouseEvent) => void;
     onWheel: (event: WheelEvent) => void;
     onMouseDown: (event: MouseEvent) => void;
-    onMouseUp: (event: MouseEvent) => void;
+    onMouseUp: () => void;
     onMouseMoveWithMouseDown: (event: MouseEvent) => void;
     init: () => void;
 }

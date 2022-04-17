@@ -4,10 +4,6 @@
   "devDependencies": {
     "@babel/core": "^7.17.9",
     "@pixi/eslint-config": "^3.0.0",
-    "@storybook/addon-actions": "^6.4.22",
-    "@storybook/addon-essentials": "^6.4.22",
-    "@storybook/addon-links": "^6.4.22",
-    "@storybook/web-components": "^6.4.22",
     "babel-loader": "^8.2.4",
     "clean-webpack-plugin": "^4.0.0",
     "eslint": "^8.11.0",
@@ -39,15 +35,14 @@
     "build": "webpack && npm run types",
     "publish": "npm publish --access=public",
     "publish:all": "npm publish -w ./packages/",
-    "types": "tsc bundles/src/index.ts --declaration --emitDeclarationOnly --resolveJsonModule --outdir ./dist --esModuleInterop",
+    "types": "tsc bundles/src/index.ts --declaration --emitDeclarationOnly --resolveJsonModule --outdir ./dist --esModuleInterop --target es5",
     "patch:all": "npm version patch -w ./packages/ && npm run version",
     "version": "ts-node scripts/fixPeerVersions.ts",
-    "prepare": "husky install",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "prepare": "husky install"
   },
-  "main": "./bundles/src/index.ts",
-  "types": "./bundles/src/index.d.ts",
+  "module": "./bundles/dist/es/index.ts",
+  "main": "./bundles/dist/umd/index.ts",
+  "types": "./bundles/index.d.ts",
   "private": true,
   "lint-staged": {
     "*.ts": "eslint --cache --fix"

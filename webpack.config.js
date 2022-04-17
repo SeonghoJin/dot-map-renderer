@@ -2,7 +2,6 @@ const path = require('path');
 const { TsconfigPathsPlugin } = require('tsconfig-paths-webpack-plugin');
 const workspacesRun = require('workspaces-run');
 const webpack = require('webpack');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = async () =>
 {
@@ -14,7 +13,7 @@ module.exports = async () =>
             rules: [
                 {
                     test: /\.ts?$/,
-                    use: 'ts-loadear',
+                    use: 'ts-loader',
                     exclude: /node_modules/,
                 }
             ]
@@ -22,7 +21,11 @@ module.exports = async () =>
         resolve: {
             plugins: [new TsconfigPathsPlugin()],
             extensions: ['.tsx', '.ts', '.js']
-        }
+        },
+        watchOptions: {
+            aggregateTimeout: 600,
+            ignored: /node_modules/,
+        },
     });
 
     const isProduction = process.env.NODE_ENV === 'production';
@@ -95,7 +98,6 @@ module.exports = async () =>
         ...makeConfig(
             path.resolve(__dirname, 'bundles/src/index.ts'),
             isProduction,
-            [new CleanWebpackPlugin()]
         ),
         experiments: {
             outputModule: true,
@@ -113,7 +115,6 @@ module.exports = async () =>
         ...makeConfig(
             path.resolve(__dirname, 'bundles/src/index.ts'),
             isProduction,
-            [new CleanWebpackPlugin()]
         ),
         output: {
             filename: 'bundle.js',

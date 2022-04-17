@@ -2,7 +2,9 @@
   "name": "dot-map-renderer",
   "version": "0.0.3",
   "devDependencies": {
+    "-": "^0.0.1",
     "@babel/core": "^7.17.9",
+    "@babel/preset-env": "^7.16.11",
     "@pixi/eslint-config": "^3.0.0",
     "babel-loader": "^8.2.4",
     "clean-webpack-plugin": "^4.0.0",
@@ -10,6 +12,7 @@
     "eslint-plugin-storybook": "^0.5.9",
     "husky": "^7.0.4",
     "lint-staged": "^12.3.8",
+    "rimraf": "^3.0.2",
     "terser": "^3.14.1",
     "ts-loader": "^9.2.6",
     "tsconfig-paths-webpack-plugin": "^3.5.2",
@@ -29,20 +32,19 @@
   ],
   "author": "moretall",
   "scripts": {
-    "start:dev": "webpack serve",
+    "start:dev": "webpack -w",
     "lint": "eslint packages --ext .ts",
     "lint:fix": "eslint --fix packages --ext .ts",
     "build": "webpack && npm run types",
     "publish": "npm publish --access=public",
     "publish:all": "npm publish -w ./packages/",
-    "types": "tsc bundles/src/index.ts --declaration --emitDeclarationOnly --resolveJsonModule --outdir ./dist --esModuleInterop --target es5",
+    "types": "tsc bundles/src/index.ts --declaration --emitDeclarationOnly --resolveJsonModule --outdir ./bundles/dist --esModuleInterop --target es5",
     "patch:all": "npm version patch -w ./packages/ && npm run version",
     "version": "ts-node scripts/fixPeerVersions.ts",
     "prepare": "husky install"
   },
-  "module": "./bundles/dist/es/index.ts",
-  "main": "./bundles/dist/umd/index.ts",
-  "types": "./bundles/index.d.ts",
+  "main": "./bundles/dist/umd/bundle.js",
+  "types": "./bundles/dist/index.d.ts",
   "private": true,
   "lint-staged": {
     "*.ts": "eslint --cache --fix"

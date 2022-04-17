@@ -18,6 +18,7 @@ module.exports = async () =>
                 }
             ]
         },
+        devtool: 'source-map',
         resolve: {
             plugins: [new TsconfigPathsPlugin()],
             extensions: ['.tsx', '.ts', '.js']
@@ -79,37 +80,37 @@ module.exports = async () =>
             }
         });
 
-        result.push({
-            ...makeConfig(entry, isProduction, plugins),
-            experiments: {
-                outputModule: true,
-            },
-            output: {
-                filename: module,
-                path: path.resolve(__dirname, basePath),
-                library: {
-                    type: 'module',
-                },
-            },
-        });
+        // result.push({
+        //     ...makeConfig(entry, isProduction, plugins),
+        //     experiments: {
+        //         outputModule: true,
+        //     },
+        //     output: {
+        //         filename: module,
+        //         path: path.resolve(__dirname, basePath),
+        //         library: {
+        //             type: 'module',
+        //         },
+        //     },
+        // });
     });
-
-    result.push({
-        ...makeConfig(
-            path.resolve(__dirname, 'bundles/src/index.ts'),
-            isProduction,
-        ),
-        experiments: {
-            outputModule: true,
-        },
-        output: {
-            filename: 'bundle.js',
-            path: path.resolve(__dirname, 'bundles/dist/es'),
-            library: {
-                type: 'module',
-            }
-        },
-    });
+    //
+    // result.push({
+    //     ...makeConfig(
+    //         path.resolve(__dirname, 'bundles/src/index.ts'),
+    //         isProduction,
+    //     ),
+    //     experiments: {
+    //         outputModule: true,
+    //     },
+    //     output: {
+    //         filename: 'bundle.js',
+    //         path: path.resolve(__dirname, 'bundles/dist/es'),
+    //         library: {
+    //             type: 'module',
+    //         }
+    //     },
+    // });
 
     result.push({
         ...makeConfig(

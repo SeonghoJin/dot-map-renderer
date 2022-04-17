@@ -16,6 +16,7 @@
         "packages/*/src"
       ]
     },
-    "declaration": true
+    "declaration": true,
+    "jsx": "react"
   }
 }

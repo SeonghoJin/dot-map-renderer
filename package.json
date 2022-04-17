@@ -45,7 +45,8 @@
     "patch:all": "npm version patch -w ./packages/ && npm run version",
     "version": "ts-node scripts/fixPeerVersions.ts",
     "prepare": "husky install",
-    "test": "jest"
+    "test": "jest",
+    "test:dev": "jest --watch"
   },
   "main": "./bundles/dist/umd/bundle.js",
   "types": "./bundles/dist/index.d.ts",

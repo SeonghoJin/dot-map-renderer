@@ -19,11 +19,28 @@ export class DefaultMap<Key, Value>
 
         if (value === undefined)
         {
-            const cloneDefaultValue = Object.assign({}, this.#defalutValue);
+            let cloneDefaultValue = null;
 
-            this.#map.set(key, cloneDefaultValue);
+            if (typeof this.#defalutValue === 'string')
+            {
+                cloneDefaultValue = this.#defalutValue as any;
+            }
+            else if ((this.#defalutValue as any).length !== undefined)
+            {
+                cloneDefaultValue = Array.from(this.#defalutValue as any);
+            }
+            else if (typeof this.#defalutValue === 'object')
+            {
+                cloneDefaultValue = Object.assign({}, this.#defalutValue);
+            }
+            else
+            {
+                cloneDefaultValue = this.#defalutValue;
+            }
 
-            return cloneDefaultValue;
+            this.#map.set(key, cloneDefaultValue as any);
+
+            return this.#map.get(key)!;
         }
 
         return value;

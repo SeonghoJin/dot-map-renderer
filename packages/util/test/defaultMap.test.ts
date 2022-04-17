@@ -1,4 +1,4 @@
-import { DefaultMap } from '../src/DefaultMap';
+import { DefaultMap } from '../src/defaultMap';
 
 test('테스트1', () =>
 {

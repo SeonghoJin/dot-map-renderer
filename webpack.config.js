@@ -14,7 +14,7 @@ module.exports = async () =>
             rules: [
                 {
                     test: /\.ts?$/,
-                    use: 'ts-loader',
+                    use: 'ts-loadear',
                     exclude: /node_modules/,
                 }
             ]

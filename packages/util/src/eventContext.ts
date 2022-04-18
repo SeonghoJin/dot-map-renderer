@@ -1,8 +1,8 @@
-export type EventType = ((...args: any[]) => any);
+import { Cloneable } from './cloneable';
 
-export class EventContext
+export class EventContext<T extends (...args: any[]) => any> implements Cloneable
 {
-    eventArray: (EventType | null)[] = [];
+    eventArray: (T | null)[] = [];
     filter = false;
     off = false;
 
@@ -17,16 +17,22 @@ export class EventContext
         }
     };
 
-    execute = () =>
+    execute = (...args: Parameters<T>) : (ReturnType<T> | undefined) =>
     {
         this.#filterEventArrayIfFilterIsTrue();
         if (this.off)
         {
-            return;
+            return undefined;
         }
+
         this.eventArray.forEach((event) =>
         {
-            (event as EventType)();
+            (event as T)(...args);
         });
     };
+
+    clone(): Cloneable
+    {
+        return new EventContext();
+    }
 }

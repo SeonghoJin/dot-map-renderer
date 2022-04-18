@@ -22,6 +22,11 @@ describe('default = array', () =>
 
         test1.push('hello');
         expect(test1).toStrictEqual(test2);
+
+        const test3 = defaultMap.get('key2');
+
+        expect(test3).toStrictEqual([]);
+        expect(test1).not.toStrictEqual(test3);
     });
 });
 

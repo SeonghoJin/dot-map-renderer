@@ -1,33 +1,34 @@
 import { DefaultMap } from './defaultMap';
-import { EventContext, EventType } from './eventContext';
-type EventKey = string;
+import { EventContext } from './eventContext';
 
-export class EventEmitter
+export class EventEmitter<T extends {
+    [x: string]: (...args: any[]) => void
+}>
 {
-    #eventMap = new DefaultMap<EventKey, EventContext>(new EventContext());
+    #eventMap = new DefaultMap<keyof T, EventContext<T[keyof T]>>(new EventContext());
 
-    once = (key: EventKey, value: EventType) =>
+    once = (key: keyof T, value: T[keyof T]) =>
     {
         const eventContext = this.#eventMap.get(key);
         const { eventArray } = eventContext;
         const length = eventArray.length;
 
-        eventArray.push(() =>
+        eventArray.push(((...args) =>
         {
-            value?.();
             eventArray[length] = null;
             eventContext.filter = true;
-        });
+            value?.(...args);
+        }) as T[keyof T]);
     };
 
-    emit = (key: EventKey) =>
+    emit = (key: keyof T, ...args: Parameters<T[keyof T]>) =>
     {
         const eventContext = this.#eventMap.get(key);
 
-        eventContext.execute();
+        eventContext.execute(...args);
     };
 
-    on = (key: EventKey, value?: EventType) =>
+    on = (key: keyof T, value?: T[keyof T]) =>
     {
         const eventContext = this.#eventMap.get(key);
         const { eventArray } = eventContext;
@@ -40,14 +41,14 @@ export class EventEmitter
         }
     };
 
-    off = (key: EventKey) =>
+    off = (key: keyof T) =>
     {
         const eventContext = this.#eventMap.get(key);
 
         eventContext.off = true;
     };
 
-    delete = (key: EventKey) =>
+    delete = (key: keyof T) =>
     {
         this.#eventMap.delete(key);
     };

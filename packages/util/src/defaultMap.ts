@@ -1,7 +1,15 @@
-export class DefaultMap<Key, Value>
+import { deepCopy } from './deepCopy';
+import { Cloneable } from './cloneable';
+
+export class DefaultMap<Key, Value extends (Cloneable | object | number | string)>
 {
     #map = new Map<Key, Value>();
     #defalutValue: Value;
+
+    get defaultValue()
+    {
+        return deepCopy(this.#defalutValue);
+    }
 
     constructor(defaultValue: Value)
     {
@@ -19,26 +27,7 @@ export class DefaultMap<Key, Value>
 
         if (value === undefined)
         {
-            let cloneDefaultValue = null;
-
-            if (typeof this.#defalutValue === 'string')
-            {
-                cloneDefaultValue = this.#defalutValue as any;
-            }
-            else if ((this.#defalutValue as any).length !== undefined)
-            {
-                cloneDefaultValue = Array.from(this.#defalutValue as any);
-            }
-            else if (typeof this.#defalutValue === 'object')
-            {
-                cloneDefaultValue = Object.assign({}, this.#defalutValue);
-            }
-            else
-            {
-                cloneDefaultValue = this.#defalutValue;
-            }
-
-            this.#map.set(key, cloneDefaultValue as any);
+            this.#map.set(key, this.defaultValue as any);
 
             return this.#map.get(key)!;
         }

@@ -1,0 +1,15 @@
+{
+  "name": "@dot-map-renderer/collider",
+  "version": "0.0.3",
+  "description": "",
+  "module": "dist/es/collider.js",
+  "main": "dist/umd/collider.js",
+  "browser": "dist/umd/collider.js",
+  "license": "ISC",
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+  },
+  "types": "src/index.d.ts"
+}

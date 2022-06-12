@@ -1,3 +1,3 @@
-export * from './dotMap';
-export * from './dotMapOption';
-export * from './dotMapOptionArg';
+export { DotMap } from './dotMap';
+export { DotMapOption } from './dotMapOption';
+export { DotMapOptionArg } from './dotMapOptionArg';

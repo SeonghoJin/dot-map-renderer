@@ -1,4 +1,4 @@
-import { formatll, isPoint, Point } from '@dot-map-renderer/component';
+import { formatll, Point, isPoint } from '@dot-map-renderer/component';
 import { GeoJSONRenderer } from './GeoJSONRenderer';
 
 export interface IRendererController {

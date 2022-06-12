@@ -1,6 +1,6 @@
 {
   "name": "dot-map-renderer",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "devDependencies": {
     "@babel/core": "^7.17.9",
     "@babel/preset-env": "^7.16.11",

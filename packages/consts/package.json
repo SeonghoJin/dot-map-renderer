@@ -1,6 +1,6 @@
 {
   "name": "@dot-map-renderer/consts",
-  "version": "0.0.3",
+  "version": "0.0.6",
   "description": "",
   "module": "dist/es/consts.js",
   "main": "dist/umd/consts.js",

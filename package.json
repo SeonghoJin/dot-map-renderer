@@ -1,6 +1,6 @@
 {
   "name": "dot-map-renderer",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "devDependencies": {
     "-": "^0.0.1",
     "@babel/core": "^7.17.9",
@@ -41,7 +41,7 @@
     "build": "webpack && npm run types",
     "publish": "npm publish --access=public",
     "publish:all": "npm publish -w ./packages/",
-    "types": "tsc bundles/src/index.ts --declaration --emitDeclarationOnly --resolveJsonModule --outdir ./bundles/dist --esModuleInterop --target es5",
+    "types": "tsc bundles/src/index.ts --declaration --emitDeclarationOnly --resolveJsonModule --outdir ./bundles/dist --esModuleInterop --target es6 --moduleResolution node",
     "patch:all": "npm version patch -w ./packages/ && npm run version",
     "version": "ts-node scripts/fixPeerVersions.ts",
     "prepare": "husky install",
@@ -50,7 +50,6 @@
   },
   "main": "./bundles/dist/umd/bundle.js",
   "types": "./bundles/dist/index.d.ts",
-  "private": true,
   "lint-staged": {
     "*.ts": "eslint --cache --fix"
   }

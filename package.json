@@ -1,6 +1,6 @@
 {
   "name": "dot-map-renderer",
-  "version": "0.0.7",
+  "version": "0.0.6",
   "devDependencies": {
     "-": "^0.0.1",
     "@babel/core": "^7.17.9",
@@ -42,7 +42,7 @@
     "publish": "npm publish --access=public",
     "publish:all": "npm publish -w ./packages/",
     "types": "tsc bundles/src/index.ts --declaration --emitDeclarationOnly --resolveJsonModule --outdir ./bundles/dist --esModuleInterop --target es6 --moduleResolution node",
-    "patch:all": "npm version patch -w ./packages/ && npm run version",
+    "patch:all": "npm version patch -w ./packages/ && npm version",
     "version": "ts-node scripts/fixPeerVersions.ts",
     "prepare": "husky install",
     "test": "jest",

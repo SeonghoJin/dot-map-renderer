@@ -27,7 +27,7 @@ dot-map-renderer uses a monorepo approach, so in addition to the dot-map-rendere
 ## Installation
 
 ```shell
-npm i dot-map-renderer
+npm i @dot-map-renderer/app
 ```
 
 

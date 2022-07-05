@@ -1,7 +1,8 @@
-export { Anchor, DefaultAnchor } from './anchor';
-export { DotType, Dot, CircleDot, DotFactory, RectDot } from './dot';
-export { Canvas } from './Canvas';
-export { Drawable } from './Drawable';
-export { Polygon } from './Polygon';
-export { Point, isPoint } from './Point';
-export { formatll, llToStagell } from './coordinateNormalization';
+export * from './anchor';
+export * from './dot';
+export * from './Canvas';
+export * from './Drawable';
+export * from './Polygon';
+export * from './Point';
+export * from './coordinateNormalization';
+export * from './types';

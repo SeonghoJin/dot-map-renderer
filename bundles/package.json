@@ -22,5 +22,6 @@
   "scripts": {
     "publish": "npm publish --access=public",
     "patch:all": "npm version patch"
-  }
+  },
+  "bundle": true,
 }

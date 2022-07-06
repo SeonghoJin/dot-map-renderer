@@ -1,4 +1,5 @@
 import { Drawable } from './Drawable';
+import { IComponent } from './IComponent';
 export declare class Canvas {
     element: HTMLCanvasElement;
     context: CanvasRenderingContext2D;
@@ -13,7 +14,7 @@ export declare class Canvas {
     matchOffsetSize: () => void;
     setStyleSize: (width: string, height: string) => void;
     getImageData: () => ImageData;
-    drawing: (calle: Drawable | ((context: CanvasRenderingContext2D) => void) | Drawable[]) => void;
+    drawing: (calle: Drawable | IComponent | ((context: CanvasRenderingContext2D) => void) | Drawable[] | IComponent[]) => void;
     toDataURL: () => string;
     clear: () => void;
     drawImage: (image: HTMLImageElement) => void;

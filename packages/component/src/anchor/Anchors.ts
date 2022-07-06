@@ -1,3 +1,3 @@
-export interface Anchor {
-    draw(context: CanvasRenderingContext2D, x: number, y: number): void;
-}
+import { IComponent } from '../IComponent';
+
+export type Anchor = IComponent;

@@ -1,13 +1,14 @@
-import { Point, Canvas } from '@dot-map-renderer/component';
+import { Canvas, Drawable } from '@dot-map-renderer/component';
 import { IRendererOption } from './IRendererOption';
 import { IRenderer } from './IRenderer';
+import { RendererContext } from './RendererContext';
 export declare class CanvasRenderer implements IRenderer {
     private readonly bufferCanvas;
     private readonly polygons;
     private attachingElement;
     readonly canvas: Canvas;
     readonly parent: HTMLElement;
-    anchorPoints: Array<Point>;
+    components: Array<Drawable>;
     option: IRendererOption;
     stageHeight: number;
     stageWidth: number;
@@ -31,6 +32,7 @@ export declare class CanvasRenderer implements IRenderer {
     run: () => void;
     resize: () => void;
     draw: () => void;
-    drawAnchors: () => void;
-    getContext: () => Pick<IRenderer, 'stageHeight' | 'stageWidth' | 'stageX' | 'stageY'>;
+    drawDotMaps: () => void;
+    drawComponents: () => void;
+    getContext: () => RendererContext;
 }

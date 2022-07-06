@@ -1,4 +1,5 @@
 import { Drawable, isDrawable } from './Drawable';
+import { IComponent } from './IComponent';
 
 export class Canvas
 {
@@ -61,7 +62,7 @@ export class Canvas
     getImageData = () =>
         this.context.getImageData(0, 0, this.width, this.height);
 
-    drawing = (calle: ((context: CanvasRenderingContext2D) => void) | Drawable | Drawable[]) =>
+    drawing = (calle: ((context: CanvasRenderingContext2D) => void) | Drawable | Drawable[] | IComponent | IComponent[]) =>
     {
         if (typeof calle === 'function')
         {

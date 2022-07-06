@@ -1,2 +1,2 @@
 export * from './Anchors';
-export * from './DefaultAnchor';
+export * from './BasicAnchor';

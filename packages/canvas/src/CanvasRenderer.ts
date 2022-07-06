@@ -1,9 +1,11 @@
 import geoJson from '@dot-map-renderer/map';
-import { Polygon, Point, formatll, llToStagell, Canvas, DefaultAnchor } from '@dot-map-renderer/component';
+import { Polygon, Point, Canvas, Dot } from '@dot-map-renderer/component';
 import { geoJsonWidth, stageRatio } from '@dot-map-renderer/consts';
 import { throttle } from '@dot-map-renderer/util';
 import { IRendererOption } from './IRendererOption';
 import { IRenderer } from './IRenderer';
+import { RendererContext } from './RendererContext';
+import { IComponent } from '@dot-map-renderer/component/src/IComponent';
 
 export class CanvasRenderer implements IRenderer
 {
@@ -12,7 +14,7 @@ export class CanvasRenderer implements IRenderer
     private attachingElement: HTMLElement;
     readonly canvas: Canvas;
     readonly parent: HTMLElement;
-    public anchorPoints: Array<Point> = [];
+    components: Array<IComponent> = [];
     option: IRendererOption;
     stageHeight = 0;
     stageWidth = 0;
@@ -64,7 +66,6 @@ export class CanvasRenderer implements IRenderer
         );
 
         this.bufferCanvas.drawing(this.polygons);
-
         this.initImage(
             this.stageWidth,
             this.stageHeight,
@@ -148,7 +149,7 @@ export class CanvasRenderer implements IRenderer
         const { data, width, height } = imgData;
         const columns = Math.ceil(width / this.pixelAndGapSize);
         const rows = Math.ceil(height / this.pixelAndGapSize);
-        const dots = [];
+        const dots: Dot[] = [];
 
         for (let i = 0; i < rows; i++)
         {
@@ -195,34 +196,31 @@ export class CanvasRenderer implements IRenderer
             this.stageWidth,
             this.stageHeight
         );
+        this.components.forEach((component) =>
+        {
+            component.resize(this);
+        });
     };
 
     draw = () =>
     {
-        this.bufferCanvas.drawImage(this.image);
-        this.canvas.drawing(
-            this.makeDots(
-                this.bufferCanvas.getImageData()
-            )
-        );
-        this.drawAnchors();
+        this.drawDotMaps();
+        this.drawComponents();
     };
 
-    drawAnchors = () =>
+    drawDotMaps = () =>
     {
-        const pencil = new DefaultAnchor();
+        this.bufferCanvas.drawImage(this.image);
+        const imageData = this.bufferCanvas.getImageData();
+        const dots = this.makeDots(imageData);
 
-        this.canvas.drawing((context) =>
-        {
-            this.anchorPoints.forEach((point) =>
-            {
-                const formattedPoint = llToStagell(formatll([point[1], point[0]]), this.stageWidth, this.stageHeight);
-
-                pencil.draw(context, formattedPoint[0] + this.stageX, formattedPoint[1] + this.stageY);
-            });
-        });
+        this.canvas.drawing(dots);
     };
 
-    getContext = (): Pick<IRenderer, 'stageHeight' | 'stageWidth' | 'stageX' | 'stageY'> =>
-        this;
+    drawComponents = () =>
+    {
+        this.canvas.drawing(this.components);
+    };
+
+    public getContext = (): RendererContext => this;
 }

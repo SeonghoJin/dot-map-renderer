@@ -1,11 +1,7 @@
 import { Point } from '@dot-map-renderer/component';
 import { CanvasRenderer } from './CanvasRenderer';
-export interface IRendererController {
-    addAnchors: (points: Point[] | Point) => void;
-    move: (moveY: number, moveX: number) => void;
-    addZoom: (zoom: number) => void;
-}
-export declare class DefaultRendererController implements IRendererController {
+import { IController } from './IController';
+export declare class CanvasController implements IController {
     private readonly renderer;
     constructor(renderer: CanvasRenderer);
     addZoom: (zoom: number) => void;

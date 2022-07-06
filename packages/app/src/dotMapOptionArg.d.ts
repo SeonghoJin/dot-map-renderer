@@ -1,5 +1,6 @@
 import { DotType } from '@dot-map-renderer/component';
-import { GeoJSONRendererOption } from '@dot-map-renderer/renderer';
-export declare type DotMapOptionArg = Partial<Pick<GeoJSONRendererOption, 'gapSize' | 'pixelSize' | 'backgroundColor' | 'pixelColor'> & {
+import { IRendererOption } from '@dot-map-renderer/canvas';
+export declare type DotMapOptionArg = Partial<Pick<IRendererOption, 'gapSize' | 'pixelSize' | 'backgroundColor' | 'pixelColor'> & {
     dotType: DotType;
+    renderer: 'canvas' | 'webgl';
 }>;

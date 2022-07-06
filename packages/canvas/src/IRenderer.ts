@@ -1,8 +1,8 @@
-import { GeoJSONRendererOption } from './GeoJSONRendererOption';
+import { IRendererOption } from './IRendererOption';
 
 export interface IRenderer
 {
-    option: GeoJSONRendererOption;
+    option: IRendererOption;
     stageHeight: number;
     stageWidth: number;
     stageX: number;

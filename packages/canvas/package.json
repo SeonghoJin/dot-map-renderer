@@ -1,10 +1,10 @@
 {
-  "name": "@dot-map-renderer/renderer",
+  "name": "@dot-map-renderer/canvas",
   "version": "0.0.7",
   "description": "",
-  "module": "dist/es/renderer.js",
-  "main": "dist/umd/renderer.js",
-  "browser": "dist/umd/renderer.js",
+  "module": "dist/es/canvas.js",
+  "main": "dist/umd/canvas.js",
+  "browser": "dist/umd/canvas.js",
   "license": "ISC",
   "publishConfig": {
     "access": "public"

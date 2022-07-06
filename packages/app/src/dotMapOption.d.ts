@@ -1,7 +1,12 @@
-import { GeoJSONRendererOption } from '@dot-map-renderer/renderer';
+import { IRendererOption } from '@dot-map-renderer/canvas';
 import { DotMapOptionArg } from './dotMapOptionArg';
-export declare class DotMapOption {
-    dotMapOption?: DotMapOptionArg;
+export declare class DotMapOption implements DotMapOptionArg {
+    pixelSize: number;
+    gapSize: number;
+    backgroundColor: string;
+    pixelColor: string;
+    dotType: import("@dot-map-renderer/component").DotType;
+    renderer: "canvas" | "webgl";
     constructor(option?: DotMapOptionArg);
-    createRendererOption(): GeoJSONRendererOption;
+    createRendererOption(): IRendererOption;
 }

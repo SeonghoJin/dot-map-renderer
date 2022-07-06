@@ -1,13 +1,14 @@
 import { Point, Canvas } from '@dot-map-renderer/component';
-import { GeoJSONRendererOption } from './GeoJSONRendererOption';
-export declare class GeoJSONRenderer {
+import { IRendererOption } from './IRendererOption';
+import { IRenderer } from './IRenderer';
+export declare class CanvasRenderer implements IRenderer {
     private readonly bufferCanvas;
     private readonly polygons;
-    anchorPoints: Array<Point>;
     private attachingElement;
-    private option;
     readonly canvas: Canvas;
     readonly parent: HTMLElement;
+    anchorPoints: Array<Point>;
+    option: IRendererOption;
     stageHeight: number;
     stageWidth: number;
     stageX: number;
@@ -17,7 +18,9 @@ export declare class GeoJSONRenderer {
     get pixelAndGapSize(): number;
     get pixelSize(): number;
     get gapSize(): number;
-    constructor(attachingElement: HTMLElement, geoJsonRendererOption: GeoJSONRendererOption);
+    get canvasOffsetWidth(): number;
+    get canvasOffsetHeight(): number;
+    constructor(attachingElement: HTMLElement, geoJsonRendererOption: IRendererOption);
     private loadGeoJson;
     private initHTML;
     private initInteraction;
@@ -29,4 +32,5 @@ export declare class GeoJSONRenderer {
     resize: () => void;
     draw: () => void;
     drawAnchors: () => void;
+    getContext: () => Pick<IRenderer, 'stageHeight' | 'stageWidth' | 'stageX' | 'stageY'>;
 }

@@ -1,13 +1,8 @@
 import { formatll, Point, isPoint } from '@dot-map-renderer/component';
 import { CanvasRenderer } from './CanvasRenderer';
+import { IController } from './IController';
 
-export interface IRendererController {
-    addAnchors: (points: Point[] | Point) => void;
-    move: (moveY: number, moveX: number) => void;
-    addZoom: (zoom: number) => void;
-}
-
-export class DefaultRendererController implements IRendererController
+export class CanvasController implements IController
 {
     constructor(private readonly renderer: CanvasRenderer)
     {

@@ -18,7 +18,7 @@ async function main()
         }),
         commonjs(),
         json(),
-        typescript({ downlevelIteration: false }),
+        typescript({ tsconfig: './tsconfig.json' }),
         transpile(),
         cleanup(),
     ];

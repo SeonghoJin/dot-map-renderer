@@ -1,15 +1,8 @@
 import { CanvasRenderer } from './CanvasRenderer';
-import { DefaultRendererController } from './DefaultRendererController';
+import { IInteraction } from './IInteraction';
+import { IController } from './IController';
 
-export interface IRendererDefaultInteraction{
-    onWheel: (event: WheelEvent) => void;
-    onMouseMove: (event: MouseEvent) => void;
-    onMouseDown: (event: MouseEvent) => void;
-    onMouseMoveWithMouseDown: (event: MouseEvent) => void;
-    onMouseUp: (event: MouseEvent) => void;
-}
-
-export class DefaultRendererInteraction implements IRendererDefaultInteraction
+export class CanvasInteraction implements IInteraction
 {
     public mouseRatioX = 0;
     public mouseRatioY = 0;
@@ -17,9 +10,16 @@ export class DefaultRendererInteraction implements IRendererDefaultInteraction
     public offsetY = 0;
     public startClientX = 0;
     public startClientY = 0;
-    constructor(private readonly renderer: CanvasRenderer, private readonly controller: DefaultRendererController)
-    {
 
+    constructor(
+        private readonly renderer: CanvasRenderer,
+        private readonly controller: IController
+    )
+    {
+        this.renderer.canvas.element.addEventListener('mousemove', this.onMouseMove);
+        this.renderer.parent.addEventListener('wheel', this.onWheel, { passive: false });
+        window.addEventListener('mousedown', this.onMouseDown);
+        window.addEventListener('mouseup', this.onMouseUp);
     }
 
     onMouseMove = (event: MouseEvent) =>
@@ -80,13 +80,5 @@ export class DefaultRendererInteraction implements IRendererDefaultInteraction
         });
         this.startClientX = clientX;
         this.startClientY = clientY;
-    };
-
-    init = () =>
-    {
-        this.renderer.canvas.element.addEventListener('mousemove', this.onMouseMove);
-        this.renderer.parent.addEventListener('wheel', this.onWheel, { passive: false });
-        window.addEventListener('mousedown', this.onMouseDown);
-        window.addEventListener('mouseup', this.onMouseUp);
     };
 }

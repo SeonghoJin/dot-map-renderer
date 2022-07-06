@@ -6,12 +6,11 @@ export declare class Canvas {
     set width(w: number);
     get height(): number;
     set height(h: number);
+    get offsetWidth(): number;
+    get offsetHeight(): number;
     constructor();
     reSize: (width: number, height: number) => void;
-    matchOffsetSize: () => {
-        width: number;
-        height: number;
-    };
+    matchOffsetSize: () => void;
     setStyleSize: (width: string, height: string) => void;
     getImageData: () => ImageData;
     drawing: (calle: Drawable | ((context: CanvasRenderingContext2D) => void) | Drawable[]) => void;

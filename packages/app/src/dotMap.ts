@@ -1,15 +1,16 @@
 import { DotMapOptionArg } from './dotMapOptionArg';
 import { DotMapOption } from './dotMapOption';
 import {
-    GeoJSONRenderer,
-    DefaultRendererController,
-    DefaultRendererInteraction
-} from '@dot-map-renderer/renderer';
+    CanvasRenderer,
+    CanvasController,
+    CanvasInteraction,
+    IController,
+} from '@dot-map-renderer/canvas';
 
 export class DotMap
 {
     private dotMapOption: DotMapOption;
-    private defaultController?: DefaultRendererController;
+    private defaultController?: IController;
 
     constructor(dotMapOptionArg?: DotMapOptionArg)
     {
@@ -18,14 +19,28 @@ export class DotMap
 
     public attaching = (parentElement: HTMLElement): void =>
     {
-        const rendererOption = this.dotMapOption.createRendererOption();
-        const renderer = new GeoJSONRenderer(parentElement, rendererOption);
+        if (this.dotMapOption.renderer === 'canvas')
+        {
+            const rendererOption = this.dotMapOption.createRendererOption();
+            const renderer = new CanvasRenderer(parentElement, rendererOption);
+            const controller = new CanvasController(renderer);
 
-        this.defaultController = new DefaultRendererController(renderer);
-        new DefaultRendererInteraction(renderer, this.defaultController).init();
+            new CanvasInteraction(renderer, controller);
+
+            this.defaultController = controller;
+
+            return;
+        }
+
+        if (this.dotMapOption.renderer === 'webgl')
+        {
+            throw new Error('not support webgl dotmap');
+        }
+
+        throw new Error('not support renderer');
     };
 
-    get controller(): DefaultRendererController
+    get controller(): IController
     {
         return this.defaultController!;
     }

@@ -2,10 +2,10 @@ import geoJson from '@dot-map-renderer/map';
 import { Polygon, Point, formatll, llToStagell, Canvas, DefaultAnchor } from '@dot-map-renderer/component';
 import { geoJsonWidth, stageRatio } from '@dot-map-renderer/consts';
 import { throttle } from '@dot-map-renderer/util';
-import { GeoJSONRendererOption } from './GeoJSONRendererOption';
+import { IRendererOption } from './IRendererOption';
 import { IRenderer } from './IRenderer';
 
-export class GeoJSONRenderer implements IRenderer
+export class CanvasRenderer implements IRenderer
 {
     private readonly bufferCanvas: Canvas;
     private readonly polygons: Array<Polygon> = [];
@@ -13,7 +13,7 @@ export class GeoJSONRenderer implements IRenderer
     readonly canvas: Canvas;
     readonly parent: HTMLElement;
     public anchorPoints: Array<Point> = [];
-    option: GeoJSONRendererOption;
+    option: IRendererOption;
     stageHeight = 0;
     stageWidth = 0;
     stageX = 0;
@@ -46,7 +46,7 @@ export class GeoJSONRenderer implements IRenderer
         return this.canvas.offsetHeight;
     }
 
-    constructor(attachingElement: HTMLElement, geoJsonRendererOption: GeoJSONRendererOption)
+    constructor(attachingElement: HTMLElement, geoJsonRendererOption: IRendererOption)
     {
         this.loadGeoJson();
         this.attachingElement = attachingElement;

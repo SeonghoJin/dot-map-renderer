@@ -5,6 +5,7 @@ import typescript from 'rollup-plugin-typescript';
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import resolve from '@rollup/plugin-node-resolve';
+import cleanup from 'rollup-plugin-cleanup';
 import workspacesRun from 'workspaces-run';
 
 async function main()
@@ -19,6 +20,7 @@ async function main()
         json(),
         typescript({ downlevelIteration: false }),
         transpile(),
+        cleanup(),
     ];
 
     const compileTime = new Date().toUTCString();

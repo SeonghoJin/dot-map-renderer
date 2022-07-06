@@ -5,4 +5,3 @@ export * from './Drawable';
 export * from './Polygon';
 export * from './Point';
 export * from './coordinateNormalization';
-export * from './types';

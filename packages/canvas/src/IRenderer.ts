@@ -7,6 +7,5 @@ export interface IRenderer
     stageWidth: number;
     stageX: number;
     stageY: number;
-    image: HTMLImageElement;
     zoom: number;
 }

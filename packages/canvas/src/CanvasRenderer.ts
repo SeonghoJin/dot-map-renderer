@@ -1,18 +1,17 @@
-import geoJson from '@dot-map-renderer/map';
-import { Polygon, Point, Canvas, Dot } from '@dot-map-renderer/component';
-import { componentLayerKey, geoJsonWidth, stageRatio } from '@dot-map-renderer/consts';
+import { Canvas } from '@dot-map-renderer/component';
+import { componentLayerKey, dotMapLayerKey, stageRatio } from '@dot-map-renderer/consts';
 import { throttle } from '@dot-map-renderer/util';
 import { IRendererOption } from './IRendererOption';
 import { IRenderer } from './IRenderer';
 import { RendererContext } from './RendererContext';
 import { ILayer } from './ILayer';
 import { ComponentLayer } from './ComponentLayer';
+import { DotMapLayer } from './DotMapLayer';
 
 export class CanvasRenderer implements IRenderer
 {
-    private readonly polygons: Array<Polygon> = [];
     private readonly layers: Map<string, ILayer> = new Map();
-    private readonly bufferCanvas: Canvas;
+    readonly bufferCanvas: Canvas;
     private attachingElement: HTMLElement;
     readonly canvas: Canvas;
     readonly parent: HTMLElement;
@@ -21,7 +20,6 @@ export class CanvasRenderer implements IRenderer
     stageWidth = 0;
     stageX = 0;
     stageY = 0;
-    image: HTMLImageElement;
     zoom = 1;
 
     get pixelAndGapSize(): number
@@ -49,51 +47,20 @@ export class CanvasRenderer implements IRenderer
         return this.canvas.offsetHeight;
     }
 
-    constructor(attachingElement: HTMLElement, geoJsonRendererOption: IRendererOption)
+    constructor(attachingElement: HTMLElement, rendererOption: IRendererOption)
     {
-        this.loadGeoJson();
         this.attachingElement = attachingElement;
         this.canvas = new Canvas();
         this.bufferCanvas = new Canvas();
         this.parent = document.createElement('div');
-        this.image = new Image(0, 0);
-        this.option = geoJsonRendererOption;
+        this.option = rendererOption;
 
         this.initHTML();
         this.initInteraction();
         this.resize();
-        this.resizePolygons(
-            this.stageWidth / geoJsonWidth
-        );
         this.initLayer();
-        this.bufferCanvas.drawing(this.polygons);
-        this.initImage(
-            this.stageWidth,
-            this.stageHeight,
-            this.bufferCanvas.toDataURL()
-        );
         this.draw();
     }
-
-    private loadGeoJson = () =>
-    {
-        geoJson.features.forEach((feature) =>
-        {
-            if (feature.geometry.type === 'Polygon')
-            {
-                this.polygons.push(new Polygon(0, 0, feature.geometry.coordinates[0] as Point[]));
-            }
-            else if (feature.geometry.type === 'MultiPolygon')
-            {
-                const multiPolygons = feature.geometry.coordinates;
-
-                multiPolygons.forEach((_polygons) =>
-                {
-                    this.polygons.push(new Polygon(0, 0, _polygons[0] as Array<Point>));
-                });
-            }
-        });
-    };
 
     private initHTML = () =>
     {
@@ -114,13 +81,7 @@ export class CanvasRenderer implements IRenderer
     private initLayer = () =>
     {
         this.layers.set(componentLayerKey, new ComponentLayer(this));
-    };
-
-    private initImage = (width: number, height: number, dataURL: string) =>
-    {
-        this.image.width = width;
-        this.image.height = height;
-        this.image.src = dataURL;
+        this.layers.set(dotMapLayerKey, new DotMapLayer(this));
     };
 
     private resizeStage = (width: number, height: number) =>
@@ -141,48 +102,6 @@ export class CanvasRenderer implements IRenderer
         this.stageY = (this.canvas.element.height - this.stageHeight) / 2;
     };
 
-    private resizePolygons = (ratio: number) =>
-    {
-        this.polygons.forEach((polygon) =>
-        {
-            polygon.resize(0, 0, ratio);
-        });
-    };
-
-    private makeDots = (imgData: ImageData) =>
-    {
-        const { data, width, height } = imgData;
-        const columns = Math.ceil(width / this.pixelAndGapSize);
-        const rows = Math.ceil(height / this.pixelAndGapSize);
-        const dots: Dot[] = [];
-
-        for (let i = 0; i < rows; i++)
-        {
-            const y = Math.floor((i + 0.5) * this.pixelAndGapSize);
-            const pixelY = Math.max(Math.min(y, this.stageHeight), 0);
-
-            for (let j = 0; j < columns; j++)
-            {
-                const x = Math.floor((j + 0.5) * this.pixelAndGapSize);
-                const pixelX = Math.max(Math.min(x, this.stageWidth), 0);
-                const pixelIndex = (pixelX + (pixelY * this.stageWidth)) * 4;
-
-                if (data[pixelIndex] > 0 || data[pixelIndex + 1] > 0 || data[pixelIndex + 2] > 0)
-                {
-                    dots.push(this.option.dotFactory.create(
-                        this.stageX + x,
-                        this.stageY + y,
-                        this.pixelSize,
-                        this.gapSize,
-                        this.option.pixelColor,
-                    ));
-                }
-            }
-        }
-
-        return dots;
-    };
-
     public run = () =>
     {
         this.resize();
@@ -201,29 +120,20 @@ export class CanvasRenderer implements IRenderer
             this.stageWidth,
             this.stageHeight
         );
-        this.layers.forEach((layer) => layer.resize());
+
+        this.layers.forEach((layer) => layer.resize?.());
     };
 
     draw = () =>
     {
-        this.drawDotMaps();
         this.layers.forEach((layer) => layer.draw());
-    };
-
-    drawDotMaps = () =>
-    {
-        this.bufferCanvas.drawImage(this.image);
-        const imageData = this.bufferCanvas.getImageData();
-        const dots = this.makeDots(imageData);
-
-        this.canvas.drawing(dots);
     };
 
     public getContext = (): RendererContext => this;
 
-    public getLayer = (layerKey: string): ILayer =>
+    public getLayer = <T extends ILayer = ILayer>(layerKey: string): T =>
     {
-        const layer = this.layers.get(layerKey);
+        const layer = this.layers.get(layerKey) as T;
 
         if (layer === undefined)
         {

@@ -4,12 +4,12 @@ exports.Canvas = void 0;
 const Drawable_1 = require("./Drawable");
 class Canvas {
     constructor() {
-        this.reSize = (width, height) => {
+        this.resize = (width, height) => {
             this.element.width = width;
             this.element.height = height;
         };
         this.matchOffsetSize = () => {
-            this.reSize(this.element.offsetWidth, this.element.offsetHeight);
+            this.resize(this.element.offsetWidth, this.element.offsetHeight);
         };
         this.setStyleSize = (width, height) => {
             this.element.style.height = height;

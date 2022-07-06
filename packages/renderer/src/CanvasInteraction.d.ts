@@ -1,4 +1,4 @@
-import { GeoJSONRenderer } from './GeoJSONRenderer';
+import { CanvasRenderer } from './CanvasRenderer';
 import { DefaultRendererController } from './DefaultRendererController';
 export interface IRendererDefaultInteraction {
     onWheel: (event: WheelEvent) => void;
@@ -16,7 +16,7 @@ export declare class DefaultRendererInteraction implements IRendererDefaultInter
     offsetY: number;
     startClientX: number;
     startClientY: number;
-    constructor(renderer: GeoJSONRenderer, controller: DefaultRendererController);
+    constructor(renderer: CanvasRenderer, controller: DefaultRendererController);
     onMouseMove: (event: MouseEvent) => void;
     onWheel: (event: WheelEvent) => void;
     onMouseDown: (event: MouseEvent) => void;

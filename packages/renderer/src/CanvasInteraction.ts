@@ -1,4 +1,4 @@
-import { GeoJSONRenderer } from './GeoJSONRenderer';
+import { CanvasRenderer } from './CanvasRenderer';
 import { DefaultRendererController } from './DefaultRendererController';
 
 export interface IRendererDefaultInteraction{
@@ -17,7 +17,7 @@ export class DefaultRendererInteraction implements IRendererDefaultInteraction
     public offsetY = 0;
     public startClientX = 0;
     public startClientY = 0;
-    constructor(private readonly renderer: GeoJSONRenderer, private readonly controller: DefaultRendererController)
+    constructor(private readonly renderer: CanvasRenderer, private readonly controller: DefaultRendererController)
     {
 
     }

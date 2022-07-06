@@ -1,5 +1,5 @@
 import { formatll, Point, isPoint } from '@dot-map-renderer/component';
-import { GeoJSONRenderer } from './GeoJSONRenderer';
+import { CanvasRenderer } from './CanvasRenderer';
 
 export interface IRendererController {
     addAnchors: (points: Point[] | Point) => void;
@@ -9,8 +9,9 @@ export interface IRendererController {
 
 export class DefaultRendererController implements IRendererController
 {
-    constructor(private readonly renderer: GeoJSONRenderer)
+    constructor(private readonly renderer: CanvasRenderer)
     {
+
     }
 
     addZoom = (zoom: number) =>

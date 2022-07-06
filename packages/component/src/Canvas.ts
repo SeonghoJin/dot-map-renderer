@@ -42,7 +42,7 @@ export class Canvas
         this.context = this.element.getContext('2d') as CanvasRenderingContext2D;
     }
 
-    reSize = (width: number, height: number) =>
+    resize = (width: number, height: number) =>
     {
         this.element.width = width;
         this.element.height = height;
@@ -50,7 +50,7 @@ export class Canvas
 
     matchOffsetSize = () =>
     {
-        this.reSize(this.element.offsetWidth, this.element.offsetHeight);
+        this.resize(this.element.offsetWidth, this.element.offsetHeight);
     };
 
     setStyleSize = (width: string, height: string) =>

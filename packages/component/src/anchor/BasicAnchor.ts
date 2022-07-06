@@ -10,11 +10,10 @@ export class BasicAnchor implements Anchor
     drawX: number | undefined;
     drawY: number | undefined;
 
-    constructor(x: number, y: number, rendererContext: RendererContext)
+    constructor(x: number, y: number)
     {
         this.x = x;
         this.y = y;
-        this.resize(rendererContext);
     }
 
     draw(context: CanvasRenderingContext2D): void

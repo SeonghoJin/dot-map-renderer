@@ -80,8 +80,8 @@ export class CanvasRenderer implements IRenderer
 
     private initLayer = () =>
     {
-        this.layers.set(componentLayerKey, new ComponentLayer(this));
         this.layers.set(dotMapLayerKey, new DotMapLayer(this));
+        this.layers.set(componentLayerKey, new ComponentLayer(this));
     };
 
     private resizeStage = (width: number, height: number) =>
@@ -116,7 +116,7 @@ export class CanvasRenderer implements IRenderer
             this.canvasOffsetWidth,
             this.canvasOffsetHeight
         );
-        this.bufferCanvas.reSize(
+        this.bufferCanvas.resize(
             this.stageWidth,
             this.stageHeight
         );

@@ -3,6 +3,8 @@ import { CanvasRenderer } from './CanvasRenderer';
 import { IController } from './IController';
 import { componentLayerKey } from '@dot-map-renderer/consts';
 import { ComponentLayer } from './ComponentLayer';
+import { BasicLine } from '@dot-map-renderer/component/src/line/BasicLine';
+import { LineData } from '@dot-map-renderer/component/src/line/LineData';
 
 export class CanvasController implements IController
 {
@@ -21,12 +23,22 @@ export class CanvasController implements IController
 
     addAnchors = (points: Point[] | Point) =>
     {
-        const context = this.renderer.getContext();
-        const anchors = [...isPoint(points) ? [new BasicAnchor(points[0], points[1], context)] : points.map(([x, y]) => new BasicAnchor(x, y, context))];
+        const anchors = [...isPoint(points) ? [new BasicAnchor(points[0], points[1])] : points.map(([x, y]) => new BasicAnchor(x, y))];
 
         const componentLayer = this.renderer.getLayer<ComponentLayer>(componentLayerKey);
 
         componentLayer.addItem(anchors);
+        componentLayer.resize();
+        componentLayer.draw();
+    };
+
+    addLine = (line: LineData) =>
+    {
+        const lineComponent = new BasicLine(line);
+        const componentLayer = this.renderer.getLayer<ComponentLayer>(componentLayerKey);
+
+        componentLayer.addItem([lineComponent]);
+        componentLayer.resize();
         componentLayer.draw();
     };
 

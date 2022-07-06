@@ -8,6 +8,7 @@ export class DotMapLayer implements ILayer
 {
     private readonly image: HTMLImageElement;
     private readonly polygons: Array<Polygon> = [];
+    depth = -9999;
 
     constructor(
         private readonly canvasRenderer: CanvasRenderer

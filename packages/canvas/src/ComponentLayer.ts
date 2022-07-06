@@ -5,6 +5,7 @@ import { IComponent } from '@dot-map-renderer/component/src/IComponent';
 export class ComponentLayer implements ILayer
 {
     private readonly components: Array<IComponent> = [];
+    depth = 0;
 
     constructor(
         private readonly canvasRenderer: CanvasRenderer

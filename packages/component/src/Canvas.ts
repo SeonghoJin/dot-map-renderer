@@ -25,6 +25,16 @@ export class Canvas
         this.element.height = h;
     }
 
+    get offsetWidth()
+    {
+        return this.element.offsetWidth;
+    }
+
+    get offsetHeight()
+    {
+        return this.element.offsetHeight;
+    }
+
     constructor()
     {
         this.element = document.createElement('canvas');
@@ -40,8 +50,6 @@ export class Canvas
     matchOffsetSize = () =>
     {
         this.reSize(this.element.offsetWidth, this.element.offsetHeight);
-
-        return { width: this.element.offsetWidth, height: this.element.offsetHeight };
     };
 
     setStyleSize = (width: string, height: string) =>

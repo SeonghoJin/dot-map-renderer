@@ -3,17 +3,17 @@ import { Polygon, Point, formatll, llToStagell, Canvas, DefaultAnchor } from '@d
 import { geoJsonWidth, stageRatio } from '@dot-map-renderer/consts';
 import { throttle } from '@dot-map-renderer/util';
 import { GeoJSONRendererOption } from './GeoJSONRendererOption';
+import { IRenderer } from './IRenderer';
 
-export class GeoJSONRenderer
+export class GeoJSONRenderer implements IRenderer
 {
     private readonly bufferCanvas: Canvas;
     private readonly polygons: Array<Polygon> = [];
-    public anchorPoints: Array<Point> = [];
     private attachingElement: HTMLElement;
-    private option: GeoJSONRendererOption;
     readonly canvas: Canvas;
     readonly parent: HTMLElement;
-
+    public anchorPoints: Array<Point> = [];
+    option: GeoJSONRendererOption;
     stageHeight = 0;
     stageWidth = 0;
     stageX = 0;
@@ -36,6 +36,16 @@ export class GeoJSONRenderer
         return Math.ceil(this.zoom) * this.option.gapSize;
     }
 
+    get canvasOffsetWidth()
+    {
+        return this.canvas.offsetWidth;
+    }
+
+    get canvasOffsetHeight()
+    {
+        return this.canvas.offsetHeight;
+    }
+
     constructor(attachingElement: HTMLElement, geoJsonRendererOption: GeoJSONRendererOption)
     {
         this.loadGeoJson();
@@ -48,15 +58,19 @@ export class GeoJSONRenderer
 
         this.initHTML();
         this.initInteraction();
-
-        const { width: canvasWidth, height: canvasHeight } = this.canvas.matchOffsetSize();
-        const { width: stageWidth, height: stageHeight } = this.resizeStage(canvasWidth, canvasHeight);
-
-        this.bufferCanvas.reSize(stageWidth, stageHeight);
-        this.resizePolygons(stageWidth / geoJsonWidth);
+        this.resize();
+        this.resizePolygons(
+            this.stageWidth / geoJsonWidth
+        );
 
         this.bufferCanvas.drawing(this.polygons);
-        this.initImage(this.stageWidth, this.stageHeight, this.bufferCanvas.toDataURL());
+
+        this.initImage(
+            this.stageWidth,
+            this.stageHeight,
+            this.bufferCanvas.toDataURL()
+        );
+
         this.draw();
     }
 
@@ -119,11 +133,6 @@ export class GeoJSONRenderer
         }
         this.stageX = (this.canvas.element.width - this.stageWidth) / 2;
         this.stageY = (this.canvas.element.height - this.stageHeight) / 2;
-
-        return {
-            width: this.stageWidth,
-            height: this.stageHeight,
-        };
     };
 
     private resizePolygons = (ratio: number) =>
@@ -150,9 +159,9 @@ export class GeoJSONRenderer
             {
                 const x = Math.floor((j + 0.5) * this.pixelAndGapSize);
                 const pixelX = Math.max(Math.min(x, this.stageWidth), 0);
-                const pixelIndex = (pixelX + pixelY * this.stageWidth) * 4;
+                const pixelIndex = (pixelX + (pixelY * this.stageWidth)) * 4;
 
-                if (data[pixelIndex + 0] > 0 || data[pixelIndex + 1] > 0 || data[pixelIndex + 2] > 0)
+                if (data[pixelIndex] > 0 || data[pixelIndex + 1] > 0 || data[pixelIndex + 2] > 0)
                 {
                     dots.push(this.option.dotFactory.create(
                         this.stageX + x,
@@ -177,10 +186,15 @@ export class GeoJSONRenderer
     resize = () =>
     {
         this.bufferCanvas.clear();
-        const { width: canvasWidth, height: canvasHeight } = this.canvas.matchOffsetSize();
-        const { width: stageWidth, height: stageHeight } = this.resizeStage(canvasWidth, canvasHeight);
-
-        this.bufferCanvas.reSize(stageWidth, stageHeight);
+        this.canvas.matchOffsetSize();
+        this.resizeStage(
+            this.canvasOffsetWidth,
+            this.canvasOffsetHeight
+        );
+        this.bufferCanvas.reSize(
+            this.stageWidth,
+            this.stageHeight
+        );
     };
 
     draw = () =>
@@ -208,4 +222,7 @@ export class GeoJSONRenderer
             });
         });
     };
+
+    getContext = (): Pick<IRenderer, 'stageHeight' | 'stageWidth' | 'stageX' | 'stageY'> =>
+        this;
 }

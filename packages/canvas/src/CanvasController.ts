@@ -1,6 +1,7 @@
 import { formatll, Point, isPoint, BasicAnchor } from '@dot-map-renderer/component';
 import { CanvasRenderer } from './CanvasRenderer';
 import { IController } from './IController';
+import { componentLayerKey } from '@dot-map-renderer/consts';
 
 export class CanvasController implements IController
 {
@@ -22,8 +23,10 @@ export class CanvasController implements IController
         const context = this.renderer.getContext();
         const anchors = [...isPoint(points) ? [new BasicAnchor(points[0], points[1], context)] : points.map(([x, y]) => new BasicAnchor(x, y, context))];
 
-        this.renderer.components.push(...anchors);
-        this.renderer.drawComponents();
+        const componentLayer = this.renderer.getLayer(componentLayerKey);
+
+        componentLayer.addItem(anchors);
+        componentLayer.draw();
     };
 
     move = (moveY: number, moveX: number) =>

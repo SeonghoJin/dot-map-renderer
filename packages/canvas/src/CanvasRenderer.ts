@@ -1,20 +1,21 @@
 import geoJson from '@dot-map-renderer/map';
 import { Polygon, Point, Canvas, Dot } from '@dot-map-renderer/component';
-import { geoJsonWidth, stageRatio } from '@dot-map-renderer/consts';
+import { componentLayerKey, geoJsonWidth, stageRatio } from '@dot-map-renderer/consts';
 import { throttle } from '@dot-map-renderer/util';
 import { IRendererOption } from './IRendererOption';
 import { IRenderer } from './IRenderer';
 import { RendererContext } from './RendererContext';
-import { IComponent } from '@dot-map-renderer/component/src/IComponent';
+import { ILayer } from './ILayer';
+import { ComponentLayer } from './ComponentLayer';
 
 export class CanvasRenderer implements IRenderer
 {
-    private readonly bufferCanvas: Canvas;
     private readonly polygons: Array<Polygon> = [];
+    private readonly layers: Map<string, ILayer> = new Map();
+    private readonly bufferCanvas: Canvas;
     private attachingElement: HTMLElement;
     readonly canvas: Canvas;
     readonly parent: HTMLElement;
-    components: Array<IComponent> = [];
     option: IRendererOption;
     stageHeight = 0;
     stageWidth = 0;
@@ -64,14 +65,13 @@ export class CanvasRenderer implements IRenderer
         this.resizePolygons(
             this.stageWidth / geoJsonWidth
         );
-
+        this.initLayer();
         this.bufferCanvas.drawing(this.polygons);
         this.initImage(
             this.stageWidth,
             this.stageHeight,
             this.bufferCanvas.toDataURL()
         );
-
         this.draw();
     }
 
@@ -109,6 +109,11 @@ export class CanvasRenderer implements IRenderer
     private initInteraction = () =>
     {
         window.addEventListener('resize', throttle(this.run, 100));
+    };
+
+    private initLayer = () =>
+    {
+        this.layers.set(componentLayerKey, new ComponentLayer(this));
     };
 
     private initImage = (width: number, height: number, dataURL: string) =>
@@ -196,16 +201,13 @@ export class CanvasRenderer implements IRenderer
             this.stageWidth,
             this.stageHeight
         );
-        this.components.forEach((component) =>
-        {
-            component.resize(this);
-        });
+        this.layers.forEach((layer) => layer.resize());
     };
 
     draw = () =>
     {
         this.drawDotMaps();
-        this.drawComponents();
+        this.layers.forEach((layer) => layer.draw());
     };
 
     drawDotMaps = () =>
@@ -217,10 +219,17 @@ export class CanvasRenderer implements IRenderer
         this.canvas.drawing(dots);
     };
 
-    drawComponents = () =>
-    {
-        this.canvas.drawing(this.components);
-    };
-
     public getContext = (): RendererContext => this;
+
+    public getLayer = (layerKey: string): ILayer =>
+    {
+        const layer = this.layers.get(layerKey);
+
+        if (layer === undefined)
+        {
+            throw new Error(`not found layer(${layerKey})`);
+        }
+
+        return layer;
+    };
 }

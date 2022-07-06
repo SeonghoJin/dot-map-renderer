@@ -31,7 +31,10 @@
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.6.0",
     "workspaces-run": "^1.0.1",
-    "rollup-plugin-cleanup": "^3.2.1"
+    "rollup-plugin-cleanup": "^3.2.1",
+    "prettier": "^2.6.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0"
   },
   "workspaces": [
     "packages/*"
@@ -59,6 +62,9 @@
   "main": "./bundles/dist/umd/bundle.js",
   "types": "./bundles/dist/index.d.ts",
   "lint-staged": {
-    "*.ts": "eslint --cache --fix"
+    "*.ts": [
+      "eslint --cache --fix",
+      "prettier --write"
+    ]
   }
 }

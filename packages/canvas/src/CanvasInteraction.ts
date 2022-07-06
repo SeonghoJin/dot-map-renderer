@@ -10,6 +10,8 @@ export class CanvasInteraction implements IInteraction
     public offsetY = 0;
     public startClientX = 0;
     public startClientY = 0;
+    public currentMouseX: number | null = null;
+    public currentMouseY: number | null = null;
 
     constructor(
         private readonly renderer: CanvasRenderer,
@@ -24,10 +26,14 @@ export class CanvasInteraction implements IInteraction
 
     onMouseMove = (event: MouseEvent) =>
     {
+        const { offsetX, offsetY } = event;
         const clientRect = this.renderer.canvas.element.getBoundingClientRect();
 
-        this.mouseRatioX = event.offsetX / clientRect.width;
-        this.mouseRatioY = event.offsetY / clientRect.height;
+        this.currentMouseX = offsetX;
+        this.currentMouseY = offsetY;
+
+        this.mouseRatioX = offsetX / clientRect.width;
+        this.mouseRatioY = offsetY / clientRect.height;
     };
 
     onWheel = (event: WheelEvent) =>

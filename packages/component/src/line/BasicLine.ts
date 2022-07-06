@@ -2,6 +2,7 @@ import { Line } from './Line';
 import { RendererContext } from '@dot-map-renderer/canvas/src/RendererContext';
 import { formatll, llToStagell, Point } from '@dot-map-renderer/component';
 import { LineData } from './LineData';
+import { Collider } from '@dot-map-renderer/collider';
 
 export class BasicLine implements Line
 {
@@ -10,13 +11,25 @@ export class BasicLine implements Line
 
     startPoint;
     endPoint;
+    interaction;
+    collider: Collider;
 
-    constructor(lineData: LineData)
+    constructor(lineData: LineData, options?: {
+        interaction: boolean;
+    })
     {
         const [start, end] = lineData;
 
         this.startPoint = start;
         this.endPoint = end;
+        this.interaction = options?.interaction ?? false;
+
+        this.collider = new Collider(this, [
+            this.startPoint,
+            [this.startPoint[0] + 10, this.startPoint[1] + 10],
+            this.endPoint,
+            [this.endPoint[0] + 10, this.endPoint[1] + 10]
+        ]);
     }
 
     draw(context: CanvasRenderingContext2D): void
@@ -51,5 +64,15 @@ export class BasicLine implements Line
             endX + stageX,
             endY + stageY
         ];
+    }
+
+    hit(point: Point): Line | null
+    {
+        if (!this.interaction)
+        {
+            return null;
+        }
+
+        return this.collider.hit(point);
     }
 }

@@ -6,7 +6,8 @@
   ],
   "rules": {
     "@typescript-eslint/no-parameter-properties": 1,
-    "@typescript-eslint/type-annotation-spacing": 1
+    "@typescript-eslint/type-annotation-spacing": 1,
+      "@typescript-eslint/no-empty-function" : 1
   },
   "ignorePatterns": ["*.d.ts", "stories/**/*"]
 }

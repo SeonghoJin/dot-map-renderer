@@ -16,3 +16,16 @@ controller.addAnchors([13, 81]);
 controller.addAnchors([13, 43]);
 controller.addAnchors([13, 13]);
 controller.addAnchors([13, 30]);
+
+controller.addLine([
+  [13, 43],
+  [50, 11],
+]);
+controller.addLine([
+  [13, 43],
+  [16, 12],
+]);
+controller.addLine([
+  [13, 43],
+  [48, 99],
+]);

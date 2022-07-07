@@ -1,4 +1,5 @@
 import { IRendererOption } from './IRendererOption';
+import { AnimationManager } from './AnimationManager';
 export interface IRenderer {
   option: IRendererOption;
   stageHeight: number;
@@ -6,4 +7,5 @@ export interface IRenderer {
   stageX: number;
   stageY: number;
   zoom: number;
+  animation: AnimationManager;
 }

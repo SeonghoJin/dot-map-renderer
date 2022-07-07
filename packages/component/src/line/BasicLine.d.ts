@@ -10,6 +10,7 @@ export declare class BasicLine implements Line {
   endPoint: Point;
   interaction: boolean;
   collider: Collider;
+  path: Path2D | null;
   constructor(
     lineData: LineData,
     options?: {
@@ -19,4 +20,6 @@ export declare class BasicLine implements Line {
   draw(context: CanvasRenderingContext2D): void;
   resize({ stageWidth, stageHeight, stageX, stageY }: RendererContext): void;
   hit(point: Point): Line | null;
+  update: (context: CanvasRenderingContext2D) => void;
+  start: (context: CanvasRenderingContext2D) => void;
 }

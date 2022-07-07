@@ -9,13 +9,13 @@ const dotMap = new DotMap({
   gapSize: 8,
 });
 
-dotMap.attaching($body);
+dotMap.attaching($body!);
 const { controller } = dotMap;
 
-controller.addAnchors([13, 81]);
-controller.addAnchors([13, 43]);
-controller.addAnchors([13, 13]);
-controller.addAnchors([13, 30]);
+controller.addAnchor([13, 81]);
+controller.addAnchor([13, 43]);
+controller.addAnchor([13, 13]);
+controller.addAnchor([13, 30]);
 
 controller.addLine([
   [13, 43],

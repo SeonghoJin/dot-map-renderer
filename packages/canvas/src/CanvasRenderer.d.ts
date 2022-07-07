@@ -2,7 +2,8 @@ import { Canvas } from '@dot-map-renderer/component';
 import { IRendererOption } from './IRendererOption';
 import { IRenderer } from './IRenderer';
 import { RendererContext } from './RendererContext';
-import { ILayer } from './ILayer';
+import { Layer } from './Layer';
+import { AnimationManager } from './AnimationManager';
 export declare class CanvasRenderer implements IRenderer {
   private readonly layers;
   readonly bufferCanvas: Canvas;
@@ -15,6 +16,7 @@ export declare class CanvasRenderer implements IRenderer {
   stageX: number;
   stageY: number;
   zoom: number;
+  animation: AnimationManager;
   get pixelAndGapSize(): number;
   get pixelSize(): number;
   get gapSize(): number;
@@ -29,5 +31,5 @@ export declare class CanvasRenderer implements IRenderer {
   resize: () => void;
   draw: () => void;
   getContext: () => RendererContext;
-  getLayer: <T extends ILayer = ILayer>(layerKey: string) => T;
+  getLayer: <T extends Layer = Layer>(layerKey: string) => T;
 }

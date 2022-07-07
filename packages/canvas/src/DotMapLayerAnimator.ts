@@ -16,6 +16,6 @@ export class DotMapLayerAnimator implements IAnimator {
   };
 
   start = () => {
-    requestAnimationFrame(this.loop);
+    this.loop();
   };
 }

@@ -1,5 +1,6 @@
-export interface ILayer {
-  draw(): void;
-  resize?(): void;
-  hit?(): void;
+export declare class Layer {
+  draw: () => void;
+  resize: () => void;
+  hit: () => void;
+  update: () => void;
 }

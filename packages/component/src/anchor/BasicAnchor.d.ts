@@ -1,14 +1,12 @@
 import { Anchor } from './Anchors';
 import { RendererContext } from '@dot-map-renderer/canvas/src/RendererContext';
-import { Point } from '@dot-map-renderer/component';
-import { Collider } from '@dot-map-renderer/collider';
 export declare class BasicAnchor implements Anchor {
   x: number;
   y: number;
   drawX: number | undefined;
   drawY: number | undefined;
   interaction: boolean;
-  collider: Collider;
+  path: Path2D | null;
   constructor(
     x: number,
     y: number,
@@ -18,5 +16,6 @@ export declare class BasicAnchor implements Anchor {
   );
   draw(context: CanvasRenderingContext2D): void;
   resize({ stageHeight, stageWidth, stageY, stageX }: RendererContext): void;
-  hit(point: Point): Anchor | null;
+  start: (context: CanvasRenderingContext2D) => void;
+  update: (context: CanvasRenderingContext2D) => void;
 }

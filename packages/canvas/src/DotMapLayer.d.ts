@@ -1,13 +1,17 @@
-import { ILayer } from './ILayer';
+import { Layer } from './Layer';
 import { CanvasRenderer } from './CanvasRenderer';
-export declare class DotMapLayer implements ILayer {
+import { CanAnimation } from './CanAnimation';
+import { IAnimator } from './IAnimator';
+export declare class DotMapLayer extends Layer implements CanAnimation {
   private readonly canvasRenderer;
   private readonly image;
   private readonly polygons;
+  animation: IAnimator;
   depth: number;
   constructor(canvasRenderer: CanvasRenderer);
   private loadGeoJson;
   private resizePolygons;
-  draw(): void;
+  draw: () => void;
   private makeDots;
+  update: () => void;
 }

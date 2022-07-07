@@ -1,0 +1,21 @@
+import { IAnimator } from './IAnimator';
+import { Layer } from './Layer';
+import { IRenderer } from './IRenderer';
+
+export class ComponentLayerAnimator implements IAnimator {
+  layer: Layer;
+
+  constructor(layer: Layer, renderer: IRenderer) {
+    this.layer = layer;
+    renderer.animation.add(this);
+  }
+
+  loop = () => {
+    this.layer.update();
+    requestAnimationFrame(this.loop);
+  };
+
+  start = () => {
+    this.loop();
+  };
+}

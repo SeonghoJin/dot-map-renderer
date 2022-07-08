@@ -1,6 +1,6 @@
 export abstract class Observer<State> {
-  subscribers: Set<ISubscriber<State>>;
-  state: State;
+  private subscribers: Set<ISubscriber<State>>;
+  protected state: State;
 
   protected constructor(initState: State) {
     this.subscribers = new Set();
@@ -17,7 +17,7 @@ export abstract class Observer<State> {
     });
   }
 
-  abstract changeState(): void;
+  abstract changeState(state: State): void;
 }
 
 export interface ISubscriber<State = unknown> {

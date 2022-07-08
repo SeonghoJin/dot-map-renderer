@@ -9,4 +9,5 @@ export interface IRenderer {
   stageY: number;
   zoom: number;
   animation: AnimationManager;
+  refresh(): void;
 }

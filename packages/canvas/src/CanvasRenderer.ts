@@ -94,7 +94,6 @@ export class CanvasRenderer implements IRenderer {
 
   public run = () => {
     this.resize();
-    this.draw();
   };
 
   resize = () => {
@@ -120,5 +119,9 @@ export class CanvasRenderer implements IRenderer {
     }
 
     return layer;
+  };
+
+  public refresh = () => {
+    this.canvas.clear();
   };
 }

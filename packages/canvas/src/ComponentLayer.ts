@@ -26,8 +26,7 @@ export class ComponentLayer extends Layer implements CanAnimation {
   };
 
   override update = () => {
-    this.components.forEach((component) => component.update(this.canvasRenderer.canvas.context));
-    requestAnimationFrame(this.update);
+    this.components.forEach((component) => component.update(this.canvasRenderer.canvas.context, this.canvasRenderer));
   };
 
   addItem(item: IComponent[]): void {

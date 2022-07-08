@@ -1,9 +1,9 @@
 import { Anchor } from './Anchors';
 import { PI2 } from '@dot-map-renderer/consts';
 import { RendererContext } from '@dot-map-renderer/canvas/src/RendererContext';
-import { formatll, llToStagell } from '@dot-map-renderer/component';
+import { formatll, llToStagell } from '../coordinateNormalization';
 
-export class BasicAnchor implements Anchor {
+export class BasicAnchor extends Anchor {
   x;
   y;
   drawX: number | undefined;
@@ -18,6 +18,7 @@ export class BasicAnchor implements Anchor {
       interaction: boolean;
     },
   ) {
+    super();
     this.x = x;
     this.y = y;
     this.interaction = options?.interaction ?? false;
@@ -38,11 +39,14 @@ export class BasicAnchor implements Anchor {
     this.drawY = y + stageY;
   }
 
-  start = (context: CanvasRenderingContext2D) => {
-    this.update(context);
+  override start = (context: CanvasRenderingContext2D, rendererContext: RendererContext) => {
+    this.update(context, rendererContext);
   };
 
-  update = (context: CanvasRenderingContext2D) => {
+  override update = (context: CanvasRenderingContext2D, rendererContext: RendererContext) => {
+    this.x += 0.1;
+    this.y += 0.1;
+    this.resize(rendererContext);
     this.draw(context);
   };
 }

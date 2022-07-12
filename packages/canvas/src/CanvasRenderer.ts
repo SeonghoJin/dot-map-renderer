@@ -106,6 +106,7 @@ export class CanvasRenderer implements IRenderer {
   };
 
   draw = () => {
+    this.refresh();
     this.layers.forEach((layer) => layer.draw());
   };
 
@@ -123,5 +124,6 @@ export class CanvasRenderer implements IRenderer {
 
   public refresh = () => {
     this.canvas.clear();
+    this.bufferCanvas.clear();
   };
 }

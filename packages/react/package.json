@@ -1,0 +1,23 @@
+{
+  "name": "@dot-map-renderer/react",
+  "version": "0.0.11",
+  "description": "",
+  "module": "dist/es/react.jsx",
+  "main": "dist/umd/react.jsx",
+  "browser": "dist/umd/react.jsx",
+  "license": "ISC",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.9",
+    "@types/react-dom": "^18.0.4"
+  },
+  "peerDependencies": {
+    "@dot-map-renderer/app": "^0.0.11",
+    "@dot-map-renderer/component": "^0.0.11",
+    "react": "16 || 17 || 18",
+    "react-dom": "16 || 17 || 18"
+  },
+  "types": "src/index.tsx"
+}

@@ -7,6 +7,7 @@ import json from '@rollup/plugin-json';
 import resolve from '@rollup/plugin-node-resolve';
 import cleanup from 'rollup-plugin-cleanup';
 import workspacesRun from 'workspaces-run';
+import babel from '@rollup/plugin-babel';
 
 async function main()
 {
@@ -21,6 +22,10 @@ async function main()
         typescript({ tsconfig: './tsconfig.json' }),
         transpile(),
         cleanup(),
+        babel({
+            babelHelpers: 'bundled',
+            presets: ['@babel/preset-env', '@babel/preset-react']
+        })
     ];
 
     const compileTime = new Date().toUTCString();
@@ -61,7 +66,14 @@ async function main()
         const sourcemap = true;
         const external = Object.keys(dependencies || [])
             .concat(Object.keys(peerDependencies || []));
-        const input = path.join(basePath, 'src/index.ts');
+        const input = (() => {
+            if(basePath === 'packages/react'){
+                return path.join(basePath, 'src/index.tsx');;
+            }
+
+            return path.join(basePath, 'src/index.ts');
+        })();
+
         const freeze = false;
 
         results.push({

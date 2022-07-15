@@ -9,7 +9,7 @@ export interface IRenderer {
   stageX: number;
   stageY: number;
   zoom: number;
-  animation: AnimationManager;
+  animation?: AnimationManager;
   canvas: Canvas;
   parent: HTMLElement;
   resize(): void;

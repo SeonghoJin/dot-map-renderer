@@ -16,7 +16,7 @@ export declare class CanvasRenderer implements IRenderer {
   stageX: number;
   stageY: number;
   zoom: number;
-  animation: AnimationManager;
+  animation?: AnimationManager;
   get pixelAndGapSize(): number;
   get pixelSize(): number;
   get gapSize(): number;

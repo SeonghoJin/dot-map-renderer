@@ -8,8 +8,8 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "@dot-map-renderer/app": "file:../app"
+  "peerDependencies": {
+    "@dot-map-renderer/app": "^0.0.10"
   },
   "devDependencies": {
     "ts-loader": "^9.2.6",
@@ -17,5 +17,8 @@
     "webpack": "^5.68.0",
     "webpack-cli": "^4.9.2",
     "webpack-dev-server": "^4.7.4"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

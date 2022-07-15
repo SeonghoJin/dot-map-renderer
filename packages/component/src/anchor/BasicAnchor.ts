@@ -44,8 +44,6 @@ export class BasicAnchor extends Anchor {
   };
 
   override update = (context: CanvasRenderingContext2D, rendererContext: RendererContext) => {
-    this.x += 0.1;
-    this.y += 0.1;
     this.resize(rendererContext);
     this.draw(context);
   };

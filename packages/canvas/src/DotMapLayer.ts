@@ -1,15 +1,18 @@
 import { Layer } from './Layer';
 import { CanvasRenderer } from './CanvasRenderer';
-import { Dot, Point, Polygon } from '@dot-map-renderer/component';
+import { Dot, Polygon } from '@dot-map-renderer/component';
 import { geoJsonWidth } from '@dot-map-renderer/consts';
 import geoJson from '@dot-map-renderer/map';
 import { CanAnimation } from './CanAnimation';
 import { IAnimator } from './IAnimator';
 import { DotMapLayerAnimator } from './DotMapLayerAnimator';
+import { Country } from '@dot-map-renderer/component/src/Country';
+import countryMap from '@dot-map-renderer/component/src/CountryMap';
+import { rgbToHex } from '@dot-map-renderer/util/src/rgbToHex';
 
 export class DotMapLayer extends Layer implements CanAnimation {
   private readonly image: HTMLImageElement;
-  private readonly polygons: Array<Polygon> = [];
+  private readonly countries: Array<Country> = [];
   animation: IAnimator;
   depth = -9999;
 
@@ -23,7 +26,7 @@ export class DotMapLayer extends Layer implements CanAnimation {
     this.loadGeoJson();
     this.resizePolygons(stageWidth / geoJsonWidth);
 
-    bufferCanvas.drawing(this.polygons);
+    bufferCanvas.drawing(this.countries);
 
     const dataURL = bufferCanvas.toDataURL();
 
@@ -35,21 +38,13 @@ export class DotMapLayer extends Layer implements CanAnimation {
 
   private loadGeoJson = () => {
     geoJson.features.forEach((feature) => {
-      if (feature.geometry.type === 'Polygon') {
-        this.polygons.push(new Polygon(0, 0, feature.geometry.coordinates[0] as Point[]));
-      } else if (feature.geometry.type === 'MultiPolygon') {
-        const multiPolygons = feature.geometry.coordinates;
-
-        multiPolygons.forEach((_polygons) => {
-          this.polygons.push(new Polygon(0, 0, _polygons[0] as Array<Point>));
-        });
-      }
+      this.countries.push(new Country(feature));
     });
   };
 
   private resizePolygons = (ratio: number) => {
-    this.polygons.forEach((polygon) => {
-      polygon.resize(0, 0, ratio);
+    this.countries.forEach((country) => {
+      country.resize(0, 0, ratio);
     });
   };
 
@@ -68,8 +63,8 @@ export class DotMapLayer extends Layer implements CanAnimation {
       this.canvasRenderer;
 
     const { data, width, height } = imgData;
-    const columns = Math.ceil(width / pixelAndGapSize);
-    const rows = Math.ceil(height / pixelAndGapSize);
+    const columns = Math.floor(width / pixelAndGapSize);
+    const rows = Math.floor(height / pixelAndGapSize);
     const dots: Dot[] = [];
 
     for (let i = 0; i < rows; i++) {

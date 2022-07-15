@@ -1,9 +1,8 @@
-import React from 'react';
-import { useRef, useEffect } from 'react';
+import React, {useRef, useEffect} from 'react';
 import { DotMap, DotMapOptionArg } from '@dot-map-renderer/app';
 import { LineData } from '@dot-map-renderer/component/src/line/LineData';
-import { Point } from '@dot-map-renderer/component';
-import { IController } from '@dot-map-renderer/canvas';
+import { Point } from '@dot-map-renderer/component/src/Point';
+import { IController } from '@dot-map-renderer/canvas/src/IController';
 
 type Props = {
     anchors: Point[],
@@ -31,7 +30,6 @@ export function ReactDotMap({
         dotMap.current = new DotMap(options);
         dotMap.current.attach(ref.current!);
         controller.current = dotMap.current!.getController();
-
 
         return () =>
         {

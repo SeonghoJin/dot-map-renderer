@@ -56,6 +56,6 @@ export class DotMap {
       return this.controller;
     }
 
-    throw new Error('not defined controller, if you To have a controller, an attach API must be called.');
+    throw new Error('not defined controller, if you have a controller, an attach API must be called.');
   };
 }

@@ -1,6 +1,6 @@
 {
   "name": "@dot-map-renderer/canvas",
-  "version": "0.0.7",
+  "version": "0.0.10",
   "description": "",
   "module": "dist/es/canvas.js",
   "main": "dist/umd/canvas.js",
@@ -10,10 +10,10 @@
     "access": "public"
   },
   "peerDependencies": {
-    "@dot-map-renderer/component": "0.0.7",
-    "@dot-map-renderer/map": "0.0.7",
-    "@dot-map-renderer/consts": "0.0.7",
-    "@dot-map-renderer/util": "0.0.7"
+    "@dot-map-renderer/component": "0.0.10",
+    "@dot-map-renderer/map": "0.0.10",
+    "@dot-map-renderer/consts": "0.0.10",
+    "@dot-map-renderer/util": "0.0.10"
   },
   "types": "src/index.d.ts"
 }

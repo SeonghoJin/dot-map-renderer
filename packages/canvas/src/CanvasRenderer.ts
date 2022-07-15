@@ -1,6 +1,5 @@
 import { Canvas } from '@dot-map-renderer/component';
 import { componentLayerKey, dotMapLayerKey, stageRatio } from '@dot-map-renderer/consts';
-import { throttle } from '@dot-map-renderer/util';
 import { IRendererOption } from './IRendererOption';
 import { IRenderer } from './IRenderer';
 import { RendererContext } from './RendererContext';
@@ -13,15 +12,15 @@ export class CanvasRenderer implements IRenderer {
   private readonly layers: Map<string, Layer> = new Map();
   readonly bufferCanvas: Canvas;
   private attachingElement: HTMLElement;
-  readonly canvas: Canvas;
-  readonly parent: HTMLElement;
+  canvas: Canvas;
+  parent: HTMLElement;
   option: IRendererOption;
   stageHeight = 0;
   stageWidth = 0;
   stageX = 0;
   stageY = 0;
   zoom = 1;
-  animation: AnimationManager;
+  animation?: AnimationManager;
 
   get pixelAndGapSize(): number {
     return this.pixelSize + this.gapSize;
@@ -52,7 +51,6 @@ export class CanvasRenderer implements IRenderer {
     this.animation = new AnimationManager();
 
     this.initHTML();
-    this.initInteraction();
     this.resize();
     this.initLayer();
     this.draw();
@@ -67,10 +65,6 @@ export class CanvasRenderer implements IRenderer {
     this.attachingElement.appendChild(this.parent);
     this.parent.appendChild(this.canvas.element);
     this.parent.style.backgroundColor = this.option.backgroundColor;
-  };
-
-  private initInteraction = () => {
-    window.addEventListener('resize', throttle(this.run, 100));
   };
 
   private initLayer = () => {
@@ -90,10 +84,6 @@ export class CanvasRenderer implements IRenderer {
     }
     this.stageX = (this.canvas.element.width - this.stageWidth) / 2;
     this.stageY = (this.canvas.element.height - this.stageHeight) / 2;
-  };
-
-  public run = () => {
-    this.resize();
   };
 
   resize = () => {
@@ -126,4 +116,13 @@ export class CanvasRenderer implements IRenderer {
     this.canvas.clear();
     this.bufferCanvas.clear();
   };
+
+  remove() {
+    this.canvas.element.remove();
+    this.bufferCanvas.element.remove();
+    this.parent.remove();
+    this.animation!.stop();
+
+    delete this.animation;
+  }
 }

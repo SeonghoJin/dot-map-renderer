@@ -10,4 +10,8 @@ export class AnimationManager {
   start = () => {
     this.animationItems.forEach((item) => item.start());
   };
+
+  stop = () => {
+    this.animationItems.forEach((item) => item.stop());
+  };
 }

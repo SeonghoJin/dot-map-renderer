@@ -1,14 +1,14 @@
-import { formatll, Point, isPoint, BasicAnchor } from '@dot-map-renderer/component';
-import { CanvasRenderer } from './CanvasRenderer';
+import { formatll, Point, BasicAnchor } from '@dot-map-renderer/component';
 import { IController } from './IController';
 import { componentLayerKey } from '@dot-map-renderer/consts';
 import { ComponentLayer } from './ComponentLayer';
 import { BasicLine } from '@dot-map-renderer/component/src/line/BasicLine';
 import { LineData } from '@dot-map-renderer/component/src/line/LineData';
 import { IComponent } from '@dot-map-renderer/component/src/IComponent';
+import { IRenderer } from './IRenderer';
 
 export class CanvasController implements IController {
-  constructor(private readonly renderer: CanvasRenderer) {}
+  constructor(private readonly renderer: IRenderer) {}
 
   addZoom = (zoom: number) => {
     this.renderer.zoom += zoom;

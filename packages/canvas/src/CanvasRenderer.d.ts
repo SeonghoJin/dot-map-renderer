@@ -8,8 +8,8 @@ export declare class CanvasRenderer implements IRenderer {
   private readonly layers;
   readonly bufferCanvas: Canvas;
   private attachingElement;
-  readonly canvas: Canvas;
-  readonly parent: HTMLElement;
+  canvas: Canvas;
+  parent: HTMLElement;
   option: IRendererOption;
   stageHeight: number;
   stageWidth: number;
@@ -24,12 +24,12 @@ export declare class CanvasRenderer implements IRenderer {
   get canvasOffsetHeight(): number;
   constructor(attachingElement: HTMLElement, rendererOption: IRendererOption);
   private initHTML;
-  private initInteraction;
   private initLayer;
   private resizeStage;
-  run: () => void;
   resize: () => void;
   draw: () => void;
   getContext: () => RendererContext;
   getLayer: <T extends Layer = Layer>(layerKey: string) => T;
+  refresh: () => void;
+  remove(): void;
 }

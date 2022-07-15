@@ -1,2 +1,2 @@
 import { IComponent } from '../IComponent';
-export declare type Anchor = IComponent;
+export declare abstract class Anchor extends IComponent {}

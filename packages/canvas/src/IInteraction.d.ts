@@ -4,4 +4,5 @@ export interface IInteraction {
   onMouseDown: (event: MouseEvent) => void;
   onMouseMoveWithMouseDown: (event: MouseEvent) => void;
   onMouseUp: (event: MouseEvent) => void;
+  remove(): void;
 }

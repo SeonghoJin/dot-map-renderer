@@ -23,5 +23,5 @@
     "publish": "npm publish --access=public",
     "patch:all": "npm version patch"
   },
-ㅈ  "bundle": true
+  "bundle": true
 }

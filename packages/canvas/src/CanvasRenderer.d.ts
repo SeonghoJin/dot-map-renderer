@@ -1,4 +1,4 @@
-import { Canvas } from '@dot-map-renderer/component';
+import { Canvas, DotFactory, DotType } from '@dot-map-renderer/component';
 import { IRendererOption } from './IRendererOption';
 import { IRenderer } from './IRenderer';
 import { RendererContext } from './RendererContext';
@@ -11,6 +11,10 @@ export declare class CanvasRenderer implements IRenderer {
   canvas: Canvas;
   parent: HTMLElement;
   option: IRendererOption;
+  _pixelSize: number;
+  _gapSize: number;
+  _pixelColor: string;
+  _dotFactory: DotFactory;
   stageHeight: number;
   stageWidth: number;
   stageX: number;
@@ -19,9 +23,16 @@ export declare class CanvasRenderer implements IRenderer {
   animation?: AnimationManager;
   get pixelAndGapSize(): number;
   get pixelSize(): number;
+  set pixelSize(pixelSize: number);
   get gapSize(): number;
+  set gapSize(gapSize: number);
+  set backgroundColor(backgroundColor: string);
+  get pixelColor(): string;
+  set pixelColor(pixelColor: string);
   get canvasOffsetWidth(): number;
   get canvasOffsetHeight(): number;
+  setDotFactory(dotType: DotType): void;
+  get dotFactory(): DotFactory;
   constructor(attachingElement: HTMLElement, rendererOption: IRendererOption);
   private initHTML;
   private initLayer;

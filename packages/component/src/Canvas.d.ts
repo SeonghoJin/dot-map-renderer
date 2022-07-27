@@ -15,7 +15,7 @@ export declare class Canvas {
   setStyleSize: (width: string, height: string) => void;
   getImageData: () => ImageData;
   drawing: (
-    calle: IComponent | Drawable | ((context: CanvasRenderingContext2D) => void) | Drawable[] | IComponent[],
+    calle: Drawable | IComponent | ((context: CanvasRenderingContext2D) => void) | Drawable[] | IComponent[],
   ) => void;
   toDataURL: () => string;
   clear: () => void;

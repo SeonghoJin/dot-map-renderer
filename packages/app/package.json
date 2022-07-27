@@ -1,6 +1,6 @@
 {
   "name": "@dot-map-renderer/app",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "",
   "module": "dist/es/app.js",
   "main": "dist/umd/app.js",
@@ -10,8 +10,8 @@
     "access": "public"
   },
   "peerDependencies": {
-    "@dot-map-renderer/canvas": "0.0.12",
-    "@dot-map-renderer/component": "0.0.12"
+    "@dot-map-renderer/canvas": "0.0.13",
+    "@dot-map-renderer/component": "0.0.13"
   },
   "types": "src/index.d.ts"
 }

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, Requireable } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { DotMap, DotMapOptionArg } from '@dot-map-renderer/app';
 import { LineData } from '@dot-map-renderer/component/src/line/LineData';
 import { Point } from '@dot-map-renderer/component/src/Point';
@@ -42,13 +42,12 @@ export function ReactDotMap({
             dotType,
             renderer
         });
-        dotMap.current.attach(ref.current!);
-        controller.current = dotMap.current!.getController();
+        dotMap.current?.attach(ref.current!);
+        controller.current = dotMap.current?.getController();
 
         return () =>
         {
             dotMap.current?.detach();
-            console.log('detached');
         };
     }, []);
 
@@ -56,7 +55,7 @@ export function ReactDotMap({
     {
         lines.forEach((line) =>
         {
-            controller.current.addLine(line);
+            controller.current?.addLine(line);
         });
     }, [lines]);
 
@@ -64,38 +63,48 @@ export function ReactDotMap({
     {
         anchors.forEach((anchor) =>
         {
-            controller.current.addAnchor(anchor);
+            controller.current?.addAnchor(anchor);
         });
     }, [anchors]);
 
     useEffect(() =>
     {
-        controller.current.addComponent(components);
+        controller.current?.addComponent(components);
     }, [components]);
 
     useEffect(() =>
     {
-        controller.current.setBackground(backgroundColor);
+        if(backgroundColor){
+            controller.current?.setBackground(backgroundColor);
+        }
     }, [backgroundColor]);
 
     useEffect(() =>
     {
-        controller.current.setGapSize(gapSize);
+        if(gapSize){
+            controller.current?.setGapSize(gapSize);
+        }
     }, [gapSize]);
 
     useEffect(() =>
     {
-        controller.current.setPixelColor(pixelColor);
+        if(pixelColor){
+            controller.current?.setPixelColor(pixelColor);
+        }
     }, [pixelColor]);
 
     useEffect(() =>
     {
-        controller.current.setPixelSize(pixelSize);
+        if(pixelSize){
+            controller.current?.setPixelSize(pixelSize);
+        }
     }, [pixelSize]);
 
     useEffect(() =>
     {
-        controller.current.setDotType(dotType);
+        if(dotType){
+            controller.current?.setDotType(dotType);
+        }
     }, [dotType]);
 
     return <div

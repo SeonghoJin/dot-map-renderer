@@ -19,5 +19,5 @@
     "react": "16 || 17 || 18",
     "react-dom": "16 || 17 || 18"
   },
-  "types": "src/index.tsx"
+  "types": "src/index.d.ts"
 }

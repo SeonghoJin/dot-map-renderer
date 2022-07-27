@@ -1,13 +1,14 @@
 import { DotMap } from '@dot-map-renderer/app';
+import { IController } from '@dot-map-renderer/canvas';
 
-const $body = document.querySelector('body');
-const $create: HTMLButtonElement = document.querySelector('#create');
-const $remove: HTMLButtonElement = document.querySelector('#remove');
-const $addAnchor: HTMLButtonElement = document.querySelector('#addAnchor');
-const $addLine: HTMLButtonElement = document.querySelector('#addLine');
-const $latlng1: HTMLInputElement = document.querySelector('#latlng1');
-const $latlng2: HTMLInputElement = document.querySelector('#latlng2');
-const $anchorLatLng: HTMLInputElement = document.querySelector('#anchor_latlng');
+const $body = document.querySelector('body')!;
+const $create: HTMLButtonElement = document.querySelector('#create')!;
+const $remove: HTMLButtonElement = document.querySelector('#remove')!;
+const $addAnchor: HTMLButtonElement = document.querySelector('#addAnchor')!;
+const $addLine: HTMLButtonElement = document.querySelector('#addLine')!;
+const $latlng1: HTMLInputElement = document.querySelector('#latlng1')!;
+const $latlng2: HTMLInputElement = document.querySelector('#latlng2')!;
+const $anchorLatLng: HTMLInputElement = document.querySelector('#anchor_latlng')!;
 
 const valueToLatLng = (value: string): [number, number] => {
   if (!value.includes(',')) {
@@ -34,8 +35,8 @@ const dotMap = new DotMap({
   gapSize: 8,
 });
 
-dotMap.attach($body!);
-let controller = dotMap.getController();
+dotMap.attach($body as any);
+let controller: null | IController = dotMap.getController();
 
 controller.addAnchor([13, 81]);
 controller.addAnchor([13, 43]);
@@ -75,8 +76,8 @@ $addAnchor.addEventListener('click', () => {
   try {
     const point = valueToLatLng($anchorLatLng.value);
 
-    controller.addAnchor(point);
-  } catch (e) {
+    controller?.addAnchor(point);
+  } catch (e: any) {
     console.error(e.message);
   }
 });
@@ -86,8 +87,8 @@ $addLine.addEventListener('click', () => {
     const point1 = valueToLatLng($latlng1.value);
     const point2 = valueToLatLng($latlng2.value);
 
-    controller.addLine([point1, point2]);
-  } catch (e) {
+    controller?.addLine([point1, point2]);
+  } catch (e: any) {
     console.error(e.message);
   }
 });

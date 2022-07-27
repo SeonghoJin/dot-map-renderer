@@ -1,3 +1,3 @@
 export interface IAnimator {
-  loop(): void;
+    loop(): void;
 }

@@ -57,11 +57,18 @@ controller.addLine([
 
 $remove.addEventListener('click', () => {
   dotMap.detach();
+  controller = null;
 });
 
 $create.addEventListener('click', () => {
-  dotMap.attach($body);
-  controller = dotMap.getController();
+  if (controller === null) {
+    dotMap.attach($body);
+    controller = dotMap.getController();
+
+    return;
+  }
+
+  console.error('defined dot map, if you want to create dot map, using detaching api and create');
 });
 
 $addAnchor.addEventListener('click', () => {

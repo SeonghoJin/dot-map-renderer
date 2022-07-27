@@ -1,6 +1,6 @@
 {
   "name": "@dot-map-renderer/collider",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "",
   "module": "dist/es/collider.js",
   "main": "dist/umd/collider.js",

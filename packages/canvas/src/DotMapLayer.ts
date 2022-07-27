@@ -1,14 +1,12 @@
 import { Layer } from './Layer';
 import { CanvasRenderer } from './CanvasRenderer';
-import { Dot, Polygon } from '@dot-map-renderer/component';
+import { Dot } from '@dot-map-renderer/component';
 import { geoJsonWidth } from '@dot-map-renderer/consts';
 import geoJson from '@dot-map-renderer/map';
 import { CanAnimation } from './CanAnimation';
 import { IAnimator } from './IAnimator';
 import { DotMapLayerAnimator } from './DotMapLayerAnimator';
 import { Country } from '@dot-map-renderer/component/src/Country';
-import countryMap from '@dot-map-renderer/component/src/CountryMap';
-import { rgbToHex } from '@dot-map-renderer/util/src/rgbToHex';
 
 export class DotMapLayer extends Layer implements CanAnimation {
   private readonly image: HTMLImageElement;

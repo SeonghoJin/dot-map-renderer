@@ -27,7 +27,6 @@ export declare class CanvasRenderer implements IRenderer {
   private initLayer;
   private resizeStage;
   resize: () => void;
-  draw: () => void;
   getContext: () => RendererContext;
   getLayer: <T extends Layer = Layer>(layerKey: string) => T;
   refresh: () => void;

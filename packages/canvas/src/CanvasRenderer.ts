@@ -48,12 +48,11 @@ export class CanvasRenderer implements IRenderer {
     this.bufferCanvas = new Canvas();
     this.parent = document.createElement('div');
     this.option = rendererOption;
-    this.animation = new AnimationManager();
+    this.animation = new AnimationManager(this);
 
     this.initHTML();
     this.resize();
     this.initLayer();
-    this.draw();
     this.animation.start();
   }
 
@@ -93,11 +92,6 @@ export class CanvasRenderer implements IRenderer {
     this.bufferCanvas.resize(this.stageWidth, this.stageHeight);
 
     this.layers.forEach((layer) => layer.resize?.());
-  };
-
-  draw = () => {
-    this.refresh();
-    this.layers.forEach((layer) => layer.draw());
   };
 
   public getContext = (): RendererContext => this;

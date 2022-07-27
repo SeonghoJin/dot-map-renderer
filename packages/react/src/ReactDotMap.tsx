@@ -1,24 +1,31 @@
-import React, {useRef, useEffect} from 'react';
+import React, { useRef, useEffect, Requireable } from 'react';
 import { DotMap, DotMapOptionArg } from '@dot-map-renderer/app';
 import { LineData } from '@dot-map-renderer/component/src/line/LineData';
 import { Point } from '@dot-map-renderer/component/src/Point';
 import { IController } from '@dot-map-renderer/canvas/src/IController';
+import { IComponent } from '@dot-map-renderer/component/src/IComponent';
 
 type Props = {
-    anchors: Point[],
-    lines: LineData[],
-    options?: DotMapOptionArg,
+    anchors?: Point[],
+    lines?: LineData[],
+    components?: IComponent[],
 } & Pick<React.ComponentProps<'div'>,
     'style' |
     'className'
-    >;
+    > & Partial<DotMapOptionArg>;
 
 export function ReactDotMap({
-    anchors,
-    lines,
-    options,
+    anchors = [],
+    lines = [],
+    components = [],
     style,
-    className
+    className,
+    backgroundColor,
+    gapSize,
+    pixelColor,
+    pixelSize,
+    dotType,
+    renderer,
 }: Props)
 {
     const ref = useRef<HTMLDivElement>(null);
@@ -27,33 +34,69 @@ export function ReactDotMap({
 
     useEffect(() =>
     {
-        dotMap.current = new DotMap(options);
+        dotMap.current = new DotMap({
+            backgroundColor,
+            gapSize,
+            pixelColor,
+            pixelSize,
+            dotType,
+            renderer
+        });
         dotMap.current.attach(ref.current!);
         controller.current = dotMap.current!.getController();
 
         return () =>
         {
             dotMap.current?.detach();
+            console.log('detached');
         };
-    }, [options]);
+    }, []);
 
     useEffect(() =>
     {
-        if (controller.current === null)
-        {
-            return;
-        }
-
         lines.forEach((line) =>
         {
-            controller.current!.addLine(line);
+            controller.current.addLine(line);
         });
+    }, [lines]);
 
+    useEffect(() =>
+    {
         anchors.forEach((anchor) =>
         {
-            controller.current!.addAnchor(anchor);
+            controller.current.addAnchor(anchor);
         });
-    }, [controller, lines, anchors]);
+    }, [anchors]);
+
+    useEffect(() =>
+    {
+        controller.current.addComponent(components);
+    }, [components]);
+
+    useEffect(() =>
+    {
+        controller.current.setBackground(backgroundColor);
+    }, [backgroundColor]);
+
+    useEffect(() =>
+    {
+        controller.current.setGapSize(gapSize);
+    }, [gapSize]);
+
+    useEffect(() =>
+    {
+        controller.current.setPixelColor(pixelColor);
+    }, [pixelColor]);
+
+    useEffect(() =>
+    {
+        controller.current.setPixelSize(pixelSize);
+    }, [pixelSize]);
+
+    useEffect(() =>
+    {
+        controller.current.setDotType(dotType);
+    }, [dotType]);
 
     return <div
         ref={ref}
@@ -61,3 +104,18 @@ export function ReactDotMap({
         className={className}
     />;
 }
+
+ReactDotMap.defaultProps = {
+    anchors: [],
+    backgroundColor: 'white',
+    dotType: 'circle',
+    gapSize: 5,
+    className: '',
+    lines: [],
+    pixelColor: 'black',
+    pixelSize: 5,
+    components: [],
+    renderer: 'canvas',
+    style: {}
+} as Required<Props>;
+

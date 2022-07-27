@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "peerDependencies": {
-    "@dot-map-renderer/app": "0.0.12"
+    "@dot-map-renderer/react": "0.0.12"
   },
   "devDependencies": {
     "ts-loader": "^9.2.6",

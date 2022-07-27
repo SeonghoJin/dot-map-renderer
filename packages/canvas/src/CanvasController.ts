@@ -1,4 +1,4 @@
-import { formatll, Point, BasicAnchor } from '@dot-map-renderer/component';
+import { formatll, Point, BasicAnchor, DotType } from '@dot-map-renderer/component';
 import { IController } from './IController';
 import { componentLayerKey } from '@dot-map-renderer/consts';
 import { ComponentLayer } from './ComponentLayer';
@@ -9,6 +9,26 @@ import { IRenderer } from './IRenderer';
 
 export class CanvasController implements IController {
   constructor(private readonly renderer: IRenderer) {}
+
+  setBackground = (color: string) => {
+    this.renderer.backgroundColor = color;
+  };
+
+  setGapSize = (gapSize: number) => {
+    this.renderer.gapSize = gapSize;
+  };
+
+  setPixelSize = (pixelSize: number) => {
+    this.renderer.pixelSize = pixelSize;
+  };
+
+  setPixelColor = (pixelColor: string) => {
+    this.renderer.pixelColor = pixelColor;
+  };
+
+  setDotType = (dotType: DotType) => {
+    this.renderer.setDotFactory(dotType);
+  };
 
   addZoom = (zoom: number) => {
     this.renderer.zoom += zoom;

@@ -1,4 +1,4 @@
-import { Canvas } from '@dot-map-renderer/component';
+import { Canvas, DotFactory, DotType } from '@dot-map-renderer/component';
 import { componentLayerKey, dotMapLayerKey, stageRatio } from '@dot-map-renderer/consts';
 import { IRendererOption } from './IRendererOption';
 import { IRenderer } from './IRenderer';
@@ -15,6 +15,10 @@ export class CanvasRenderer implements IRenderer {
   canvas: Canvas;
   parent: HTMLElement;
   option: IRendererOption;
+  _pixelSize = 0;
+  _gapSize = 0;
+  _pixelColor = '';
+  _dotFactory: DotFactory;
   stageHeight = 0;
   stageWidth = 0;
   stageX = 0;
@@ -27,11 +31,31 @@ export class CanvasRenderer implements IRenderer {
   }
 
   get pixelSize(): number {
-    return Math.ceil(this.zoom) * this.option.pixelSize;
+    return Math.ceil(this.zoom) * this._pixelSize;
+  }
+
+  set pixelSize(pixelSize: number) {
+    this._pixelSize = pixelSize;
   }
 
   get gapSize(): number {
-    return Math.ceil(this.zoom) * this.option.gapSize;
+    return Math.ceil(this.zoom) * this._gapSize;
+  }
+
+  set gapSize(gapSize: number) {
+    this._gapSize = gapSize;
+  }
+
+  set backgroundColor(backgroundColor: string) {
+    this.parent.style.backgroundColor = backgroundColor;
+  }
+
+  get pixelColor() {
+    return this._pixelColor;
+  }
+
+  set pixelColor(pixelColor: string) {
+    this._pixelColor = pixelColor;
   }
 
   get canvasOffsetWidth() {
@@ -42,6 +66,14 @@ export class CanvasRenderer implements IRenderer {
     return this.canvas.offsetHeight;
   }
 
+  setDotFactory(dotType: DotType) {
+    this._dotFactory = new DotFactory(dotType);
+  }
+
+  get dotFactory(): DotFactory {
+    return this._dotFactory;
+  }
+
   constructor(attachingElement: HTMLElement, rendererOption: IRendererOption) {
     this.attachingElement = attachingElement;
     this.canvas = new Canvas();
@@ -49,6 +81,10 @@ export class CanvasRenderer implements IRenderer {
     this.parent = document.createElement('div');
     this.option = rendererOption;
     this.animation = new AnimationManager(this);
+    this.pixelSize = this.option.pixelSize;
+    this.gapSize = this.option.gapSize;
+    this.pixelColor = this.option.pixelColor;
+    this._dotFactory = this.option.dotFactory;
 
     this.initHTML();
     this.resize();
@@ -116,7 +152,6 @@ export class CanvasRenderer implements IRenderer {
     this.bufferCanvas.element.remove();
     this.parent.remove();
     this.animation!.stop();
-
     delete this.animation;
   }
 }

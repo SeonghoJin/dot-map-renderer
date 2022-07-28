@@ -1,6 +1,6 @@
 import { Point, DotType } from '@dot-map-renderer/component';
 import { IController } from './IController';
-import { ILine } from 'packages/component/src/line/ILine';
+import { ILine } from '@dot-map-renderer/component/src/line/ILine';
 import { IComponent } from '@dot-map-renderer/component/src/IComponent';
 import { IRenderer } from './IRenderer';
 export declare class CanvasController implements IController {

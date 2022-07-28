@@ -1,5 +1,5 @@
 import { DotType, Point } from '@dot-map-renderer/component';
-import { ILine } from 'packages/component/src/line/ILine';
+import { ILine } from '@dot-map-renderer/component/src/line/ILine';
 import { IComponent } from '@dot-map-renderer/component/src/IComponent';
 export interface IController {
   addAnchor: (points: Point) => void;

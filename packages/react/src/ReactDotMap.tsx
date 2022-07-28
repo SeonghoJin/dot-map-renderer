@@ -1,18 +1,19 @@
 import React, { useRef, useEffect } from 'react';
 import { DotMap, DotMapOptionArg } from '@dot-map-renderer/app';
-import { LineData } from '@dot-map-renderer/component/src/line/LineData';
+import { ILine } from '@dot-map-renderer/component/src/line';
 import { Point } from '@dot-map-renderer/component/src/Point';
 import { IController } from '@dot-map-renderer/canvas/src/IController';
 import { IComponent } from '@dot-map-renderer/component/src/IComponent';
 
 type Props = {
     anchors?: Point[],
-    lines?: LineData[],
+    lines?: ILine[],
     components?: IComponent[],
-} & Pick<React.ComponentProps<'div'>,
+} & Pick<
+    React.ComponentProps<'div'>,
     'style' |
     'className'
-    > & Partial<DotMapOptionArg>;
+> & Partial<DotMapOptionArg>;
 
 export function ReactDotMap({
     anchors = [],

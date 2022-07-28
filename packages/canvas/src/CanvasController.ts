@@ -3,7 +3,7 @@ import { IController } from './IController';
 import { componentLayerKey } from '@dot-map-renderer/consts';
 import { ComponentLayer } from './ComponentLayer';
 import { BasicLine } from '@dot-map-renderer/component/src/line/BasicLine';
-import { LineData } from '@dot-map-renderer/component/src/line/LineData';
+import { ILine } from '@dot-map-renderer/component/src/line/ILine';
 import { IComponent } from '@dot-map-renderer/component/src/IComponent';
 import { IRenderer } from './IRenderer';
 
@@ -43,7 +43,7 @@ export class CanvasController implements IController {
     this.addComponent([anchorComponent]);
   };
 
-  addLine = (line: LineData) => {
+  addLine = (line: ILine) => {
     const lineComponent = new BasicLine(line);
 
     this.addComponent([lineComponent]);

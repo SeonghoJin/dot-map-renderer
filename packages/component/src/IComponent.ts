@@ -9,6 +9,8 @@ export abstract class IComponent implements Drawable, IResizable {
 
   abstract resize(renderer: RendererContext): void;
 
-  update = (context: CanvasRenderingContext2D, rendererContext: RendererContext) => {};
-  start = (context: CanvasRenderingContext2D, rendererContext: RendererContext) => {};
+  update = (context: CanvasRenderingContext2D, rendererContext: RendererContext) => {
+    this.resize(rendererContext);
+    this.draw(context);
+  };
 }

@@ -1,2 +1,2 @@
 import { Point } from '@dot-map-renderer/component';
-export declare type LineData = [Point, Point];
+export declare type ILine = [Point, Point];

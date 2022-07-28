@@ -9,7 +9,7 @@ export abstract class Line extends IComponent {
   startDrawPoint: Point | null = null;
   endDrawPoint: Point | null = null;
 
-  protected constructor(line: ILine) {
+  constructor(line: ILine) {
     super();
     this.startPoint = line[0];
     this.endPoint = line[1];

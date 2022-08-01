@@ -1,7 +1,8 @@
 import { IComponent } from '../IComponent';
-import { formatll, llToStagell, Point } from '@dot-map-renderer/component';
+import { formatll, llToStagell } from '../coordinateNormalization';
 import { RendererContext } from '@dot-map-renderer/canvas/src/RendererContext';
 import { ILine } from './ILine';
+import { Point } from '../Point';
 
 export abstract class Line extends IComponent {
   startPoint: Point;

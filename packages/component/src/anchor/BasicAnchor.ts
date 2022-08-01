@@ -1,4 +1,4 @@
-import { Anchor } from './Anchors';
+import { Anchor } from './Anchor';
 import { PI2 } from '@dot-map-renderer/consts';
 
 export class BasicAnchor extends Anchor {

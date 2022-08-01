@@ -1,6 +1,6 @@
 {
   "name": "@dot-map-renderer/react",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "",
   "module": "dist/es/react.jsx",
   "main": "dist/umd/react.jsx",
@@ -14,8 +14,8 @@
     "@types/react-dom": "^18.0.4"
   },
   "peerDependencies": {
-    "@dot-map-renderer/app": "0.0.16",
-    "@dot-map-renderer/component": "0.0.16",
+    "@dot-map-renderer/app": "0.0.17",
+    "@dot-map-renderer/component": "0.0.17",
     "react": "16 || 17 || 18",
     "react-dom": "16 || 17 || 18"
   },

@@ -67,42 +67,46 @@ controller.addAnchors([13,30]);
 ```
 ### REACT
 
+```
+npm install @dot-map-renderer/react @dot-map-renderer/app
+```
+
 ```typescript
-import * as React from "react";
-import { useEffect, useRef } from "react";
-import { DotMap } from "@dot-map-renderer/app";
 
-const dotMap = new DotMap({
-  dotType: "rectangular",
-  backgroundColor: "#4A4F5A",
-  pixelSize: 2,
-  gapSize: 2,
-});
 
-export const DotMapViewer = () => {
-  const ref = useRef<HTMLDivElement>(null);
+import React, { ChangeEvent, ChangeEventHandler, useState } from 'react';
+import { ReactDotMap } from '@dot-map-renderer/react';
 
-  useEffect(() => {
-    if (ref.current != null) {
-      dotMap.attaching(ref.current);
+function App()
+{
+    const [backgroundColor, setBackgroundColor] = useState<string>('');
+    const [gapSize, setGapSize] = useState<number>(5);
+
+    const onChangeBackgroundColor: ChangeEventHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setBackgroundColor(e.target.value);
     }
-  }, []);
 
-  return (
-    <div
-      ref={ref}
-      style={{
-        overflow: "auto",
-        backgroundColor: "#4A4F5A",
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    />
-  );
-};
+    const onChangeGapSize: ChangeEventHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setGapSize(parseInt(e.target.value));
+    }
+
+
+    return <div>
+        backgroundColor
+        <input onChange={onChangeBackgroundColor}/>
+        <br/>
+        gapSize
+        <input onChange={onChangeGapSize}/>
+        <ReactDotMap
+            anchors={[]}
+            lines={[]}
+            backgroundColor={backgroundColor}
+            gapSize={gapSize}
+        />
+    </div>
+}
+
+export default App;
 ```
 
 

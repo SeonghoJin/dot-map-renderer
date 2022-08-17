@@ -21,17 +21,10 @@ dot-map-renderer uses a monorepo approach, so in addition to the dot-map-rendere
 
 - [`packages/app`](https://github.com/bigshelf/dot-map-renderer/tree/master/packages/app)
 [![install size](https://packagephobia.com/badge?p=@dot-map-renderer/app)](https://packagephobia.com/result?p=@dot-map-renderer/app)
-- [`packages/collider`](https://github.com/bigshelf/dot-map-renderer/tree/master/packages/collider/src)
+- [`packages/react`](https://github.com/bigshelf/dot-map-renderer/tree/master/packages/react)
+[![install size](https://packagephobia.com/badge?p=@dot-map-renderer/react)](https://packagephobia.com/result?p=@dot-map-renderer/react)
 - [`packages/component`](https://github.com/bigshelf/dot-map-renderer/tree/master/packages/component)
 [![install size](https://packagephobia.com/badge?p=@dot-map-renderer/component)](https://packagephobia.com/result?p=@dot-map-renderer/component)
-- [`packages/const`](https://github.com/bigshelf/dot-map-renderer/tree/master/packages/consts)
-[![install size](https://packagephobia.com/badge?p=@dot-map-renderer/const)](https://packagephobia.com/result?p=@dot-map-renderer/const)
-- [`packages/map`](https://github.com/bigshelf/dot-map-renderer/tree/master/packages/map)
-[![install size](https://packagephobia.com/badge?p=@dot-map-renderer/map)](https://packagephobia.com/result?p=@dot-map-renderer/map)
-- [`packages/renderer`](https://github.com/bigshelf/dot-map-renderer/tree/master/packages/renderer)
-[![install size](https://packagephobia.com/badge?p=@dot-map-renderer/renderer)](https://packagephobia.com/result?p=@dot-map-renderer/renderer)
-- [`packages/util`](https://github.com/bigshelf/dot-map-renderer/tree/master/packages/util)
-[![install size](https://packagephobia.com/badge?p=@dot-map-renderer/util)](https://packagephobia.com/result?p=@dot-map-renderer/util)
 
 ## Installation
 

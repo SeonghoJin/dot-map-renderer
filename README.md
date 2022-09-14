@@ -1,5 +1,3 @@
-[![npm version](https://badge.fury.io/js/dot-map-renderer.svg)](https://www.npmjs.com/package/dot-map-renderer)
-
 # dot-map-renderer
 <img width="100%" alt="스크린샷 2022-06-18 오후 2 11 08" src="https://user-images.githubusercontent.com/44808218/174423777-3f821fd3-3d8e-43f2-af40-c6e34dc01479.png">
 <img src="./images/1.png" width="100%" />
